@@ -1,17 +1,22 @@
-SORA COCHES V2
+SORA COCHES V3
 
-OPCIÓN RECOMENDADA:
-Sube SOLO index.html a la raíz del repositorio GitHub.
+Contenido:
+- index.html  -> toda la aplicación está en un único archivo.
+
+Cambios V3:
+- Añadir, editar y eliminar familias.
+- "Mi familia" sustituye al listado completo de la portada.
+- Cada móvil recuerda qué familia ha seleccionado.
+- Partidos con fecha y hora libres.
+- Los partidos vencidos desaparecen automáticamente.
+- Los entrenamientos se generan automáticamente para los próximos lunes, miércoles y viernes.
+- No hay usuarios/contraseñas reales todavía: esta versión usa almacenamiento local del navegador.
 
 GitHub Pages:
-Settings > Pages > Deploy from a branch > main > /(root)
+1. Borra el index.html anterior del repositorio.
+2. Sube este index.html.
+3. Espera unos segundos a que GitHub Pages se actualice.
+4. Si Safari enseña la versión anterior, recarga la página o ciérrala y vuelve a abrirla.
 
-Al abrir la web debe verse “V2 · FUNCIONAL” debajo del título.
-Si no aparece, GitHub/iPhone sigue mostrando la versión anterior: recarga la página o cierra y vuelve a abrir Safari.
-
-Pruebas rápidas:
-1. Deben aparecer 4 tarjetas: lunes, miércoles, viernes y partido.
-2. Deben aparecer 8 familias.
-3. Pulsa una familia: se abre el panel de coche/disponibilidad.
-4. Pulsa “Ver reparto”: se abre el reparto ida/vuelta.
-5. Pulsa “+ Partido”: permite editar el partido.
+En la cabecera debe aparecer:
+V3 · FAMILIAS + FECHAS REALES
