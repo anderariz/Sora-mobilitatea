@@ -38,7 +38,13 @@ button,input,select{font:inherit} button{cursor:pointer}
 .ok{background:#dff2e5;color:#176838}.pending{background:#fff0d1;color:var(--warn)}.bad{background:#fbe2e2;color:var(--bad)}
 .legs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
 .leg{border:1px solid var(--line);border-radius:14px;padding:10px}.leg small{display:block;color:var(--muted);font-size:10px;font-weight:850;margin-bottom:4px}.leg strong{font-size:13px}
-.actions{display:flex;gap:8px;margin-top:10px}.pill{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 8px;font-size:13px;font-weight:800}.pill.primary{background:var(--green);border-color:var(--green);color:white}
+.actions{display:flex;gap:8px;margin-top:10px}
+.quickAttend{display:flex;gap:7px;margin-top:10px}
+.quickAttend button{flex:1;border-radius:12px;padding:10px 7px;font-size:13px;font-weight:900}
+.goBtn{border:1px solid #bcdcc7;background:#edf8f0;color:#176838}
+.noBtn{border:1px solid #efcaca;background:#fff6f6;color:#a83535}
+.goBtn.selected{background:#176838;color:white;border-color:#176838}
+.noBtn.selected{background:#a83535;color:white;border-color:#a83535}.pill{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 8px;font-size:13px;font-weight:800}.pill.primary{background:var(--green);border-color:var(--green);color:white}
 .profile{padding:15px;display:flex;align-items:center;gap:12px}.avatar{width:44px;height:44px;min-width:44px;border-radius:50%;background:#e7f0ea;color:var(--green);display:grid;place-items:center;font-weight:900}
 .profileMain{flex:1;min-width:0}.profileMain strong{display:block}.profileMain span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .chev{font-size:22px;color:var(--muted)}
@@ -72,7 +78,7 @@ button,input,select{font:inherit} button{cursor:pointer}
   <div>
     <div class="eyebrow">SORA · FÚTBOL</div>
     <h1 id="appTitle">Coches</h1>
-    <div class="version">V5 · ASISTENCIA + COCHES</div>
+    <div class="version">V6 · RESPUESTA RÁPIDA</div>
   </div>
   <div style="display:flex;align-items:center;gap:8px">
     <div class="langswitch" aria-label="Idioma">
@@ -144,7 +150,7 @@ var T={
   addMatchTitle:'Añadir partido',addMatchHelp:'Fecha y hora quedan totalmente abiertas porque el partido se asigna cada semana.',
   rival:'Rival',exampleRival:'Ej. Bergara',date:'Fecha',time:'Hora',place:'Campo / lugar',
   examplePlace:'Ej. Ezozia',calledPlayers:'Jugadores convocados',saveMatch:'Guardar partido',
-  needDateTime:'Indica fecha y hora del partido.',resetConfirm:'¿Reiniciar todos los datos de la demo?',attendQuestion:'¿Va al evento?',yesAttend:'Sí, va',noAttend:'No va',transportQuestion:'Disponibilidad de coche',attendancePending:'Pendiente',playersGoing:'{n} jugadores van',attendanceFirst:'Primero indica si el jugador va al evento.',saveEventResponse:'Guardar respuesta',notGoing:'No participa',going:'Participa',attendance:'Asistencia',transport:'Transporte'
+  needDateTime:'Indica fecha y hora del partido.',resetConfirm:'¿Reiniciar todos los datos de la demo?',attendQuestion:'¿Va al evento?',yesAttend:'Sí, va',noAttend:'No va',transportQuestion:'Disponibilidad de coche',attendancePending:'Pendiente',playersGoing:'{n} jugadores van',attendanceFirst:'Primero indica si el jugador va al evento.',saveEventResponse:'Guardar respuesta',notGoing:'No participa',going:'Participa',attendance:'Asistencia',transport:'Transporte',quickNo:'No voy',quickYes:'Sí voy',changeResponse:'Cambiar'
  },
  eu:{
   appTitle:'Autoak',nextEvents:'Hurrengo ekitaldiak',covered:'beteta',upcoming:'Hurrengoak',
@@ -172,7 +178,7 @@ var T={
   addMatchTitle:'Gehitu partida',addMatchHelp:'Data eta ordua libre geratzen dira, partida aste bakoitzean esleitzen delako.',
   rival:'Aurkaria',exampleRival:'Adib. Bergara',date:'Data',time:'Ordua',place:'Zelaia / lekua',
   examplePlace:'Adib. Ezozia',calledPlayers:'Deitutako jokalariak',saveMatch:'Gorde partida',
-  needDateTime:'Adierazi partidaren data eta ordua.',resetConfirm:'Demoaren datu guztiak berrezarri?',attendQuestion:'Ekitaldira joango da?',yesAttend:'Bai, joango da',noAttend:'Ez da joango',transportQuestion:'Autoaren erabilgarritasuna',attendancePending:'Erantzun gabe',playersGoing:'{n} jokalari joango dira',attendanceFirst:'Lehenik adierazi jokalaria ekitaldira joango den.',saveEventResponse:'Gorde erantzuna',notGoing:'Ez du parte hartuko',going:'Parte hartuko du',attendance:'Asistentzia',transport:'Garraioa'
+  needDateTime:'Adierazi partidaren data eta ordua.',resetConfirm:'Demoaren datu guztiak berrezarri?',attendQuestion:'Ekitaldira joango da?',yesAttend:'Bai, joango da',noAttend:'Ez da joango',transportQuestion:'Autoaren erabilgarritasuna',attendancePending:'Erantzun gabe',playersGoing:'{n} jokalari joango dira',attendanceFirst:'Lehenik adierazi jokalaria ekitaldira joango den.',saveEventResponse:'Gorde erantzuna',notGoing:'Ez du parte hartuko',going:'Parte hartuko du',attendance:'Asistentzia',transport:'Garraioa',quickNo:'Ez noa',quickYes:'Banoa',changeResponse:'Aldatu'
  }
 };
 function tr(k,vars){
@@ -324,6 +330,7 @@ function render(){
         '<span class="status '+st[1]+'">'+st[0]+'</span>'+
       '</div>'+
       '<div class="legs"><div class="leg"><small>'+tr('out')+'</small><strong>'+carsText(out)+'</strong></div><div class="leg"><small>'+tr('back')+'</small><strong>'+carsText(back)+'</strong></div></div>'+
+      (getMyFamily()?'<div class="quickAttend"><button class="goBtn '+(attendanceMode(getMyFamily(),e.id)==='yes'?'selected':'')+'" data-quick-attend="'+e.id+'" data-attend-value="yes">✓ '+tr('quickYes')+'</button><button class="noBtn '+(attendanceMode(getMyFamily(),e.id)==='no'?'selected':'')+'" data-quick-attend="'+e.id+'" data-attend-value="no">✕ '+tr('quickNo')+'</button></div>':'')+
       '<div class="actions"><button class="pill" data-view="'+e.id+'">'+tr('view')+'</button><button class="pill primary" data-event="'+e.id+'">'+tr('myAvailability')+'</button></div>';
     ev.appendChild(a);
   });
@@ -504,6 +511,25 @@ function addMatch(){
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];});}
 
 document.addEventListener('click',function(e){
+  var qa=e.target.closest('[data-quick-attend]');
+  if(qa){
+    var f=getMyFamily();
+    if(!f){chooseProfile();return;}
+    var id=qa.getAttribute('data-quick-attend');
+    var val=qa.getAttribute('data-attend-value');
+    f.attendance=f.attendance||{};
+    f.availability=f.availability||{};
+    if(val==='no'){
+      f.attendance[id]=false;
+      f.availability[id]='none';
+      save();
+    }else{
+      f.attendance[id]=true;
+      save();
+      setTimeout(function(){myAvailability(id);},60);
+    }
+    return;
+  }
   var v=e.target.closest('[data-view]');if(v){allocation(v.getAttribute('data-view'));return;}
   var ev=e.target.closest('[data-event]');if(ev){myAvailability(ev.getAttribute('data-event'));return;}
   var mine=e.target.closest('[data-myfamily]');if(mine){editMyFamily();return;}
