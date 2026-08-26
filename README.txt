@@ -1,7 +1,17 @@
-SORA COCHES · GITHUB DEMO V4
+SORA COCHES · GITHUB DEMO V5
 
 Corrección:
-- El indicador inferior de cada evento ya NO depende de "Sí voy".
-- Solo aparece verde cuando tanto IDA como VUELTA tienen plazas suficientes.
-- Si falta alguna plaza en ida o vuelta, aparece rojo: "Faltan plazas para el transporte".
-- Se mantiene Aretxabaleta, vista Entrenador/Familia y EU/ES.
+- Restaurada la lista de eventos de la vista Familia.
+- Se mantiene la cobertura mejorada de IDA y VUELTA.
+- Cada familia vuelve a ver:
+  * evento
+  * cobertura de transporte
+  * Sí voy / No voy
+  * disponibilidad de coche
+  * plazas libres reales
+- Entrenamientos en Aretxabaleta.
+- EU / ES.
+- Sin sincronización entre móviles todavía.
+
+La causa era una llamada incorrecta a la función que genera el resumen de transporte
+en la vista Familia.

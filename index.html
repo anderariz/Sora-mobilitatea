@@ -44,7 +44,7 @@
 <body>
 <header class="top">
  <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V4 · INDICADOR CORREGIDO</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V5 · FAMILIA RESTAURADA</div></div></div>
   <div class="switches">
    <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
    <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -184,7 +184,7 @@ function renderFamilyEvents(ev){
         <h3>${e.type==='training'?tr('training'):tr('match')}</h3>
         <div class="meta">${e.time} · ${e.place}</div>
         ${extra}
-        ${transportHTML(e.id)}
+        ${transportSummary(e.id)}
         <div class="quick">
           <button class="btn ${r.going?'yesSel':''}" data-go="yes" data-e="${e.id}">✓ ${tr('yes')}</button>
           <button class="btn ${!r.going?'noSel':''}" data-go="no" data-e="${e.id}">✕ ${tr('no')}</button>
