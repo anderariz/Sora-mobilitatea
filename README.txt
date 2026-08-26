@@ -1,11 +1,20 @@
-SORA COCHES V8
+SORA COCHES · GITHUB DEMO
 
-Cambios:
-- Todos los jugadores van por defecto a cada evento.
-- Solo dejan de contar cuando se marca "No voy".
-- Modo Familia y modo Entrenador.
-- El entrenador puede editar asistencia y disponibilidad de coche de todas las familias por evento.
-- Se mantiene EU / ES y logo del Sora.
+Sube al repositorio, todos al mismo nivel:
+- index.html
+- apple-touch-icon.png
+- icon-512.png
+
+Incluye:
+- Vista Entrenador / Familia
+- Euskera / Castellano
+- Entrenamientos próximos a las 10:00
+- Alta, edición y borrado de partidos
+- Hora del partido, lugar, tiempo de viaje y margen
+- Cálculo de hora de salida desde Estaziño
+- Gestión de asistencia y coche por el entrenador
+- Vista de familia con Sí voy / No voy y disponibilidad de coche
+- Logo del Sora e icono de iPhone
 
 IMPORTANTE:
-La sincronización entre móviles sigue pendiente hasta conectar una base de datos online.
+No sincroniza entre móviles todavía. Guarda los datos en localStorage.
