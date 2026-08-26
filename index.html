@@ -33,6 +33,9 @@
 .bar span{display:block;height:100%;background:var(--green);border-radius:999px}.cov{border:1px solid var(--line);border-radius:12px;padding:9px}.cov small{display:block;color:var(--muted);font-size:10px;font-weight:900}.cov strong{font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 11px;font-weight:850;min-height:42px}.btn.primary{background:var(--g);border-color:var(--g);color:#fff}.btn.danger{background:#fff6f6;border-color:#efcccc;color:var(--bad)}
 .field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:6px}.field input,.field select,.row select,.row input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:16px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.calc{background:var(--soft);border:1px solid #d5e9dc;border-radius:14px;padding:13px}.calc strong{display:block;font-size:24px}
 .row{display:grid;grid-template-columns:minmax(130px,1fr) 150px 160px 120px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.grow strong{display:block}.grow span{font-size:12px;color:var(--muted)}.freeWrap{display:flex;align-items:center;gap:6px}.freeWrap input{min-width:0}.freeWrap span{font-size:11px;color:var(--muted)}
+.transportOverall{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding:10px 12px;border-radius:12px;font-size:12px;font-weight:900}
+.transportOverall.ok{background:#dff2e5;color:#176838}
+.transportOverall.bad{background:#fbe2e2;color:#a83535}
 .quick{display:flex;gap:8px;margin-top:10px}.quick .btn{flex:1}.yesSel{background:#176838!important;color:#fff!important;border-color:#176838!important}.noSel{background:#a83535!important;color:#fff!important;border-color:#a83535!important}.note{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px}.hidden{display:none!important}
 .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20}.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:24px 24px 0 0;max-height:90vh;overflow:auto;padding:10px 18px calc(22px + env(safe-area-inset-bottom))}.handle{width:44px;height:5px;border-radius:8px;background:#d6dcd8;margin:0 auto 16px}.close{float:right;border:0;background:#eef2ef;border-radius:999px;width:34px;height:34px;font-weight:900}
 @media(max-width:680px){.summary{grid-template-columns:1fr}.eventTop{grid-template-columns:54px minmax(0,1fr)}.status{grid-column:2}.grid2{grid-template-columns:1fr}.row{grid-template-columns:1fr}.coverage{grid-template-columns:1fr}.switches{max-width:170px}}
@@ -41,7 +44,7 @@
 <body>
 <header class="top">
  <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V3 · COBERTURA TRANSPORTE</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V4 · INDICADOR CORREGIDO</div></div></div>
   <div class="switches">
    <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
    <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -169,10 +172,64 @@ function renderPlayers(e){
 }
 function renderFamilySelect(){let s=$('#familySelect');s.innerHTML=data.families.map(f=>`<option value="${f.id}" ${f.id===selected?'selected':''}>${f.name}</option>`).join('')}
 function renderFamilyEvents(ev){
- $('#familyEvents').innerHTML=ev.map(e=>{let r=resp(selected,e.id),f=data.families.find(x=>x.id===selected),extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🕒 ${tr('departure')} ${e.depart||depart(e.time,e.travel,e.margin)}</span><span class="pill">⚽ ${e.time}</span></div>`:'';return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${e.place}</div>${extra}${covHTML(e.id)}<div class="quick"><button class="btn ${r.going?'yesSel':''}" data-go="yes" data-e="${e.id}">✓ ${tr('yes')}</button><button class="btn ${!r.going?'noSel':''}" data-go="no" data-e="${e.id}">✕ ${tr('no')}</button></div>${r.going?`<div class="field"><label>${tr('cars')}</label><select data-fcar="${e.id}"><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select></div>${r.car!=='none'?`<div class="field"><label>${tr('free')}</label><input type="number" min="0" max="${maxFree(f)}" value="${freeSeats(f,e.id)}" data-fseats="${e.id}"></div>`:''}`:''}</div><span class="status ${r.going?'ok':'bad'}">${r.going?'✓':'✕'}</span></div></article>`}).join('');
- $('#familyEvents').querySelectorAll('[data-go]').forEach(b=>b.onclick=x=>{let r=resp(selected,x.currentTarget.dataset.e);r.going=x.currentTarget.dataset.go==='yes';if(!r.going)r.car='none';save()});
- $('#familyEvents').querySelectorAll('[data-fcar]').forEach(s=>s.onchange=x=>{let f=data.families.find(z=>z.id===selected),r=resp(selected,x.target.dataset.fcar);r.car=x.target.value;if(r.car!=='none'&&r.free===null)r.free=maxFree(f);save()});
- $('#familyEvents').querySelectorAll('[data-fseats]').forEach(i=>i.onchange=x=>{let f=data.families.find(z=>z.id===selected),r=resp(selected,x.target.dataset.fseats);r.free=Math.max(0,Math.min(maxFree(f),+x.target.value||0));save()})
+ $('#familyEvents').innerHTML=ev.map(e=>{
+  let r=resp(selected,e.id),f=data.families.find(x=>x.id===selected),
+      extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🕒 ${tr('departure')} ${e.depart||depart(e.time,e.travel,e.margin)}</span><span class="pill">⚽ ${e.time}</span></div>`:'',
+      covOut=coverage(e.id,'out'),covBack=coverage(e.id,'back'),
+      transportOk=!covOut.missing&&!covBack.missing;
+  return `<article class="event card">
+    <div class="eventTop">
+      <div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div>
+      <div>
+        <h3>${e.type==='training'?tr('training'):tr('match')}</h3>
+        <div class="meta">${e.time} · ${e.place}</div>
+        ${extra}
+        ${transportHTML(e.id)}
+        <div class="quick">
+          <button class="btn ${r.going?'yesSel':''}" data-go="yes" data-e="${e.id}">✓ ${tr('yes')}</button>
+          <button class="btn ${!r.going?'noSel':''}" data-go="no" data-e="${e.id}">✕ ${tr('no')}</button>
+        </div>
+        ${r.going?`
+          <div class="field">
+            <label>${tr('vehicle')}</label>
+            <select data-fcar="${e.id}">
+              <option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option>
+              <option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option>
+              <option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option>
+              <option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option>
+            </select>
+          </div>
+          ${r.car!=='none'?`
+            <div class="field">
+              <label>${tr('free')}</label>
+              <input type="number" min="0" max="${maxFree(f)}" value="${freeSeats(f,e.id)}" data-fseats="${e.id}">
+            </div>`:''}
+        `:''}
+        <div class="transportOverall ${transportOk?'ok':'bad'}">
+          <span>${transportOk?'✓':'!'}</span>
+          <span>${transportOk?tr('transportOk'):tr('transportMissing')}</span>
+        </div>
+      </div>
+    </div>
+  </article>`
+ }).join('');
+ $('#familyEvents').querySelectorAll('[data-go]').forEach(b=>b.onclick=x=>{
+   let r=resp(selected,x.currentTarget.dataset.e);
+   r.going=x.currentTarget.dataset.go==='yes';
+   if(!r.going)r.car='none';
+   save()
+ });
+ $('#familyEvents').querySelectorAll('[data-fcar]').forEach(s=>s.onchange=x=>{
+   let f=data.families.find(z=>z.id===selected),r=resp(selected,x.target.dataset.fcar);
+   r.car=x.target.value;
+   if(r.car!=='none'&&r.free===null)r.free=maxFree(f);
+   save()
+ });
+ $('#familyEvents').querySelectorAll('[data-fseats]').forEach(i=>i.onchange=x=>{
+   let f=data.families.find(z=>z.id===selected),r=resp(selected,x.target.dataset.fseats);
+   r.free=Math.max(0,Math.min(maxFree(f),+x.target.value||0));
+   save()
+ })
 }
 function calc(){let t=$('#mTime').value||'00:00',tv=Math.max(0,+$('#mTravel').value||0),mg=Math.max(0,+$('#mMargin').value||0);$('#departTime').textContent=depart(t,tv,mg);$('#formula').textContent=`${t} − ${tv} min ${tr('trip')} − ${mg} min ${tr('marg')}`}
 function openManage(id){

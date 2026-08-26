@@ -1,13 +1,7 @@
-SORA COCHES · GITHUB DEMO V3
+SORA COCHES · GITHUB DEMO V4
 
-- Entrenamientos: Aretxabaleta.
-- Cobertura de transporte mucho más visible por evento.
-- IDA y VUELTA muestran:
-  * jugadores sin plaza
-  * jugadores con plaza / total
-  * número de coches
-  * plazas disponibles
-  * barra visual de cobertura
-- Gestión de transporte mantiene las plazas libres reales por familia.
-- Vista Entrenador / Familia y EU / ES.
-- Sin sincronización entre móviles todavía.
+Corrección:
+- El indicador inferior de cada evento ya NO depende de "Sí voy".
+- Solo aparece verde cuando tanto IDA como VUELTA tienen plazas suficientes.
+- Si falta alguna plaza en ida o vuelta, aparece rojo: "Faltan plazas para el transporte".
+- Se mantiene Aretxabaleta, vista Entrenador/Familia y EU/ES.
