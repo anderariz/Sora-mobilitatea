@@ -1,16 +1,13 @@
-SORA COCHES · GITHUB DEMO V2
+SORA COCHES · GITHUB DEMO V3
 
-Cambios:
-- Visibilidad clara de cobertura de plazas en cada evento, separada en IDA y VUELTA.
-- La app muestra plazas disponibles frente a jugadores y cuántas faltan.
-- Cada familia puede indicar cuántas plazas libres REALES ofrece para otros jugadores.
-- Ejemplo: coche de 5 plazas, viajan padre + madre + hija -> quedan 2 plazas libres.
-- El jugador de la propia familia que conduce se considera ya transportado; por eso un coche cubre a su jugador + las plazas libres indicadas.
-- Vista Entrenador y Familia.
-- EU / ES.
-- Sigue usando localStorage: sin sincronización entre móviles.
-
-Subir juntos:
-index.html
-apple-touch-icon.png
-icon-512.png
+- Entrenamientos: Aretxabaleta.
+- Cobertura de transporte mucho más visible por evento.
+- IDA y VUELTA muestran:
+  * jugadores sin plaza
+  * jugadores con plaza / total
+  * número de coches
+  * plazas disponibles
+  * barra visual de cobertura
+- Gestión de transporte mantiene las plazas libres reales por familia.
+- Vista Entrenador / Familia y EU / ES.
+- Sin sincronización entre móviles todavía.

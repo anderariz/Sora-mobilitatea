@@ -17,7 +17,20 @@
 .section{margin-top:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 4px 10px}.head h2{margin:0;font-size:19px}.textbtn{border:0;background:transparent;color:var(--g2);font-weight:900;font-size:15px}
 .list{display:grid;gap:10px}.event{padding:14px}.eventTop{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:10px;align-items:start}.date{width:54px;height:58px;border-radius:14px;background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--g)}.date small{font-size:10px;font-weight:900;display:block}.date b{font-size:20px}.event h3{margin:2px 0 4px;font-size:16px}.meta{font-size:12px;color:var(--muted);line-height:1.45}.status{padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;white-space:nowrap}.ok{background:#dff2e5;color:#176838}.bad{background:#fbe2e2;color:var(--bad)}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;background:#fff}
-.coverage{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.cov{border:1px solid var(--line);border-radius:12px;padding:9px}.cov small{display:block;color:var(--muted);font-size:10px;font-weight:900}.cov strong{font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 11px;font-weight:850;min-height:42px}.btn.primary{background:var(--g);border-color:var(--g);color:#fff}.btn.danger{background:#fff6f6;border-color:#efcccc;color:var(--bad)}
+.coverage{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.transportTitle{font-size:10px;font-weight:950;letter-spacing:.08em;color:var(--muted);margin-top:12px}
+.cov{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fafcfb}
+.cov.ok{background:#edf8f0;border-color:#cde7d5}
+.cov.bad{background:#fff4f4;border-color:#efcccc}
+.covTop{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.covBadge{font-size:11px;font-weight:950;padding:4px 7px;border-radius:999px}
+.cov.ok .covBadge{background:#dff2e5;color:#176838}
+.cov.bad .covBadge{background:#fbe2e2;color:#a83535}
+.covBig{font-size:25px;font-weight:950;line-height:1;margin-top:7px}
+.covBig small{font-size:11px;color:var(--muted)}
+.covMeta{font-size:11px;color:var(--muted);line-height:1.4;margin-top:5px}
+.bar{height:7px;background:#e6ebe7;border-radius:999px;overflow:hidden;margin-top:8px}
+.bar span{display:block;height:100%;background:var(--green);border-radius:999px}.cov{border:1px solid var(--line);border-radius:12px;padding:9px}.cov small{display:block;color:var(--muted);font-size:10px;font-weight:900}.cov strong{font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 11px;font-weight:850;min-height:42px}.btn.primary{background:var(--g);border-color:var(--g);color:#fff}.btn.danger{background:#fff6f6;border-color:#efcccc;color:var(--bad)}
 .field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:6px}.field input,.field select,.row select,.row input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:16px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.calc{background:var(--soft);border:1px solid #d5e9dc;border-radius:14px;padding:13px}.calc strong{display:block;font-size:24px}
 .row{display:grid;grid-template-columns:minmax(130px,1fr) 150px 160px 120px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.grow strong{display:block}.grow span{font-size:12px;color:var(--muted)}.freeWrap{display:flex;align-items:center;gap:6px}.freeWrap input{min-width:0}.freeWrap span{font-size:11px;color:var(--muted)}
 .quick{display:flex;gap:8px;margin-top:10px}.quick .btn{flex:1}.yesSel{background:#176838!important;color:#fff!important;border-color:#176838!important}.noSel{background:#a83535!important;color:#fff!important;border-color:#a83535!important}.note{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px}.hidden{display:none!important}
@@ -28,7 +41,7 @@
 <body>
 <header class="top">
  <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V2 · PLAZAS REALES</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V3 · COBERTURA TRANSPORTE</div></div></div>
   <div class="switches">
    <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
    <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -100,7 +113,7 @@ if(!data)data={families:[{id:1,name:'Aimar',seats:5},{id:2,name:'Beñat',seats:7
 function resp(fid,eid){let k=fid+'|'+eid;if(!data.responses[k])data.responses[k]={going:true,car:'none',free:null};let r=data.responses[k];if(typeof r.free==='undefined')r.free=null;return r}
 function maxFree(f){return Math.max(0,Number(f.seats)-1)}
 function freeSeats(f,eid){let r=resp(f.id,eid);if(!r.going||r.car==='none')return 0;let n=r.free===null?maxFree(f):Number(r.free);return Math.max(0,Math.min(maxFree(f),Number.isFinite(n)?Math.floor(n):maxFree(f)))}
-function trains(){let now=new Date(),d=new Date(now.getFullYear(),now.getMonth(),now.getDate()),a=[];for(let i=0;i<18&&a.length<6;i++){if([1,3,5].includes(d.getDay())){let end=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12,0);if(end>now)a.push({id:'t-'+key(d),type:'training',date:key(d),day:day(d),num:d.getDate(),time:'10:00',place:'Atxuri'})}d.setDate(d.getDate()+1)}return a}
+function trains(){let now=new Date(),d=new Date(now.getFullYear(),now.getMonth(),now.getDate()),a=[];for(let i=0;i<18&&a.length<6;i++){if([1,3,5].includes(d.getDay())){let end=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12,0);if(end>now)a.push({id:'t-'+key(d),type:'training',date:key(d),day:day(d),num:d.getDate(),time:'10:00',place:'Aretxabaleta'})}d.setDate(d.getDate()+1)}return a}
 function events(){let now=new Date();data.matches=data.matches.filter(m=>{let x=ld(m.date,m.time);x.setHours(x.getHours()+4);return x>now});let a=trains().concat(data.matches.map(m=>{let d=ld(m.date,m.time);return {...m,day:day(d),num:d.getDate(),type:'match'}}));a.sort((a,b)=>ld(a.date,a.time)-ld(b.date,b.time));return a}
 function attending(eid){return data.families.filter(f=>resp(f.id,eid).going)}
 function availableCars(eid){return data.families.filter(f=>resp(f.id,eid).going&&resp(f.id,eid).car!=='none')}
@@ -111,6 +124,22 @@ function coverage(eid,leg){
  return {players,cap,missing:Math.max(0,players-cap)}
 }
 function save(){localStorage.setItem(K,JSON.stringify(data));render()}
+function coverageCard(c,label){
+  let ok=c.missing===0;
+  let pct=c.players?Math.min(100,Math.round((c.seated/c.players)*100)):100;
+  return '<div class="cov '+(ok?'ok':'bad')+'">'+
+    '<div class="covTop"><small>'+label+'</small><span class="covBadge">'+(ok?'✓ '+tr('covered'):c.missing+' '+tr('withoutSeat'))+'</span></div>'+
+    '<div class="covBig">'+c.missing+' <small>'+tr('withoutSeat')+'</small></div>'+
+    '<div class="covMeta">'+c.seated+'/'+c.players+' '+tr('withSeat')+' · '+c.cars+' '+tr('carsCount')+' · '+c.cap+' '+tr('availableSeats')+'</div>'+
+    '<div class="bar"><span style="width:'+pct+'%"></span></div>'+
+  '</div>';
+}
+function transportSummary(eid){
+  return '<div class="transportTitle">'+tr('transportTitle')+'</div><div class="coverage">'+
+    coverageCard(coverageFor(eid,'out'),tr('outLeg'))+
+    coverageCard(coverageFor(eid,'back'),tr('backLeg'))+
+  '</div>';
+}
 function render(){
  document.documentElement.lang=lang==='eu'?'eu':'es';
  $('#coachView').classList.toggle('hidden',role!=='coach');$('#familyView').classList.toggle('hidden',role!=='family');
