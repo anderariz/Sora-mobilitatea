@@ -19,6 +19,9 @@ button,input,select{font:inherit} button{cursor:pointer}
 .topbar h1{font-size:27px;line-height:1.05;margin:8px 0 0}
 .version{margin-top:8px;font-size:11px;font-weight:800;opacity:.8}
 .iconbtn{border:0;background:transparent;color:white;font-size:30px;padding:2px 6px}
+.langswitch{display:flex;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:3px}
+.langbtn{border:0;background:transparent;color:#fff;border-radius:999px;padding:7px 9px;font-size:12px;font-weight:900}
+.langbtn.active{background:#fff;color:var(--green)}
 .wrap{max-width:760px;margin:auto;padding:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:21px;box-shadow:0 7px 24px rgba(16,59,34,.055)}
 .summary{margin-top:-39px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
@@ -68,32 +71,38 @@ button,input,select{font:inherit} button{cursor:pointer}
 <header class="topbar">
   <div>
     <div class="eyebrow">SORA · FÚTBOL</div>
-    <h1>Coches</h1>
-    <div class="version">V3 · FAMILIAS + FECHAS REALES</div>
+    <h1 id="appTitle">Coches</h1>
+    <div class="version">V4 · EU / ES</div>
   </div>
-  <button id="resetBtn" class="iconbtn" aria-label="Reiniciar demo">↻</button>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div class="langswitch" aria-label="Idioma">
+      <button id="langEU" class="langbtn">EU</button>
+      <button id="langES" class="langbtn">ES</button>
+    </div>
+    <button id="resetBtn" class="iconbtn" aria-label="Reiniciar demo">↻</button>
+  </div>
 </header>
 
 <main class="wrap">
   <section class="summary card">
-    <div><span class="muted">Próximos eventos</span><strong id="eventCount">0</strong></div>
-    <div class="summaryRight"><strong id="coveredCount">0/0</strong><span class="muted">cubiertos</span></div>
+    <div><span id="nextEventsLabel" class="muted">Próximos eventos</span><strong id="eventCount">0</strong></div>
+    <div class="summaryRight"><strong id="coveredCount">0/0</strong><span id="coveredLabel" class="muted">cubiertos</span></div>
   </section>
 
   <section>
-    <div class="sectionHead"><h2>Próximos</h2><button id="addMatchBtn" class="textbtn">+ Partido</button></div>
+    <div class="sectionHead"><h2 id="upcomingTitle">Próximos</h2><button id="addMatchBtn" class="textbtn">+ Partido</button></div>
     <div id="events" class="list events"></div>
   </section>
 
   <section>
-    <div class="sectionHead"><h2>Mi familia</h2><button id="changeProfileBtn" class="textbtn">Cambiar</button></div>
+    <div class="sectionHead"><h2 id="myFamilyTitle">Mi familia</h2><button id="changeProfileBtn" class="textbtn">Cambiar</button></div>
     <div id="myFamily"></div>
   </section>
 
   <section>
-    <div class="sectionHead"><h2>Equipo</h2></div>
+    <div class="sectionHead"><h2 id="teamTitle">Equipo</h2></div>
     <div class="manageCard card" id="manageFamiliesBtn">
-      <div><strong id="familyCount">Familias</strong><span>Añadir, editar o eliminar</span></div>
+      <div><strong id="familyCount">Familias</strong><span id="manageFamilyHelp">Añadir, editar o eliminar</span></div>
       <div class="chev">›</div>
     </div>
   </section>
@@ -105,6 +114,92 @@ button,input,select{font:inherit} button{cursor:pointer}
 <script>
 (function(){
 'use strict';
+
+var LANGKEY='sora-coches-lang';
+var lang=localStorage.getItem(LANGKEY)||'es';
+var T={
+ es:{
+  appTitle:'Coches',nextEvents:'Próximos eventos',covered:'cubiertos',upcoming:'Próximos',
+  addMatch:'+ Partido',myFamily:'Mi familia',change:'Cambiar',team:'Equipo',
+  manageHelp:'Añadir, editar o eliminar',families:'familias',noEvents:'No hay próximos eventos.',
+  coveredStatus:'Cubierto',missing:'Faltan {n} plazas',cars:'{n} coches · {p} plazas',
+  carsMissing:'{n} coches · faltan {m}',out:'IDA',back:'VUELTA',view:'Ver reparto',
+  myAvailability:'Mi disponibilidad',chooseFamily:'Selecciona tu familia',
+  chooseFamilyHelp:'Solo tendrás que hacerlo una vez en este móvil',family:'Familia',
+  car:'Coche de {n} plazas',kids:'{n} niños',training:'Entrenamiento',match:'Partido',
+  fieldTbc:'Campo por confirmar',whichFamily:'¿Cuál es tu familia?',
+  rememberPhone:'Este móvil recordará tu elección. No es un usuario con contraseña.',
+  addFirst:'Primero añade una familia.',noCan:'No puedo',onlyOut:'Solo ida',
+  onlyBack:'Solo vuelta',both:'Ida y vuelta',saveAvailability:'Guardar disponibilidad',
+  familyData:'Datos guardados solo en esta demo.',namePlayer:'Nombre / jugador',
+  carSeats:'Plazas del coche',seats5:'5 plazas',seats7:'7 plazas',saveChanges:'Guardar cambios',
+  switchFamily:'Cambiar de familia en este móvil',teamFamilies:'Familias del equipo',
+  teamFamiliesHelp:'Aquí se mantiene la lista completa. La portada solo muestra tu familia.',
+  addFamily:'+ Añadir familia',edit:'Editar',delete:'Eliminar',
+  coordinatorInfo:'En una versión con usuarios reales, cada familia tendría su acceso y esta gestión quedaría solo para el coordinador.',
+  newFamily:'Nueva familia',newFamilyHelp:'Añade el nombre del jugador o el nombre que queráis usar.',
+  exampleName:'Ej. Julen',addFamilyBtn:'Añadir familia',enterName:'Introduce un nombre.',
+  editFamily:'Editar familia',save:'Guardar',deleteConfirm:'¿Eliminar a la familia {name}?',
+  outTitle:'Ida',backTitle:'Vuelta',missingSeats:'⚠ Faltan {n} plazas',
+  addMatchTitle:'Añadir partido',addMatchHelp:'Fecha y hora quedan totalmente abiertas porque el partido se asigna cada semana.',
+  rival:'Rival',exampleRival:'Ej. Bergara',date:'Fecha',time:'Hora',place:'Campo / lugar',
+  examplePlace:'Ej. Ezozia',calledPlayers:'Jugadores convocados',saveMatch:'Guardar partido',
+  needDateTime:'Indica fecha y hora del partido.',resetConfirm:'¿Reiniciar todos los datos de la demo?'
+ },
+ eu:{
+  appTitle:'Autoak',nextEvents:'Hurrengo ekitaldiak',covered:'beteta',upcoming:'Hurrengoak',
+  addMatch:'+ Partida',myFamily:'Nire familia',change:'Aldatu',team:'Taldea',
+  manageHelp:'Gehitu, editatu edo ezabatu',families:'familia',noEvents:'Ez dago hurrengo ekitaldirik.',
+  coveredStatus:'Beteta',missing:'{n} plaza falta dira',cars:'{n} auto · {p} plaza',
+  carsMissing:'{n} auto · {m} falta',out:'JOANEKOA',back:'ITZULERA',view:'Ikusi banaketa',
+  myAvailability:'Nire erabilgarritasuna',chooseFamily:'Aukeratu zure familia',
+  chooseFamilyHelp:'Mugikor honetan behin bakarrik egin beharko duzu',family:'Familia',
+  car:'{n} plazako autoa',kids:'{n} haur',training:'Entrenamendua',match:'Partida',
+  fieldTbc:'Zelaia baieztatzeko',whichFamily:'Zein da zure familia?',
+  rememberPhone:'Mugikor honek zure aukera gordeko du. Ez da pasahitzdun erabiltzailea.',
+  addFirst:'Lehenik familia bat gehitu.',noCan:'Ezin dut',onlyOut:'Joanekoa bakarrik',
+  onlyBack:'Itzulera bakarrik',both:'Joan eta etorri',saveAvailability:'Gorde erabilgarritasuna',
+  familyData:'Datuak demo honetan bakarrik gordetzen dira.',namePlayer:'Izena / jokalaria',
+  carSeats:'Autoko plaza kopurua',seats5:'5 plaza',seats7:'7 plaza',saveChanges:'Gorde aldaketak',
+  switchFamily:'Aldatu familia mugikor honetan',teamFamilies:'Taldeko familiak',
+  teamFamiliesHelp:'Hemen zerrenda osoa kudeatzen da. Azalean zure familia bakarrik agertzen da.',
+  addFamily:'+ Gehitu familia',edit:'Editatu',delete:'Ezabatu',
+  coordinatorInfo:'Benetako erabiltzaileekin, familia bakoitzak bere sarbidea izango luke eta kudeaketa hau koordinatzailearentzat bakarrik geratuko litzateke.',
+  newFamily:'Familia berria',newFamilyHelp:'Gehitu jokalariaren izena edo erabili nahi duzuen izena.',
+  exampleName:'Adib. Julen',addFamilyBtn:'Gehitu familia',enterName:'Sartu izen bat.',
+  editFamily:'Editatu familia',save:'Gorde',deleteConfirm:'{name} familia ezabatu?',
+  outTitle:'Joanekoa',backTitle:'Itzulera',missingSeats:'⚠ {n} plaza falta dira',
+  addMatchTitle:'Gehitu partida',addMatchHelp:'Data eta ordua libre geratzen dira, partida aste bakoitzean esleitzen delako.',
+  rival:'Aurkaria',exampleRival:'Adib. Bergara',date:'Data',time:'Ordua',place:'Zelaia / lekua',
+  examplePlace:'Adib. Ezozia',calledPlayers:'Deitutako jokalariak',saveMatch:'Gorde partida',
+  needDateTime:'Adierazi partidaren data eta ordua.',resetConfirm:'Demoaren datu guztiak berrezarri?'
+ }
+};
+function tr(k,vars){
+  var s=(T[lang]&&T[lang][k])||T.es[k]||k;
+  if(vars) Object.keys(vars).forEach(function(x){s=s.replace('{'+x+'}',vars[x]);});
+  return s;
+}
+function setLanguage(l){
+  lang=l; localStorage.setItem(LANGKEY,l);
+  applyLanguage();
+}
+function applyLanguage(){
+  document.documentElement.lang=lang==='eu'?'eu':'es';
+  q('#appTitle').textContent=tr('appTitle');
+  q('#nextEventsLabel').textContent=tr('nextEvents');
+  q('#coveredLabel').textContent=tr('covered');
+  q('#upcomingTitle').textContent=tr('upcoming');
+  q('#addMatchBtn').textContent=tr('addMatch');
+  q('#myFamilyTitle').textContent=tr('myFamily');
+  q('#changeProfileBtn').textContent=tr('change');
+  q('#teamTitle').textContent=tr('team');
+  q('#manageFamilyHelp').textContent=tr('manageHelp');
+  q('#langEU').classList.toggle('active',lang==='eu');
+  q('#langES').classList.toggle('active',lang==='es');
+  render();
+}
+
 
 var STORAGE='sora-coches-v3';
 var PROFILE='sora-coches-v3-profile';
@@ -150,7 +245,7 @@ function nextTrainingDates(){
       var end=new Date(d.getFullYear(),d.getMonth(),d.getDate(),20,0);
       if(end>now){
         var id='train-'+dateKey(d);
-        result.push({id:id,type:'training',date:dateKey(d),day:dayLabel(d),dayNum:d.getDate(),title:'Entrenamiento',time:'17:30',place:'Atxuri',kids:data.families.length});
+        result.push({id:id,type:'training',date:dateKey(d),day:dayLabel(d),dayNum:d.getDate(),title:tr('training'),time:'17:30',place:'Atxuri',kids:data.families.length});
       }
     }
     d.setDate(d.getDate()+1);
@@ -169,7 +264,7 @@ function currentEvents(){
     var d=localDate(m.date,m.time);
     return {
       id:m.id,type:'match',date:m.date,day:dayLabel(d),dayNum:d.getDate(),
-      title:'Partido'+(m.rival?' vs. '+m.rival:''),time:m.time||'—',place:m.place||'Campo por confirmar',
+      title:tr('match')+(m.rival?' vs. '+m.rival:''),time:m.time||'—',place:m.place||tr('fieldTbc'),
       kids:Number(m.kids)||data.families.length
     };
   }));
@@ -186,12 +281,12 @@ function solve(ev,leg){
 }
 function status(ev){
   var o=solve(ev,'out'),b=solve(ev,'back');
-  if(!o.missing&&!b.missing)return['Cubierto','ok'];
+  if(!o.missing&&!b.missing)return[tr('coveredStatus'),'ok'];
   var m=Math.max(o.missing,b.missing);
-  return['Faltan '+m+' plazas',m<5?'pending':'bad'];
+  return[tr('missing',{n:m}),m<5?'pending':'bad'];
 }
-function carsText(s){return s.missing?s.chosen.length+' coches · faltan '+s.missing:s.chosen.length+' coches · '+s.capacity+' plazas';}
-function eventMeta(e){return e.time+' · '+e.place+' · '+e.kids+' niños';}
+function carsText(s){return s.missing?tr('carsMissing',{n:s.chosen.length,m:s.missing}):tr('cars',{n:s.chosen.length,p:s.capacity});}
+function eventMeta(e){return e.time+' · '+e.place+' · '+tr('kids',{n:e.kids});}
 function myProfileId(){return Number(localStorage.getItem(PROFILE))||0;}
 function setMyProfile(id){localStorage.setItem(PROFILE,String(id));render();}
 function getMyFamily(){var id=myProfileId();return data.families.find(function(f){return f.id===id;})||null;}
@@ -199,7 +294,7 @@ function save(){saveRaw();render();}
 
 function render(){
   var events=currentEvents(), ev=q('#events'); ev.innerHTML=''; var covered=0;
-  if(!events.length){ev.innerHTML='<div class="card empty">No hay próximos eventos.</div>';}
+  if(!events.length){ev.innerHTML='<div class="card empty">'+tr('noEvents')+'</div>';}
   events.forEach(function(e){
     var st=status(e);if(st[1]==='ok')covered++;
     var out=solve(e,'out'),back=solve(e,'back'),a=document.createElement('article');
@@ -210,19 +305,19 @@ function render(){
         '<div class="eventInfo"><h3>'+e.title+'</h3><div class="meta">'+eventMeta(e)+'</div></div>'+
         '<span class="status '+st[1]+'">'+st[0]+'</span>'+
       '</div>'+
-      '<div class="legs"><div class="leg"><small>IDA</small><strong>'+carsText(out)+'</strong></div><div class="leg"><small>VUELTA</small><strong>'+carsText(back)+'</strong></div></div>'+
-      '<div class="actions"><button class="pill" data-view="'+e.id+'">Ver reparto</button><button class="pill primary" data-event="'+e.id+'">Mi disponibilidad</button></div>';
+      '<div class="legs"><div class="leg"><small>'+tr('out')+'</small><strong>'+carsText(out)+'</strong></div><div class="leg"><small>'+tr('back')+'</small><strong>'+carsText(back)+'</strong></div></div>'+
+      '<div class="actions"><button class="pill" data-view="'+e.id+'">'+tr('view')+'</button><button class="pill primary" data-event="'+e.id+'">'+tr('myAvailability')+'</button></div>';
     ev.appendChild(a);
   });
   q('#eventCount').textContent=events.length;
   q('#coveredCount').textContent=covered+'/'+events.length;
-  q('#familyCount').textContent=data.families.length+' familias';
+  q('#familyCount').textContent=data.families.length+' '+tr('families');
 
   var mine=getMyFamily(), box=q('#myFamily');
   if(!mine){
-    box.innerHTML='<div class="manageCard card" id="chooseProfileCard"><div><strong>Selecciona tu familia</strong><span>Solo tendrás que hacerlo una vez en este móvil</span></div><div class="chev">›</div></div>';
+    box.innerHTML='<div class="manageCard card" id="chooseProfileCard"><div><strong>'+tr('chooseFamily')+'</strong><span>'+tr('chooseFamilyHelp')+'</span></div><div class="chev">›</div></div>';
   }else{
-    box.innerHTML='<div class="profile card" data-myfamily="'+mine.id+'"><div class="avatar">'+mine.name.charAt(0).toUpperCase()+'</div><div class="profileMain"><strong>Familia '+mine.name+'</strong><span>Coche de '+mine.seats+' plazas · '+capacity(mine)+' niños</span></div><div class="chev">›</div></div>';
+    box.innerHTML='<div class="profile card" data-myfamily="'+mine.id+'"><div class="avatar">'+mine.name.charAt(0).toUpperCase()+'</div><div class="profileMain"><strong>'+tr('family')+' '+mine.name+'</strong><span>'+tr('car',{n:mine.seats})+' · '+tr('kids',{n:capacity(mine)})+'</span></div><div class="chev">›</div></div>';
   }
 }
 
@@ -352,6 +447,8 @@ document.addEventListener('click',function(e){
   var df=e.target.closest('[data-delete-family]');if(df){deleteFamily(Number(df.getAttribute('data-delete-family')));return;}
   if(e.target.closest('#chooseProfileCard')){chooseProfile();return;}
 });
+q('#langEU').onclick=function(){setLanguage('eu');};
+q('#langES').onclick=function(){setLanguage('es');};
 q('#backdrop').onclick=closeSheet;
 q('#addMatchBtn').onclick=addMatch;
 q('#manageFamiliesBtn').onclick=manageFamilies;
@@ -362,7 +459,7 @@ q('#resetBtn').onclick=function(){
     localStorage.removeItem(PROFILE);save();
   }
 };
-render();
+applyLanguage();
 })();
 </script>
 </body>
