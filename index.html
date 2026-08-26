@@ -1,56 +1,76 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0b4d2a" />
-  <title>Sora · Coches</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b5b33">
+<title>Sora · Coches</title>
+<style>
+:root{--green:#0b5b33;--green2:#0c713d;--bg:#f3f6f4;--card:#fff;--text:#17221a;--muted:#718078;--line:#e1e8e3;--soft:#e8f4ec;--warn:#9c6500;--bad:#a83535;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);padding-bottom:42px}button,input,select{font:inherit}button{cursor:pointer}.topbar{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;padding:calc(20px + env(safe-area-inset-top)) 18px 26px;display:flex;justify-content:space-between;align-items:flex-start}.eyebrow{font-size:11px;letter-spacing:.17em;font-weight:850;opacity:.82}.topbar h1{font-size:27px;line-height:1.05;margin:8px 0 0}.iconbtn{border:0;background:transparent;color:white;font-size:30px;padding:2px 6px}.wrap{max-width:760px;margin:auto;padding:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:21px;box-shadow:0 7px 24px rgba(16,59,34,.055)}.summary{margin-top:-38px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}.summary strong{display:block;font-size:20px}.muted{color:var(--muted);font-size:13px}.summaryRight{text-align:right}.sectionHead{display:flex;justify-content:space-between;align-items:center;margin:26px 4px 12px}.sectionHead h2{margin:0;font-size:19px}.textbtn{border:0;background:transparent;color:var(--green2);font-weight:850;font-size:16px}.list{display:grid;gap:11px}.event{padding:15px}.eventTop{display:flex;gap:11px;align-items:flex-start}.date{width:50px;min-width:50px;height:54px;border-radius:14px;background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--green)}.date span{display:block;font-size:10px;font-weight:900}.date b{display:block;font-size:20px;line-height:19px}.eventInfo{flex:1}.eventInfo h3{margin:2px 0 4px;font-size:16px}.meta{font-size:13px;color:var(--muted)}.status{white-space:nowrap;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900}.ok{background:#dff2e5;color:#176838}.pending{background:#fff0d1;color:var(--warn)}.bad{background:#fbe2e2;color:var(--bad)}.legs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.leg{border:1px solid var(--line);border-radius:14px;padding:10px}.leg small{display:block;color:var(--muted);font-size:10px;font-weight:850;margin-bottom:4px}.leg strong{font-size:13px}.actions{display:flex;gap:8px;margin-top:10px}.pill{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 8px;font-size:13px;font-weight:800}.pill.primary{background:var(--green);border-color:var(--green);color:white}.family{display:flex;align-items:center;gap:12px;padding:14px 15px}.avatar{width:44px;height:44px;min-width:44px;border-radius:50%;background:#e7f0ea;color:var(--green);display:grid;place-items:center;font-weight:900}.familyMain{flex:1}.familyMain strong{display:block}.familyMain span{display:block;font-size:12px;color:var(--muted);margin-top:2px}.score{text-align:right;font-size:12px}.score b{display:block;color:var(--green)}.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20}.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:24px 24px 0 0;max-height:88vh;overflow:auto;padding:10px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -12px 38px rgba(0,0,0,.17)}.hidden{display:none}.handle{width:44px;height:5px;border-radius:8px;background:#d6dcd8;margin:0 auto 16px}.sheet h3{margin:0 0 5px;font-size:21px}.sheet p{margin:0 0 15px;color:var(--muted);font-size:13px}.field{margin:13px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:6px}.field input,.field select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fff}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.save{width:100%;border:0;background:var(--green);color:#fff;border-radius:14px;padding:14px;font-weight:900;margin-top:10px}.availRow{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.availRow .familyMain{min-width:0}.allocation{padding-top:12px;margin-top:12px;border-top:1px solid var(--line)}.carline{padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px;line-height:1.45}.notice{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px;margin:12px 0}.closeX{float:right;border:0;background:#eef2ef;border-radius:999px;width:34px;height:34px;font-weight:900}.empty{padding:22px;text-align:center;color:var(--muted)}
+@media(min-width:700px){.list.events{grid-template-columns:1fr 1fr}.list.families{grid-template-columns:1fr 1fr}.sheet{max-width:620px;left:50%;transform:translateX(-50%);bottom:18px;border-radius:24px}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <div class="eyebrow">SORA · FÚTBOL</div>
-      <h1>Coches de esta semana</h1>
-    </div>
-    <button id="resetBtn" class="icon-btn" aria-label="Reiniciar datos">↻</button>
-  </header>
-
-  <main>
-    <section class="summary card">
-      <div>
-        <span class="muted">Semana</span>
-        <strong id="weekLabel">24–30 ago</strong>
-      </div>
-      <div class="summary-stat">
-        <strong id="coveredCount">0/4</strong>
-        <span class="muted">cubiertos</span>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <h2>Esta semana</h2>
-        <button id="addMatchBtn" class="text-btn">+ Partido</button>
-      </div>
-      <div id="events" class="event-list"></div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <h2>Familias y coches</h2>
-        <span class="muted">Toca para editar disponibilidad</span>
-      </div>
-      <div id="families" class="family-list"></div>
-    </section>
-  </main>
-
-  <div id="sheetBackdrop" class="backdrop hidden"></div>
-  <aside id="sheet" class="sheet hidden" aria-hidden="true">
-    <div class="sheet-handle"></div>
-    <div id="sheetContent"></div>
-  </aside>
-
-  <script src="app.js"></script>
+<header class="topbar"><div><div class="eyebrow">SORA · FÚTBOL</div><h1>Coches de esta semana</h1><div style="margin-top:8px;font-size:11px;font-weight:800;opacity:.8">V2 · FUNCIONAL</div></div><button id="resetBtn" class="iconbtn" aria-label="Reiniciar demo">↻</button></header>
+<main class="wrap">
+<section class="summary card"><div><span class="muted">Semana</span><strong>24–30 ago</strong></div><div class="summaryRight"><strong id="coveredCount">0/4</strong><span class="muted">cubiertos</span></div></section>
+<section><div class="sectionHead"><h2>Esta semana</h2><button id="addMatchBtn" class="textbtn">+ Partido</button></div><div id="events" class="list events"></div></section>
+<section><div class="sectionHead"><h2>Familias y coches</h2><span class="muted">Toca para editar</span></div><div id="families" class="list families"></div></section>
+</main>
+<div id="backdrop" class="backdrop hidden"></div><aside id="sheet" class="sheet hidden" aria-hidden="true"><div class="handle"></div><div id="sheetContent"></div></aside>
+<script>
+(function(){
+'use strict';
+var defaults={
+ kids:['Aimar','Beñat','Danel','Ekain','Eneko','Hodei','Iker','Jon','Luken','Markel','Oier','Peru','Unax','Xuban'],
+ families:[
+  {id:1,name:'Aimar',seats:5,score:8,availability:{mon:'both',wed:'none',fri:'back',match:'both'}},
+  {id:2,name:'Beñat',seats:7,score:5,availability:{mon:'both',wed:'both',fri:'none',match:'out'}},
+  {id:3,name:'Danel',seats:5,score:6,availability:{mon:'out',wed:'both',fri:'both',match:'none'}},
+  {id:4,name:'Ekain',seats:7,score:3,availability:{mon:'none',wed:'out',fri:'both',match:'both'}},
+  {id:5,name:'Eneko',seats:5,score:9,availability:{mon:'back',wed:'none',fri:'out',match:'back'}},
+  {id:6,name:'Hodei',seats:5,score:2,availability:{mon:'both',wed:'both',fri:'none',match:'both'}},
+  {id:7,name:'Iker',seats:7,score:7,availability:{mon:'none',wed:'back',fri:'both',match:'none'}},
+  {id:8,name:'Jon',seats:5,score:4,availability:{mon:'out',wed:'both',fri:'back',match:'both'}}
+ ],
+ events:[
+  {id:'mon',day:'LUN',date:'24',title:'Entrenamiento',time:'17:30 · Atxuri',kids:14},
+  {id:'wed',day:'MIÉ',date:'26',title:'Entrenamiento',time:'17:30 · Atxuri',kids:14},
+  {id:'fri',day:'VIE',date:'28',title:'Entrenamiento',time:'17:30 · Atxuri',kids:14},
+  {id:'match',day:'SÁB',date:'29',title:'Partido vs. Eibar',time:'10:30 · Unbe',kids:13,isMatch:true}
+ ]
+};
+function clone(o){return JSON.parse(JSON.stringify(o));}
+var data;
+try{data=JSON.parse(localStorage.getItem('sora-coches-v2'))||clone(defaults);}catch(e){data=clone(defaults);}
+function q(s){return document.querySelector(s);}function capacity(f){return Math.max(0,Number(f.seats)-1);}function allows(mode,leg){return mode==='both'||mode===leg;}
+function solve(ev,leg){var a=data.families.filter(function(f){return allows((f.availability||{})[ev.id],leg);}).sort(function(x,y){return x.score-y.score||capacity(y)-capacity(x);});var need=ev.kids,chosen=[];for(var i=0;i<a.length&&need>0;i++){chosen.push(a[i]);need-=capacity(a[i]);}return{chosen:chosen,missing:Math.max(0,need),capacity:chosen.reduce(function(n,f){return n+capacity(f);},0)};}
+function status(ev){var o=solve(ev,'out'),b=solve(ev,'back');if(!o.missing&&!b.missing)return['Cubierto','ok'];var m=Math.max(o.missing,b.missing);return['Faltan '+m+' plazas',m<5?'pending':'bad'];}
+function carsText(s){return s.missing?s.chosen.length+' coches · faltan '+s.missing:s.chosen.length+' coches · '+s.capacity+' plazas';}
+function label(v){return{none:'No puedo',out:'Solo ida',back:'Solo vuelta',both:'Ida y vuelta'}[v]||'No puedo';}
+function save(){try{localStorage.setItem('sora-coches-v2',JSON.stringify(data));}catch(e){}render();}
+function render(){
+ var ev=q('#events');ev.innerHTML='';var covered=0;
+ data.events.forEach(function(e){var st=status(e);if(st[1]==='ok')covered++;var out=solve(e,'out'),back=solve(e,'back');var a=document.createElement('article');a.className='event card';a.innerHTML='<div class="eventTop"><div class="date"><div><span>'+e.day+'</span><b>'+e.date+'</b></div></div><div class="eventInfo"><h3>'+e.title+'</h3><div class="meta">'+e.time+' · '+e.kids+' niños</div></div><span class="status '+st[1]+'">'+st[0]+'</span></div><div class="legs"><div class="leg"><small>IDA</small><strong>'+carsText(out)+'</strong></div><div class="leg"><small>VUELTA</small><strong>'+carsText(back)+'</strong></div></div><div class="actions"><button class="pill" data-view="'+e.id+'">Ver reparto</button><button class="pill primary" data-event="'+e.id+'">Disponibilidad</button></div>';ev.appendChild(a);});
+ q('#coveredCount').textContent=covered+'/'+data.events.length;
+ var fam=q('#families');fam.innerHTML='';data.families.forEach(function(f){var a=document.createElement('article');a.className='family card';a.setAttribute('data-family',f.id);a.innerHTML='<div class="avatar">'+f.name.charAt(0)+'</div><div class="familyMain"><strong>Familia '+f.name+'</strong><span>Coche de '+f.seats+' plazas · '+capacity(f)+' niños</span></div><div class="score"><b>'+f.score+' pts</b><span class="muted">aportación</span></div>';fam.appendChild(a);});
+}
+function openSheet(html){q('#sheetContent').innerHTML='<button class="closeX" id="closeX">×</button>'+html;q('#sheet').classList.remove('hidden');q('#backdrop').classList.remove('hidden');q('#sheet').setAttribute('aria-hidden','false');q('#closeX').onclick=closeSheet;}
+function closeSheet(){q('#sheet').classList.add('hidden');q('#backdrop').classList.add('hidden');q('#sheet').setAttribute('aria-hidden','true');}
+function editFamily(id){var f=data.families.find(function(x){return x.id===id;});var html='<h3>Familia '+f.name+'</h3><p>Configura coche y disponibilidad semanal.</p><div class="field"><label>Plazas del coche</label><select id="seats"><option value="5" '+(f.seats===5?'selected':'')+'>5 plazas</option><option value="7" '+(f.seats===7?'selected':'')+'>7 plazas</option></select></div>';
+ data.events.forEach(function(e){html+='<div class="field"><label>'+e.day+' · '+e.title+'</label><select data-av="'+e.id+'"><option value="none" '+(f.availability[e.id]==='none'?'selected':'')+'>No puedo</option><option value="out" '+(f.availability[e.id]==='out'?'selected':'')+'>Solo ida</option><option value="back" '+(f.availability[e.id]==='back'?'selected':'')+'>Solo vuelta</option><option value="both" '+(f.availability[e.id]==='both'?'selected':'')+'>Ida y vuelta</option></select></div>';});
+ html+='<button class="save" id="saveFamily">Guardar cambios</button>';openSheet(html);q('#saveFamily').onclick=function(){f.seats=Number(q('#seats').value);document.querySelectorAll('[data-av]').forEach(function(s){f.availability[s.getAttribute('data-av')]=s.value;});save();closeSheet();};}
+function eventAvailability(id){var e=data.events.find(function(x){return x.id===id;});var html='<h3>'+e.title+'</h3><p>'+e.day+' '+e.date+' · '+e.time+'</p><div class="notice">Toca una familia para cambiar su disponibilidad.</div>';
+ data.families.forEach(function(f){html+='<div class="availRow" data-edit-from-event="'+f.id+'"><div class="avatar">'+f.name.charAt(0)+'</div><div class="familyMain"><strong>'+f.name+'</strong><span>Coche '+f.seats+' plazas</span></div><strong>'+label(f.availability[e.id])+'</strong></div>';});openSheet(html);}
+function allocation(id){var e=data.events.find(function(x){return x.id===id;});function leg(which,title){var s=solve(e,which),kids=data.kids.slice(0,e.kids),html='<div class="allocation"><strong>'+title+'</strong>';s.chosen.forEach(function(f){var ass=kids.splice(0,capacity(f));html+='<div class="carline"><strong>'+f.name+' · coche '+f.seats+' plazas</strong><br>'+((ass.length?ass.join(', '):'—'))+'</div>';});if(s.missing)html+='<div class="carline"><strong>⚠ Faltan '+s.missing+' plazas</strong></div>';return html+'</div>';}
+ openSheet('<h3>'+e.title+'</h3><p>'+e.day+' '+e.date+' · '+e.time+'</p>'+leg('out','Ida')+leg('back','Vuelta'));}
+function addMatch(){openSheet('<h3>Añadir / cambiar partido</h3><p>Cuando os asignen el partido de la semana, introdúcelo aquí.</p><div class="field"><label>Rival</label><input id="rival" placeholder="Ej. Bergara"></div><div class="grid2"><div class="field"><label>Día</label><select id="mday"><option>SÁB</option><option>DOM</option></select></div><div class="field"><label>Fecha</label><input id="mdate" inputmode="numeric" placeholder="29"></div></div><div class="field"><label>Hora y campo</label><input id="mtime" placeholder="10:30 · Ezozia"></div><div class="field"><label>Jugadores convocados</label><input id="mkids" type="number" min="1" max="30" value="14"></div><button class="save" id="saveMatch">Guardar partido</button>');
+ q('#saveMatch').onclick=function(){var old=data.events.findIndex(function(e){return e.id==='match';});var ev={id:'match',day:q('#mday').value,date:q('#mdate').value||'29',title:'Partido vs. '+(q('#rival').value||'Rival'),time:q('#mtime').value||'10:30 · Campo',kids:Number(q('#mkids').value)||14,isMatch:true};if(old>=0)data.events[old]=ev;else data.events.push(ev);data.families.forEach(function(f){if(!f.availability.match)f.availability.match='none';});save();closeSheet();};}
+document.addEventListener('click',function(e){var v=e.target.closest('[data-view]');if(v){allocation(v.getAttribute('data-view'));return;}var ev=e.target.closest('[data-event]');if(ev){eventAvailability(ev.getAttribute('data-event'));return;}var f=e.target.closest('[data-family]');if(f){editFamily(Number(f.getAttribute('data-family')));return;}var ff=e.target.closest('[data-edit-from-event]');if(ff){closeSheet();setTimeout(function(){editFamily(Number(ff.getAttribute('data-edit-from-event')));},80);}});
+q('#backdrop').onclick=closeSheet;q('#addMatchBtn').onclick=addMatch;q('#resetBtn').onclick=function(){if(confirm('¿Reiniciar todos los datos de la demo?')){data=clone(defaults);save();}};
+render();
+})();
+</script>
 </body>
 </html>
