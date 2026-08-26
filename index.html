@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b5b33">
 <title>Sora · Coches</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-512.png">
 <style>
 :root{
   --green:#0b5b33;--green2:#0c713d;--bg:#f3f6f4;--card:#fff;--text:#17221a;
@@ -16,12 +18,22 @@ body{margin:0;background:var(--bg);color:var(--text);padding-bottom:42px}
 button,input,select{font:inherit} button{cursor:pointer}
 .topbar{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;padding:calc(20px + env(safe-area-inset-top)) 18px 28px;display:flex;justify-content:space-between;align-items:flex-start}
 .eyebrow{font-size:11px;letter-spacing:.17em;font-weight:850;opacity:.82}
-.topbar h1{font-size:27px;line-height:1.05;margin:8px 0 0}
+.brandrow{display:flex;align-items:center;gap:12px}
+.brandlogo{width:58px;height:58px;object-fit:cover;border-radius:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.topbar h1{font-size:27px;line-height:1.05;margin:6px 0 0}
 .version{margin-top:8px;font-size:11px;font-weight:800;opacity:.8}
 .iconbtn{border:0;background:transparent;color:white;font-size:30px;padding:2px 6px}
 .langswitch{display:flex;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:3px}
 .langbtn{border:0;background:transparent;color:#fff;border-radius:999px;padding:7px 9px;font-size:12px;font-weight:900}
 .langbtn.active{background:#fff;color:var(--green)}
+.roleSwitch{display:flex;gap:6px;margin-top:10px}
+.roleBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900}
+.roleBtn.active{background:var(--green);border-color:var(--green);color:#fff}
+.coachBtn{width:100%;border:1px solid #bdd8c5;background:#eef7f1;color:#145d34;border-radius:12px;padding:10px;font-size:13px;font-weight:900;margin-top:8px}
+.coachRow{padding:12px 0;border-bottom:1px solid var(--line)}
+.coachRowTop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.coachControls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.coachControls select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
 .wrap{max-width:760px;margin:auto;padding:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:21px;box-shadow:0 7px 24px rgba(16,59,34,.055)}
 .summary{margin-top:-39px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
@@ -75,10 +87,13 @@ button,input,select{font:inherit} button{cursor:pointer}
 </head>
 <body>
 <header class="topbar">
-  <div>
-    <div class="eyebrow">SORA · FÚTBOL</div>
-    <h1 id="appTitle">Coches</h1>
-    <div class="version">V6 · RESPUESTA RÁPIDA</div>
+  <div class="brandrow">
+    <img class="brandlogo" src="apple-touch-icon.png" alt="Sora">
+    <div>
+      <div class="eyebrow">SORA · FÚTBOL</div>
+      <h1 id="appTitle">Coches</h1>
+      <div class="version">V8 · ENTRENADOR</div>
+    </div>
   </div>
   <div style="display:flex;align-items:center;gap:8px">
     <div class="langswitch" aria-label="Idioma">
@@ -107,6 +122,10 @@ button,input,select{font:inherit} button{cursor:pointer}
 
   <section>
     <div class="sectionHead"><h2 id="teamTitle">Equipo</h2></div>
+    <div class="roleSwitch">
+      <button id="roleFamily" class="roleBtn active">Familia</button>
+      <button id="roleCoach" class="roleBtn">Entrenador</button>
+    </div>
     <div class="manageCard card" id="manageFamiliesBtn">
       <div><strong id="familyCount">Familias</strong><span id="manageFamilyHelp">Añadir, editar o eliminar</span></div>
       <div class="chev">›</div>
@@ -122,6 +141,8 @@ button,input,select{font:inherit} button{cursor:pointer}
 'use strict';
 
 var LANGKEY='sora-coches-lang';
+var ROLEKEY='sora-coches-role';
+var role=localStorage.getItem(ROLEKEY)||'family';
 var lang=localStorage.getItem(LANGKEY)||'es';
 var T={
  es:{
@@ -150,7 +171,7 @@ var T={
   addMatchTitle:'Añadir partido',addMatchHelp:'Fecha y hora quedan totalmente abiertas porque el partido se asigna cada semana.',
   rival:'Rival',exampleRival:'Ej. Bergara',date:'Fecha',time:'Hora',place:'Campo / lugar',
   examplePlace:'Ej. Ezozia',calledPlayers:'Jugadores convocados',saveMatch:'Guardar partido',
-  needDateTime:'Indica fecha y hora del partido.',resetConfirm:'¿Reiniciar todos los datos de la demo?',attendQuestion:'¿Va al evento?',yesAttend:'Sí, va',noAttend:'No va',transportQuestion:'Disponibilidad de coche',attendancePending:'Pendiente',playersGoing:'{n} jugadores van',attendanceFirst:'Primero indica si el jugador va al evento.',saveEventResponse:'Guardar respuesta',notGoing:'No participa',going:'Participa',attendance:'Asistencia',transport:'Transporte',quickNo:'No voy',quickYes:'Sí voy',changeResponse:'Cambiar'
+  needDateTime:'Indica fecha y hora del partido.',resetConfirm:'¿Reiniciar todos los datos de la demo?',attendQuestion:'¿Va al evento?',yesAttend:'Sí, va',noAttend:'No va',transportQuestion:'Disponibilidad de coche',attendancePending:'Pendiente',playersGoing:'{n} jugadores van',attendanceFirst:'Primero indica si el jugador va al evento.',saveEventResponse:'Guardar respuesta',notGoing:'No participa',going:'Participa',attendance:'Asistencia',transport:'Transporte',quickNo:'No voy',quickYes:'Sí voy',changeResponse:'Cambiar',roleFamily:'Familia',roleCoach:'Entrenador',coachManage:'Gestionar equipo',coachTitle:'Gestión del entrenador',coachHelp:'Puedes editar asistencia y coche de todas las familias para este evento.',attendingByDefault:'Por defecto, todos participan',transportNone:'Sin coche',coachSave:'Guardar cambios del equipo'
  },
  eu:{
   appTitle:'Autoak',nextEvents:'Hurrengo ekitaldiak',covered:'beteta',upcoming:'Hurrengoak',
@@ -178,7 +199,7 @@ var T={
   addMatchTitle:'Gehitu partida',addMatchHelp:'Data eta ordua libre geratzen dira, partida aste bakoitzean esleitzen delako.',
   rival:'Aurkaria',exampleRival:'Adib. Bergara',date:'Data',time:'Ordua',place:'Zelaia / lekua',
   examplePlace:'Adib. Ezozia',calledPlayers:'Deitutako jokalariak',saveMatch:'Gorde partida',
-  needDateTime:'Adierazi partidaren data eta ordua.',resetConfirm:'Demoaren datu guztiak berrezarri?',attendQuestion:'Ekitaldira joango da?',yesAttend:'Bai, joango da',noAttend:'Ez da joango',transportQuestion:'Autoaren erabilgarritasuna',attendancePending:'Erantzun gabe',playersGoing:'{n} jokalari joango dira',attendanceFirst:'Lehenik adierazi jokalaria ekitaldira joango den.',saveEventResponse:'Gorde erantzuna',notGoing:'Ez du parte hartuko',going:'Parte hartuko du',attendance:'Asistentzia',transport:'Garraioa',quickNo:'Ez noa',quickYes:'Banoa',changeResponse:'Aldatu'
+  needDateTime:'Adierazi partidaren data eta ordua.',resetConfirm:'Demoaren datu guztiak berrezarri?',attendQuestion:'Ekitaldira joango da?',yesAttend:'Bai, joango da',noAttend:'Ez da joango',transportQuestion:'Autoaren erabilgarritasuna',attendancePending:'Erantzun gabe',playersGoing:'{n} jokalari joango dira',attendanceFirst:'Lehenik adierazi jokalaria ekitaldira joango den.',saveEventResponse:'Gorde erantzuna',notGoing:'Ez du parte hartuko',going:'Parte hartuko du',attendance:'Asistentzia',transport:'Garraioa',quickNo:'Ez noa',quickYes:'Banoa',changeResponse:'Aldatu',roleFamily:'Familia',roleCoach:'Entrenatzailea',coachManage:'Kudeatu taldea',coachTitle:'Entrenatzailearen kudeaketa',coachHelp:'Ekitaldi honetarako familia guztien asistentzia eta autoaren erabilgarritasuna edita ditzakezu.',attendingByDefault:'Lehenespenez, denek parte hartzen dute',transportNone:'Autorik ez',coachSave:'Gorde taldearen aldaketak'
  }
 };
 function tr(k,vars){
@@ -189,6 +210,9 @@ function tr(k,vars){
 function setLanguage(l){
   lang=l; localStorage.setItem(LANGKEY,l);
   applyLanguage();
+}
+function setRole(r){
+  role=r; localStorage.setItem(ROLEKEY,r); applyLanguage();
 }
 function applyLanguage(){
   document.documentElement.lang=lang==='eu'?'eu':'es';
@@ -203,6 +227,10 @@ function applyLanguage(){
   q('#manageFamilyHelp').textContent=tr('manageHelp');
   q('#langEU').classList.toggle('active',lang==='eu');
   q('#langES').classList.toggle('active',lang==='es');
+  q('#roleFamily').textContent=tr('roleFamily');
+  q('#roleCoach').textContent=tr('roleCoach');
+  q('#roleFamily').classList.toggle('active',role==='family');
+  q('#roleCoach').classList.toggle('active',role==='coach');
   render();
 }
 
@@ -286,7 +314,7 @@ function currentEvents(){
 function familyMode(f,eventId){return (f.availability||{})[eventId]||'none';}
 function attendanceMode(f,eventId){
   var v=(f.attendance||{})[eventId];
-  return v===true?'yes':v===false?'no':'pending';
+  return v===false?'no':'yes';
 }
 function attendingFamilies(eventId){
   return data.families.filter(function(f){return attendanceMode(f,eventId)==='yes';});
@@ -301,9 +329,6 @@ function solve(ev,leg){
   return {chosen:chosen,missing:Math.max(0,need),capacity:chosen.reduce(function(n,f){return n+capacity(f);},0),players:attending.length};
 }
 function status(ev){
-  var confirmed=attendingCount(ev.id);
-  var pending=data.families.filter(function(f){return attendanceMode(f,ev.id)==='pending';}).length;
-  if(confirmed===0 && pending>0) return [tr('attendancePending'),'pending'];
   var o=solve(ev,'out'),b=solve(ev,'back');
   if(!o.missing&&!b.missing)return[tr('coveredStatus'),'ok'];
   var m=Math.max(o.missing,b.missing);
@@ -326,12 +351,13 @@ function render(){
     a.innerHTML=
       '<div class="eventTop">'+
         '<div class="date"><div><span>'+e.day+'</span><b>'+e.dayNum+'</b></div></div>'+
-        '<div class="eventInfo"><h3>'+e.title+'</h3><div class="meta">'+eventMeta(e)+'</div><div class="meta">'+data.families.filter(function(f){return attendanceMode(f,e.id)==='pending';}).length+' '+tr('attendancePending').toLowerCase()+'</div></div>'+
+        '<div class="eventInfo"><h3>'+e.title+'</h3><div class="meta">'+eventMeta(e)+'</div></div>'+
         '<span class="status '+st[1]+'">'+st[0]+'</span>'+
       '</div>'+
       '<div class="legs"><div class="leg"><small>'+tr('out')+'</small><strong>'+carsText(out)+'</strong></div><div class="leg"><small>'+tr('back')+'</small><strong>'+carsText(back)+'</strong></div></div>'+
       (getMyFamily()?'<div class="quickAttend"><button class="goBtn '+(attendanceMode(getMyFamily(),e.id)==='yes'?'selected':'')+'" data-quick-attend="'+e.id+'" data-attend-value="yes">✓ '+tr('quickYes')+'</button><button class="noBtn '+(attendanceMode(getMyFamily(),e.id)==='no'?'selected':'')+'" data-quick-attend="'+e.id+'" data-attend-value="no">✕ '+tr('quickNo')+'</button></div>':'')+
-      '<div class="actions"><button class="pill" data-view="'+e.id+'">'+tr('view')+'</button><button class="pill primary" data-event="'+e.id+'">'+tr('myAvailability')+'</button></div>';
+      '<div class="actions"><button class="pill" data-view="'+e.id+'">'+tr('view')+'</button><button class="pill primary" data-event="'+e.id+'">'+tr('myAvailability')+'</button></div>'+
+      (role==='coach'?'<button class="coachBtn" data-coach-event="'+e.id+'">⚙ '+tr('coachManage')+'</button>':'');
     ev.appendChild(a);
   });
   q('#eventCount').textContent=events.length;
@@ -377,7 +403,6 @@ function myAvailability(eventId){
     '<h3>'+e.title+'</h3><p>'+e.day+' '+e.dayNum+' · '+e.time+' · '+e.place+'</p>'+
     '<div class="field"><label>'+tr('attendQuestion')+'</label>'+
       '<select id="myAttend">'+
-        '<option value="pending" '+(att==='pending'?'selected':'')+'>'+tr('attendancePending')+'</option>'+
         '<option value="yes" '+(att==='yes'?'selected':'')+'>'+tr('yesAttend')+'</option>'+
         '<option value="no" '+(att==='no'?'selected':'')+'>'+tr('noAttend')+'</option>'+
       '</select></div>'+
@@ -401,10 +426,7 @@ function myAvailability(eventId){
     f.attendance=f.attendance||{};
     f.availability=f.availability||{};
     var a=q('#myAttend').value;
-    if(a==='pending'){
-      delete f.attendance[e.id];
-      f.availability[e.id]='none';
-    }else if(a==='no'){
+    if(a==='no'){
       f.attendance[e.id]=false;
       f.availability[e.id]='none';
     }else{
@@ -471,10 +493,6 @@ function allocation(id){
   var attendees=attendingFamilies(e.id);
   function leg(which,title){
     var s=solve(e,which),kids=attendees.map(function(f){return f.name;}),html='<div class="allocation"><strong>'+title+'</strong>';
-    if(!attendees.length){
-      html+='<div class="carline">'+tr('attendancePending')+'</div>';
-      return html+'</div>';
-    }
     s.chosen.forEach(function(f){
       var ass=kids.splice(0,capacity(f));
       html+='<div class="carline"><strong>'+escapeHtml(f.name)+' · '+tr('car',{n:f.seats})+'</strong><br>'+(ass.length?ass.map(escapeHtml).join(', '):'—')+'</div>';
@@ -483,12 +501,63 @@ function allocation(id){
     return html+'</div>';
   }
   var notGoing=data.families.filter(function(f){return attendanceMode(f,e.id)==='no';}).map(function(f){return escapeHtml(f.name);});
-  var pending=data.families.filter(function(f){return attendanceMode(f,e.id)==='pending';}).map(function(f){return escapeHtml(f.name);});
-  var extra='<div class="info"><strong>'+tr('attendance')+':</strong> '+tr('playersGoing',{n:attendees.length});
+  var extra='<div class="info"><strong>'+tr('attendance')+':</strong> '+tr('playersGoing',{n:attendees.length})+
+            '<br>'+tr('attendingByDefault');
   if(notGoing.length) extra+='<br>'+tr('notGoing')+': '+notGoing.join(', ');
-  if(pending.length) extra+='<br>'+tr('attendancePending')+': '+pending.join(', ');
   extra+='</div>';
   openSheet('<h3>'+e.title+'</h3><p>'+e.day+' '+e.dayNum+' · '+e.time+' · '+e.place+'</p>'+extra+leg('out',tr('outTitle'))+leg('back',tr('backTitle')));
+}
+
+
+function coachManageEvent(id){
+  var e=getEvent(id); if(!e)return;
+  var html='<h3>'+tr('coachTitle')+'</h3><p>'+tr('coachHelp')+'</p>';
+  data.families.forEach(function(f){
+    var att=attendanceMode(f,id);
+    var av=familyMode(f,id);
+    html+='<div class="coachRow" data-coach-row="'+f.id+'">'+
+      '<div class="coachRowTop"><strong>'+escapeHtml(f.name)+'</strong><span class="muted">'+tr('car',{n:f.seats})+'</span></div>'+
+      '<div class="coachControls">'+
+        '<select data-coach-attend="'+f.id+'">'+
+          '<option value="yes" '+(att==='yes'?'selected':'')+'>'+tr('yesAttend')+'</option>'+
+          '<option value="no" '+(att==='no'?'selected':'')+'>'+tr('noAttend')+'</option>'+
+        '</select>'+
+        '<select data-coach-avail="'+f.id+'" '+(att==='no'?'disabled':'')+'>'+
+          '<option value="none" '+(av==='none'?'selected':'')+'>'+tr('noCan')+'</option>'+
+          '<option value="out" '+(av==='out'?'selected':'')+'>'+tr('onlyOut')+'</option>'+
+          '<option value="back" '+(av==='back'?'selected':'')+'>'+tr('onlyBack')+'</option>'+
+          '<option value="both" '+(av==='both'?'selected':'')+'>'+tr('both')+'</option>'+
+        '</select>'+
+      '</div></div>';
+  });
+  html+='<button class="save" id="saveCoachEvent">'+tr('coachSave')+'</button>';
+  openSheet(html);
+
+  data.families.forEach(function(f){
+    var a=q('[data-coach-attend="'+f.id+'"]');
+    var v=q('[data-coach-avail="'+f.id+'"]');
+    if(a&&v) a.onchange=function(){
+      v.disabled=this.value==='no';
+      if(this.value==='no') v.value='none';
+    };
+  });
+
+  q('#saveCoachEvent').onclick=function(){
+    data.families.forEach(function(f){
+      var a=q('[data-coach-attend="'+f.id+'"]');
+      var v=q('[data-coach-avail="'+f.id+'"]');
+      f.attendance=f.attendance||{};
+      f.availability=f.availability||{};
+      if(a.value==='no'){
+        f.attendance[id]=false;
+        f.availability[id]='none';
+      }else{
+        delete f.attendance[id]; // yes is the default state
+        f.availability[id]=v.value;
+      }
+    });
+    save(); closeSheet();
+  };
 }
 
 function addMatch(){
@@ -511,6 +580,8 @@ function addMatch(){
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];});}
 
 document.addEventListener('click',function(e){
+  var ce=e.target.closest('[data-coach-event]');
+  if(ce){coachManageEvent(ce.getAttribute('data-coach-event'));return;}
   var qa=e.target.closest('[data-quick-attend]');
   if(qa){
     var f=getMyFamily();
@@ -538,6 +609,8 @@ document.addEventListener('click',function(e){
   var df=e.target.closest('[data-delete-family]');if(df){deleteFamily(Number(df.getAttribute('data-delete-family')));return;}
   if(e.target.closest('#chooseProfileCard')){chooseProfile();return;}
 });
+q('#roleFamily').onclick=function(){setRole('family');};
+q('#roleCoach').onclick=function(){setRole('coach');};
 q('#langEU').onclick=function(){setLanguage('eu');};
 q('#langES').onclick=function(){setLanguage('es');};
 q('#backdrop').onclick=closeSheet;
