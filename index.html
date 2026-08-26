@@ -72,7 +72,7 @@ button,input,select{font:inherit} button{cursor:pointer}
   <div>
     <div class="eyebrow">SORA · FÚTBOL</div>
     <h1 id="appTitle">Coches</h1>
-    <div class="version">V4 · EU / ES</div>
+    <div class="version">V5 · ASISTENCIA + COCHES</div>
   </div>
   <div style="display:flex;align-items:center;gap:8px">
     <div class="langswitch" aria-label="Idioma">
@@ -144,7 +144,7 @@ var T={
   addMatchTitle:'Añadir partido',addMatchHelp:'Fecha y hora quedan totalmente abiertas porque el partido se asigna cada semana.',
   rival:'Rival',exampleRival:'Ej. Bergara',date:'Fecha',time:'Hora',place:'Campo / lugar',
   examplePlace:'Ej. Ezozia',calledPlayers:'Jugadores convocados',saveMatch:'Guardar partido',
-  needDateTime:'Indica fecha y hora del partido.',resetConfirm:'¿Reiniciar todos los datos de la demo?'
+  needDateTime:'Indica fecha y hora del partido.',resetConfirm:'¿Reiniciar todos los datos de la demo?',attendQuestion:'¿Va al evento?',yesAttend:'Sí, va',noAttend:'No va',transportQuestion:'Disponibilidad de coche',attendancePending:'Pendiente',playersGoing:'{n} jugadores van',attendanceFirst:'Primero indica si el jugador va al evento.',saveEventResponse:'Guardar respuesta',notGoing:'No participa',going:'Participa',attendance:'Asistencia',transport:'Transporte'
  },
  eu:{
   appTitle:'Autoak',nextEvents:'Hurrengo ekitaldiak',covered:'beteta',upcoming:'Hurrengoak',
@@ -172,7 +172,7 @@ var T={
   addMatchTitle:'Gehitu partida',addMatchHelp:'Data eta ordua libre geratzen dira, partida aste bakoitzean esleitzen delako.',
   rival:'Aurkaria',exampleRival:'Adib. Bergara',date:'Data',time:'Ordua',place:'Zelaia / lekua',
   examplePlace:'Adib. Ezozia',calledPlayers:'Deitutako jokalariak',saveMatch:'Gorde partida',
-  needDateTime:'Adierazi partidaren data eta ordua.',resetConfirm:'Demoaren datu guztiak berrezarri?'
+  needDateTime:'Adierazi partidaren data eta ordua.',resetConfirm:'Demoaren datu guztiak berrezarri?',attendQuestion:'Ekitaldira joango da?',yesAttend:'Bai, joango da',noAttend:'Ez da joango',transportQuestion:'Autoaren erabilgarritasuna',attendancePending:'Erantzun gabe',playersGoing:'{n} jokalari joango dira',attendanceFirst:'Lehenik adierazi jokalaria ekitaldira joango den.',saveEventResponse:'Gorde erantzuna',notGoing:'Ez du parte hartuko',going:'Parte hartuko du',attendance:'Asistentzia',transport:'Garraioa'
  }
 };
 function tr(k,vars){
@@ -205,14 +205,14 @@ var STORAGE='sora-coches-v3';
 var PROFILE='sora-coches-v3-profile';
 
 var defaultFamilies=[
- {id:1,name:'Aimar',seats:5,score:8,availability:{}},
- {id:2,name:'Beñat',seats:7,score:5,availability:{}},
- {id:3,name:'Danel',seats:5,score:6,availability:{}},
- {id:4,name:'Ekain',seats:7,score:3,availability:{}},
- {id:5,name:'Eneko',seats:5,score:9,availability:{}},
- {id:6,name:'Hodei',seats:5,score:2,availability:{}},
- {id:7,name:'Iker',seats:7,score:7,availability:{}},
- {id:8,name:'Jon',seats:5,score:4,availability:{}}
+ {id:1,name:'Aimar',seats:5,score:8,availability:{},attendance:{}},
+ {id:2,name:'Beñat',seats:7,score:5,availability:{},attendance:{}},
+ {id:3,name:'Danel',seats:5,score:6,availability:{},attendance:{}},
+ {id:4,name:'Ekain',seats:7,score:3,availability:{},attendance:{}},
+ {id:5,name:'Eneko',seats:5,score:9,availability:{},attendance:{}},
+ {id:6,name:'Hodei',seats:5,score:2,availability:{},attendance:{}},
+ {id:7,name:'Iker',seats:7,score:7,availability:{},attendance:{}},
+ {id:8,name:'Jon',seats:5,score:4,availability:{},attendance:{}}
 ];
 
 function clone(o){return JSON.parse(JSON.stringify(o));}
@@ -235,6 +235,12 @@ try{data=JSON.parse(localStorage.getItem(STORAGE))||{families:clone(defaultFamil
 catch(e){data={families:clone(defaultFamilies),matches:[]};}
 if(!Array.isArray(data.families)) data.families=clone(defaultFamilies);
 if(!Array.isArray(data.matches)) data.matches=[];
+
+data.families.forEach(function(f){
+  if(!f.availability) f.availability={};
+  if(!f.attendance) f.attendance={};
+});
+
 
 function saveRaw(){try{localStorage.setItem(STORAGE,JSON.stringify(data));}catch(e){}}
 function nextTrainingDates(){
@@ -272,21 +278,33 @@ function currentEvents(){
   return arr;
 }
 function familyMode(f,eventId){return (f.availability||{})[eventId]||'none';}
+function attendanceMode(f,eventId){
+  var v=(f.attendance||{})[eventId];
+  return v===true?'yes':v===false?'no':'pending';
+}
+function attendingFamilies(eventId){
+  return data.families.filter(function(f){return attendanceMode(f,eventId)==='yes';});
+}
+function attendingCount(eventId){return attendingFamilies(eventId).length;}
 function solve(ev,leg){
-  var a=data.families.filter(function(f){return allows(familyMode(f,ev.id),leg);})
+  var attending=attendingFamilies(ev.id);
+  var a=attending.filter(function(f){return allows(familyMode(f,ev.id),leg);})
     .sort(function(x,y){return (x.score||0)-(y.score||0)||capacity(y)-capacity(x);});
-  var need=Math.min(ev.kids,data.families.length),chosen=[];
+  var need=attending.length,chosen=[];
   for(var i=0;i<a.length&&need>0;i++){chosen.push(a[i]);need-=capacity(a[i]);}
-  return {chosen:chosen,missing:Math.max(0,need),capacity:chosen.reduce(function(n,f){return n+capacity(f);},0)};
+  return {chosen:chosen,missing:Math.max(0,need),capacity:chosen.reduce(function(n,f){return n+capacity(f);},0),players:attending.length};
 }
 function status(ev){
+  var confirmed=attendingCount(ev.id);
+  var pending=data.families.filter(function(f){return attendanceMode(f,ev.id)==='pending';}).length;
+  if(confirmed===0 && pending>0) return [tr('attendancePending'),'pending'];
   var o=solve(ev,'out'),b=solve(ev,'back');
   if(!o.missing&&!b.missing)return[tr('coveredStatus'),'ok'];
   var m=Math.max(o.missing,b.missing);
   return[tr('missing',{n:m}),m<5?'pending':'bad'];
 }
 function carsText(s){return s.missing?tr('carsMissing',{n:s.chosen.length,m:s.missing}):tr('cars',{n:s.chosen.length,p:s.capacity});}
-function eventMeta(e){return e.time+' · '+e.place+' · '+tr('kids',{n:e.kids});}
+function eventMeta(e){return e.time+' · '+e.place+' · '+tr('playersGoing',{n:attendingCount(e.id)});}
 function myProfileId(){return Number(localStorage.getItem(PROFILE))||0;}
 function setMyProfile(id){localStorage.setItem(PROFILE,String(id));render();}
 function getMyFamily(){var id=myProfileId();return data.families.find(function(f){return f.id===id;})||null;}
@@ -302,7 +320,7 @@ function render(){
     a.innerHTML=
       '<div class="eventTop">'+
         '<div class="date"><div><span>'+e.day+'</span><b>'+e.dayNum+'</b></div></div>'+
-        '<div class="eventInfo"><h3>'+e.title+'</h3><div class="meta">'+eventMeta(e)+'</div></div>'+
+        '<div class="eventInfo"><h3>'+e.title+'</h3><div class="meta">'+eventMeta(e)+'</div><div class="meta">'+data.families.filter(function(f){return attendanceMode(f,e.id)==='pending';}).length+' '+tr('attendancePending').toLowerCase()+'</div></div>'+
         '<span class="status '+st[1]+'">'+st[0]+'</span>'+
       '</div>'+
       '<div class="legs"><div class="leg"><small>'+tr('out')+'</small><strong>'+carsText(out)+'</strong></div><div class="leg"><small>'+tr('back')+'</small><strong>'+carsText(back)+'</strong></div></div>'+
@@ -344,13 +362,49 @@ function myAvailability(eventId){
   var f=getMyFamily();
   if(!f){chooseProfile();return;}
   var e=getEvent(eventId); if(!e)return;
+  var att=attendanceMode(f,e.id);
   var cur=familyMode(f,e.id);
-  openSheet('<h3>'+e.title+'</h3><p>'+e.day+' '+e.dayNum+' · '+eventMeta(e)+'</p>'+
-    '<div class="field"><label>Familia '+f.name+'</label>'+
-    '<select id="myAvail"><option value="none" '+(cur==='none'?'selected':'')+'>No puedo</option><option value="out" '+(cur==='out'?'selected':'')+'>Solo ida</option><option value="back" '+(cur==='back'?'selected':'')+'>Solo vuelta</option><option value="both" '+(cur==='both'?'selected':'')+'>Ida y vuelta</option></select></div>'+
-    '<button class="save" id="saveMyAvail">Guardar disponibilidad</button>');
+
+  var transportStyle = att==='yes' ? '' : 'style="display:none"';
+  openSheet(
+    '<h3>'+e.title+'</h3><p>'+e.day+' '+e.dayNum+' · '+e.time+' · '+e.place+'</p>'+
+    '<div class="field"><label>'+tr('attendQuestion')+'</label>'+
+      '<select id="myAttend">'+
+        '<option value="pending" '+(att==='pending'?'selected':'')+'>'+tr('attendancePending')+'</option>'+
+        '<option value="yes" '+(att==='yes'?'selected':'')+'>'+tr('yesAttend')+'</option>'+
+        '<option value="no" '+(att==='no'?'selected':'')+'>'+tr('noAttend')+'</option>'+
+      '</select></div>'+
+    '<div id="transportBlock" '+transportStyle+'>'+
+      '<div class="field"><label>'+tr('transportQuestion')+'</label>'+
+      '<select id="myAvail">'+
+        '<option value="none" '+(cur==='none'?'selected':'')+'>'+tr('noCan')+'</option>'+
+        '<option value="out" '+(cur==='out'?'selected':'')+'>'+tr('onlyOut')+'</option>'+
+        '<option value="back" '+(cur==='back'?'selected':'')+'>'+tr('onlyBack')+'</option>'+
+        '<option value="both" '+(cur==='both'?'selected':'')+'>'+tr('both')+'</option>'+
+      '</select></div>'+
+    '</div>'+
+    '<button class="save" id="saveMyAvail">'+tr('saveEventResponse')+'</button>'
+  );
+
+  q('#myAttend').onchange=function(){
+    q('#transportBlock').style.display=this.value==='yes'?'block':'none';
+  };
+
   q('#saveMyAvail').onclick=function(){
-    f.availability=f.availability||{}; f.availability[e.id]=q('#myAvail').value; save(); closeSheet();
+    f.attendance=f.attendance||{};
+    f.availability=f.availability||{};
+    var a=q('#myAttend').value;
+    if(a==='pending'){
+      delete f.attendance[e.id];
+      f.availability[e.id]='none';
+    }else if(a==='no'){
+      f.attendance[e.id]=false;
+      f.availability[e.id]='none';
+    }else{
+      f.attendance[e.id]=true;
+      f.availability[e.id]=q('#myAvail').value;
+    }
+    save(); closeSheet();
   };
 }
 
@@ -384,7 +438,7 @@ function addFamily(){
   q('#saveNewFamily').onclick=function(){
     var name=q('#newName').value.trim(); if(!name){alert('Introduce un nombre.');return;}
     var next=data.families.reduce(function(m,f){return Math.max(m,f.id);},0)+1;
-    data.families.push({id:next,name:name,seats:Number(q('#newSeats').value),score:0,availability:{}});
+    data.families.push({id:next,name:name,seats:Number(q('#newSeats').value),score:0,availability:{},attendance:{}});
     save();closeSheet();
   };
 }
@@ -407,16 +461,27 @@ function deleteFamily(id){
 
 function allocation(id){
   var e=getEvent(id);if(!e)return;
+  var attendees=attendingFamilies(e.id);
   function leg(which,title){
-    var s=solve(e,which),kids=data.families.slice(0,Math.min(e.kids,data.families.length)).map(function(f){return f.name;}),html='<div class="allocation"><strong>'+title+'</strong>';
+    var s=solve(e,which),kids=attendees.map(function(f){return f.name;}),html='<div class="allocation"><strong>'+title+'</strong>';
+    if(!attendees.length){
+      html+='<div class="carline">'+tr('attendancePending')+'</div>';
+      return html+'</div>';
+    }
     s.chosen.forEach(function(f){
       var ass=kids.splice(0,capacity(f));
-      html+='<div class="carline"><strong>'+escapeHtml(f.name)+' · coche '+f.seats+' plazas</strong><br>'+(ass.length?ass.map(escapeHtml).join(', '):'—')+'</div>';
+      html+='<div class="carline"><strong>'+escapeHtml(f.name)+' · '+tr('car',{n:f.seats})+'</strong><br>'+(ass.length?ass.map(escapeHtml).join(', '):'—')+'</div>';
     });
-    if(s.missing)html+='<div class="carline"><strong>⚠ Faltan '+s.missing+' plazas</strong></div>';
+    if(s.missing)html+='<div class="carline"><strong>'+tr('missingSeats',{n:s.missing})+'</strong></div>';
     return html+'</div>';
   }
-  openSheet('<h3>'+e.title+'</h3><p>'+e.day+' '+e.dayNum+' · '+eventMeta(e)+'</p>'+leg('out','Ida')+leg('back','Vuelta'));
+  var notGoing=data.families.filter(function(f){return attendanceMode(f,e.id)==='no';}).map(function(f){return escapeHtml(f.name);});
+  var pending=data.families.filter(function(f){return attendanceMode(f,e.id)==='pending';}).map(function(f){return escapeHtml(f.name);});
+  var extra='<div class="info"><strong>'+tr('attendance')+':</strong> '+tr('playersGoing',{n:attendees.length});
+  if(notGoing.length) extra+='<br>'+tr('notGoing')+': '+notGoing.join(', ');
+  if(pending.length) extra+='<br>'+tr('attendancePending')+': '+pending.join(', ');
+  extra+='</div>';
+  openSheet('<h3>'+e.title+'</h3><p>'+e.day+' '+e.dayNum+' · '+e.time+' · '+e.place+'</p>'+extra+leg('out',tr('outTitle'))+leg('back',tr('backTitle')));
 }
 
 function addMatch(){
@@ -432,7 +497,7 @@ function addMatch(){
     if(!date||!time){alert('Indica fecha y hora del partido.');return;}
     var id='match-'+Date.now();
     data.matches.push({id:id,date:date,time:time,rival:q('#rival').value.trim(),place:q('#mplace').value.trim(),kids:Number(q('#mkids').value)||data.families.length});
-    data.families.forEach(function(f){f.availability=f.availability||{};f.availability[id]='none';});
+    data.families.forEach(function(f){f.availability=f.availability||{};f.attendance=f.attendance||{};delete f.attendance[id];f.availability[id]='none';});
     save();closeSheet();
   };
 }
