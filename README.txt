@@ -1,20 +1,16 @@
-SORA COCHES · GITHUB DEMO
+SORA COCHES · GITHUB DEMO V2
 
-Sube al repositorio, todos al mismo nivel:
-- index.html
-- apple-touch-icon.png
-- icon-512.png
+Cambios:
+- Visibilidad clara de cobertura de plazas en cada evento, separada en IDA y VUELTA.
+- La app muestra plazas disponibles frente a jugadores y cuántas faltan.
+- Cada familia puede indicar cuántas plazas libres REALES ofrece para otros jugadores.
+- Ejemplo: coche de 5 plazas, viajan padre + madre + hija -> quedan 2 plazas libres.
+- El jugador de la propia familia que conduce se considera ya transportado; por eso un coche cubre a su jugador + las plazas libres indicadas.
+- Vista Entrenador y Familia.
+- EU / ES.
+- Sigue usando localStorage: sin sincronización entre móviles.
 
-Incluye:
-- Vista Entrenador / Familia
-- Euskera / Castellano
-- Entrenamientos próximos a las 10:00
-- Alta, edición y borrado de partidos
-- Hora del partido, lugar, tiempo de viaje y margen
-- Cálculo de hora de salida desde Estaziño
-- Gestión de asistencia y coche por el entrenador
-- Vista de familia con Sí voy / No voy y disponibilidad de coche
-- Logo del Sora e icono de iPhone
-
-IMPORTANTE:
-No sincroniza entre móviles todavía. Guarda los datos en localStorage.
+Subir juntos:
+index.html
+apple-touch-icon.png
+icon-512.png
