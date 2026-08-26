@@ -1,17 +1,17 @@
-SORA COCHES · GITHUB DEMO V5
+SORA COCHES · GITHUB DEMO V6
 
-Corrección:
-- Restaurada la lista de eventos de la vista Familia.
-- Se mantiene la cobertura mejorada de IDA y VUELTA.
-- Cada familia vuelve a ver:
-  * evento
-  * cobertura de transporte
+Corrección real de la vista Familia:
+- La lista quedaba en blanco por una función JavaScript ausente: coverageFor().
+- Añadida y comprobada la función.
+- JavaScript validado con node --check.
+- Se mantienen:
+  * Entrenamientos en Aretxabaleta
+  * Vista Entrenador / Familia
+  * EU / ES
+  * Cobertura de ida y vuelta
   * Sí voy / No voy
-  * disponibilidad de coche
-  * plazas libres reales
-- Entrenamientos en Aretxabaleta.
-- EU / ES.
-- Sin sincronización entre móviles todavía.
+  * Disponibilidad de coche
+  * Plazas libres reales
+  * Indicador verde solo si ida y vuelta están cubiertas
 
-La causa era una llamada incorrecta a la función que genera el resumen de transporte
-en la vista Familia.
+Sustituye solo index.html si los iconos ya están subidos.

@@ -44,7 +44,7 @@
 <body>
 <header class="top">
  <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V5 · FAMILIA RESTAURADA</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V6 · FAMILIA CORREGIDA</div></div></div>
   <div class="switches">
    <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
    <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -125,6 +125,11 @@ function coverage(eid,leg){
  let drivers=data.families.filter(f=>{let r=resp(f.id,eid);return r.going&&(r.car==='both'||r.car===leg)});
  let cap=drivers.reduce((s,f)=>s+1+freeSeats(f,eid),0);
  return {players,cap,missing:Math.max(0,players-cap)}
+}
+function coverageFor(eid,leg){
+ let c=coverage(eid,leg);
+ let drivers=data.families.filter(f=>{let r=resp(f.id,eid);return r.going&&(r.car==='both'||r.car===leg)});
+ return {players:c.players,cap:c.cap,seated:Math.min(c.players,c.cap),cars:drivers.length,missing:c.missing};
 }
 function save(){localStorage.setItem(K,JSON.stringify(data));render()}
 function coverageCard(c,label){
