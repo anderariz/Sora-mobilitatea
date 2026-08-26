@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b4d2a" />
+  <title>Sora · Coches</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">SORA · FÚTBOL</div>
+      <h1>Coches de esta semana</h1>
+    </div>
+    <button id="resetBtn" class="icon-btn" aria-label="Reiniciar datos">↻</button>
+  </header>
+
+  <main>
+    <section class="summary card">
+      <div>
+        <span class="muted">Semana</span>
+        <strong id="weekLabel">24–30 ago</strong>
+      </div>
+      <div class="summary-stat">
+        <strong id="coveredCount">0/4</strong>
+        <span class="muted">cubiertos</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Esta semana</h2>
+        <button id="addMatchBtn" class="text-btn">+ Partido</button>
+      </div>
+      <div id="events" class="event-list"></div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Familias y coches</h2>
+        <span class="muted">Toca para editar disponibilidad</span>
+      </div>
+      <div id="families" class="family-list"></div>
+    </section>
+  </main>
+
+  <div id="sheetBackdrop" class="backdrop hidden"></div>
+  <aside id="sheet" class="sheet hidden" aria-hidden="true">
+    <div class="sheet-handle"></div>
+    <div id="sheetContent"></div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
