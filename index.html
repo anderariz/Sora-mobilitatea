@@ -8,113 +8,102 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-512.png">
 <style>
-:root{--g:#0b5b33;--g2:#0c713d;--bg:#f3f6f4;--card:#fff;--text:#17221a;--muted:#718078;--line:#e1e8e3;--soft:#e8f4ec;--bad:#a83535;--warn:#9c6500;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);padding-bottom:40px}button,input,select{font:inherit}button{cursor:pointer}
+:root{
+  --g:#0b5b33;--g2:#0c713d;--bg:#f3f6f4;--card:#fff;--text:#17221a;--muted:#718078;
+  --line:#e1e8e3;--soft:#e8f4ec;--bad:#a83535;--warn:#9c6500;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);padding-bottom:40px}
+button,input,select{font:inherit} button{cursor:pointer}
 .top{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;padding:calc(14px + env(safe-area-inset-top)) 15px 22px}
-.toprow{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;gap:10px;align-items:center}.logo{width:52px;height:52px;border-radius:13px;object-fit:cover;background:#fff}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.15em;opacity:.8}.title{font-size:23px;font-weight:900;margin-top:3px}.ver{font-size:10px;opacity:.75;font-weight:800;margin-top:3px}
-.switches{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.switch{display:flex;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:3px;border-radius:999px}.switch button{border:0;background:transparent;color:#fff;border-radius:999px;padding:7px 9px;font-weight:900;font-size:12px}.switch button.active{background:#fff;color:var(--g)}
-.wrap{max-width:840px;margin:auto;padding:15px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:-29px;position:relative}.card{background:#fff;border:1px solid var(--line);border-radius:19px;box-shadow:0 6px 22px rgba(20,60,35,.05)}.stat{padding:14px}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:22px}
-.section{margin-top:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 4px 10px}.head h2{margin:0;font-size:19px}.textbtn{border:0;background:transparent;color:var(--g2);font-weight:900;font-size:15px}
-.list{display:grid;gap:10px}.event{padding:14px}.eventTop{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:10px;align-items:start}.date{width:54px;height:58px;border-radius:14px;background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--g)}.date small{font-size:10px;font-weight:900;display:block}.date b{font-size:20px}.event h3{margin:2px 0 4px;font-size:16px}.meta{font-size:12px;color:var(--muted);line-height:1.45}.status{padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;white-space:nowrap}.ok{background:#dff2e5;color:#176838}.bad{background:#fbe2e2;color:var(--bad)}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;gap:10px;align-items:center;min-width:0}.logo{width:52px;height:52px;border-radius:13px;object-fit:cover;background:#fff}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:.15em;opacity:.82}.title{font-size:23px;font-weight:900;margin-top:3px}.ver{font-size:10px;font-weight:800;opacity:.75;margin-top:3px}
+.switches{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.switch{display:flex;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:3px;border-radius:999px}
+.switch button{border:0;background:transparent;color:#fff;border-radius:999px;padding:7px 9px;font-weight:900;font-size:12px}.switch button.active{background:#fff;color:var(--g)}
+.wrap{max-width:880px;margin:auto;padding:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:19px;box-shadow:0 6px 22px rgba(20,60,35,.05)}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:-29px;position:relative}.stat{padding:14px}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:22px}
+.section{margin-top:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 4px 10px}.head h2{margin:0;font-size:19px}
+.textbtn{border:0;background:transparent;color:var(--g2);font-weight:900;font-size:15px}
+.list{display:grid;gap:10px}.event{padding:14px}.eventTop{display:grid;grid-template-columns:54px minmax(0,1fr);gap:10px}
+.date{width:54px;height:58px;border-radius:14px;background:var(--soft);display:grid;place-items:center;text-align:center;color:var(--g)}.date small{font-size:10px;font-weight:900;display:block}.date b{font-size:20px}
+.event h3{margin:2px 0 4px;font-size:16px}.meta{font-size:12px;color:var(--muted);line-height:1.45}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;background:#fff}
-.coverage{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.transportTitle{font-size:10px;font-weight:950;letter-spacing:.08em;color:var(--muted);margin-top:12px}
-.cov{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fafcfb}
-.cov.ok{background:#edf8f0;border-color:#cde7d5}
-.cov.bad{background:#fff4f4;border-color:#efcccc}
-.covTop{display:flex;justify-content:space-between;gap:8px;align-items:center}
-.covBadge{font-size:11px;font-weight:950;padding:4px 7px;border-radius:999px}
-.cov.ok .covBadge{background:#dff2e5;color:#176838}
-.cov.bad .covBadge{background:#fbe2e2;color:#a83535}
-.covBig{font-size:25px;font-weight:950;line-height:1;margin-top:7px}
-.covBig small{font-size:11px;color:var(--muted)}
-.covMeta{font-size:11px;color:var(--muted);line-height:1.4;margin-top:5px}
-.bar{height:7px;background:#e6ebe7;border-radius:999px;overflow:hidden;margin-top:8px}
-.bar span{display:block;height:100%;background:var(--green);border-radius:999px}.cov{border:1px solid var(--line);border-radius:12px;padding:9px}.cov small{display:block;color:var(--muted);font-size:10px;font-weight:900}.cov strong{font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 11px;font-weight:850;min-height:42px}.btn.primary{background:var(--g);border-color:var(--g);color:#fff}.btn.danger{background:#fff6f6;border-color:#efcccc;color:var(--bad)}
-.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:6px}.field input,.field select,.row select,.row input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:16px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.calc{background:var(--soft);border:1px solid #d5e9dc;border-radius:14px;padding:13px}.calc strong{display:block;font-size:24px}
-.row{display:grid;grid-template-columns:minmax(130px,1fr) 150px 160px 120px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.grow strong{display:block}.grow span{font-size:12px;color:var(--muted)}.freeWrap{display:flex;align-items:center;gap:6px}.freeWrap input{min-width:0}.freeWrap span{font-size:11px;color:var(--muted)}
-.transportOverall{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding:10px 12px;border-radius:12px;font-size:12px;font-weight:900}
-.transportOverall.ok{background:#dff2e5;color:#176838}
-.transportOverall.bad{background:#fbe2e2;color:#a83535}
-.quick{display:flex;gap:8px;margin-top:10px}.quick .btn{flex:1}.yesSel{background:#176838!important;color:#fff!important;border-color:#176838!important}.noSel{background:#a83535!important;color:#fff!important;border-color:#a83535!important}.note{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px}.notCalled{background:#f4f5f4;border:1px solid var(--line);color:var(--muted);border-radius:13px;padding:12px;margin-top:11px;font-size:13px;font-weight:850}.notCalled strong{color:var(--bad)}
-.rosterCard{padding:15px}
-.rosterRow{padding:12px 0;border-bottom:1px solid var(--line)}
-.rosterRow:last-child{border-bottom:0}
-.rosterTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.rosterActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
-.miniBtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:850}
-.miniBtn.good{background:#edf8f0;color:#176838;border-color:#cde7d5}
-.miniBtn.warn{background:#fff7df;color:#76530b;border-color:#f1dfaa}
-.eventChips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.eventChip{font-size:11px;padding:5px 8px;border-radius:999px;border:1px solid var(--line);background:#f7f9f7;color:var(--muted)}
-.eventChip.off{background:#fff1f1;color:#a83535;border-color:#efcccc}.hidden{display:none!important}
-.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20}.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:24px 24px 0 0;max-height:90vh;overflow:auto;padding:10px 18px calc(22px + env(safe-area-inset-bottom))}.handle{width:44px;height:5px;border-radius:8px;background:#d6dcd8;margin:0 auto 16px}.close{float:right;border:0;background:#eef2ef;border-radius:999px;width:34px;height:34px;font-weight:900}
-@media(max-width:680px){.summary{grid-template-columns:1fr}.eventTop{grid-template-columns:54px minmax(0,1fr)}.status{grid-column:2}.grid2{grid-template-columns:1fr}.row{grid-template-columns:1fr}.coverage{grid-template-columns:1fr}.switches{max-width:170px}}
+.transportTitle{font-size:10px;font-weight:950;letter-spacing:.08em;color:var(--muted);margin:12px 0 8px}
+.coverage{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cov{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fafcfb}.cov.ok{background:#edf8f0;border-color:#cde7d5}.cov.bad{background:#fff4f4;border-color:#efcccc}
+.covTop{display:flex;justify-content:space-between;gap:8px;align-items:center}.covTop small{font-weight:950;color:var(--muted)}.covBadge{font-size:11px;font-weight:950;padding:4px 7px;border-radius:999px}.cov.ok .covBadge{background:#dff2e5;color:#176838}.cov.bad .covBadge{background:#fbe2e2;color:var(--bad)}
+.covBig{font-size:25px;font-weight:950;line-height:1;margin-top:7px}.covBig small{font-size:11px;color:var(--muted)}.covMeta{font-size:11px;color:var(--muted);line-height:1.4;margin-top:5px}
+.bar{height:7px;background:#e6ebe7;border-radius:999px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;background:var(--g);border-radius:999px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 11px;font-weight:850;min-height:42px}.btn.primary{background:var(--g);border-color:var(--g);color:#fff}.btn.danger{background:#fff6f6;border-color:#efcccc;color:var(--bad)}
+.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:6px}.field input,.field select,.row select,.row input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.calc{background:var(--soft);border:1px solid #d5e9dc;border-radius:14px;padding:13px}.calc strong{display:block;font-size:24px}
+.quick{display:flex;gap:8px;margin-top:10px}.quick .btn{flex:1}.yesSel{background:#176838!important;color:#fff!important;border-color:#176838!important}.noSel{background:#a83535!important;color:#fff!important;border-color:#a83535!important}
+.transportOverall{display:flex;justify-content:space-between;gap:10px;align-items:center;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;font-weight:900}.transportOverall.ok{background:#dff2e5;color:#176838}.transportOverall.bad{background:#fbe2e2;color:var(--bad)}
+.note{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px}
+.notCalled{background:#f4f5f4;border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:11px;color:var(--muted);font-size:13px;font-weight:800}.notCalled strong{color:var(--bad)}
+.teamRow{display:grid;grid-template-columns:minmax(140px,1fr) 150px auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.teamRow:last-child{border-bottom:0}.grow strong{display:block}.grow span{font-size:12px;color:var(--muted)}
+.manageRow{display:grid;grid-template-columns:minmax(130px,1fr) 150px 160px 120px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.manageRow:last-child{border-bottom:0}
+.freeWrap{display:flex;gap:6px;align-items:center}.freeWrap span{font-size:11px;color:var(--muted)}
+.rosterChecks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}.checkItem{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:9px 10px;background:#fafcfb}.checkItem input{width:20px;height:20px}
+.hidden{display:none!important}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20}.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:24px 24px 0 0;max-height:92vh;overflow:auto;padding:10px 18px calc(22px + env(safe-area-inset-bottom))}.handle{width:44px;height:5px;border-radius:8px;background:#d6dcd8;margin:0 auto 16px}.close{float:right;border:0;background:#eef2ef;border-radius:999px;width:34px;height:34px;font-weight:900}
+@media(max-width:700px){.summary,.coverage,.grid2,.rosterChecks{grid-template-columns:1fr}.teamRow,.manageRow{grid-template-columns:1fr}.switches{max-width:170px}}
 </style>
 </head>
 <body>
 <header class="top">
- <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V8 · CONVOCATORIAS</div></div></div>
+<div class="toprow">
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V9 · EQUIPO + CONVOCATORIAS</div></div></div>
   <div class="switches">
-   <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
-   <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
+    <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
+    <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
   </div>
- </div>
+</div>
 </header>
 
 <main class="wrap">
- <section id="coachView">
+<section id="coachView">
   <div class="summary">
-   <div class="stat card"><span id="pLbl">Jugadores</span><strong id="pNum">0</strong></div>
-   <div class="stat card"><span id="eLbl">Próximos eventos</span><strong id="eNum">0</strong></div>
-   <div class="stat card"><span id="cLbl">Coches disponibles</span><strong id="cNum">0</strong></div>
+    <div class="stat card"><span id="pLbl"></span><strong id="pNum">0</strong></div>
+    <div class="stat card"><span id="eLbl"></span><strong id="eNum">0</strong></div>
+    <div class="stat card"><span id="cLbl"></span><strong id="cNum">0/0</strong></div>
   </div>
 
   <div class="section">
-   <div class="head"><h2 id="eventsTitle">Eventos</h2><button id="addMatch" class="textbtn">+ Partido</button></div>
-   <div id="coachEvents" class="list"></div>
+    <div class="head"><h2 id="eventsTitle"></h2><button id="addMatch" class="textbtn"></button></div>
+    <div id="coachEvents" class="list"></div>
   </div>
 
-  <div class="section card" style="padding:15px">
-   <h2 id="formTitle" style="font-size:19px;margin:0 0 4px">Crear partido</h2>
-   <div id="formHelp" class="meta">Origen fijo: Estaziño, Soraluze. La salida se calcula automáticamente.</div>
-   <div class="grid2"><div class="field"><label id="dateLbl">Fecha</label><input id="mDate" type="date"></div><div class="field"><label id="timeLbl">Hora del partido</label><input id="mTime" type="time" value="11:30"></div></div>
-   <div class="field"><label id="placeLbl">Campo / lugar</label><input id="mPlace" placeholder="Ej. Unbe, Eibar"></div>
-   <div class="grid2"><div class="field"><label id="travelLbl">Tiempo de viaje (min)</label><input id="mTravel" type="number" min="0" max="240" value="20"></div><div class="field"><label id="marginLbl">Margen del entrenador (min)</label><input id="mMargin" type="number" min="0" max="240" value="60"></div></div>
-   <div class="field"><label id="detailLbl">Detalle del margen</label><input id="mDetail" value="15 min vestuario + 10 min charla + 35 min calentamiento"></div>
-   <div class="calc"><span id="departLbl" class="meta">SALIDA DESDE ESTAZIÑO</span><strong id="departTime">10:10</strong><div id="formula" class="meta"></div></div>
-   <div class="actions"><button id="saveMatch" class="btn primary">Guardar partido</button></div>
-  </div>
-
-  <div class="section">
-   <div class="head"><h2 id="teamTitle">Gestión del equipo</h2></div>
-   <div class="card" style="padding:15px">
-    <div id="teamHelp" class="meta" style="margin-bottom:8px">Todos participan por defecto. El entrenador puede editar asistencia, coche y plazas libres reales.</div>
-    <div id="coachPlayers"></div>
-   </div>
+  <div class="section card" style="padding:15px" id="matchFormCard">
+    <h2 id="formTitle" style="font-size:19px;margin:0 0 4px"></h2>
+    <div id="formHelp" class="meta"></div>
+    <div class="grid2"><div class="field"><label id="dateLbl"></label><input id="mDate" type="date"></div><div class="field"><label id="timeLbl"></label><input id="mTime" type="time" value="11:30"></div></div>
+    <div class="field"><label id="placeLbl"></label><input id="mPlace" placeholder="Ej. Unbe, Eibar"></div>
+    <div class="grid2"><div class="field"><label id="travelLbl"></label><input id="mTravel" type="number" min="0" max="240" value="20"></div><div class="field"><label id="marginLbl"></label><input id="mMargin" type="number" min="0" max="240" value="60"></div></div>
+    <div class="field"><label id="detailLbl"></label><input id="mDetail" value="15 min vestuario + 10 min charla + 35 min calentamiento"></div>
+    <div class="field"><label id="calledLbl"></label><div id="matchRoster" class="rosterChecks"></div></div>
+    <div class="calc"><span id="departLbl" class="meta"></span><strong id="departTime">10:10</strong><div id="formula" class="meta"></div></div>
+    <div class="actions"><button id="saveMatch" class="btn primary"></button><button id="cancelEdit" class="btn hidden"></button></div>
   </div>
 
   <div class="section">
-   <div class="head"><h2 id="rosterTitle">Convocatorias</h2></div>
-   <div class="card rosterCard">
-    <div id="rosterHelp" class="meta" style="margin-bottom:8px">Cada jugador está convocado a todo por defecto. Puedes excluirlo de un evento concreto.</div>
-    <div id="rosterList"></div>
-   </div>
+    <div class="head"><h2 id="teamTitle"></h2><button id="addPlayerBtn" class="textbtn"></button></div>
+    <div class="card" style="padding:15px"><div id="teamHelp" class="meta" style="margin-bottom:8px"></div><div id="teamList"></div></div>
   </div>
- </section>
+</section>
 
- <section id="familyView" class="hidden">
+<section id="familyView" class="hidden">
   <div class="section card" style="padding:15px;margin-top:0">
-   <div class="head" style="margin:0 0 10px"><h2 id="myFamily">Mi familia</h2></div>
-   <div class="field" style="margin:0"><label id="familyLbl">Selecciona familia</label><select id="familySelect"></select></div>
+    <div class="head" style="margin:0 0 10px"><h2 id="myFamily"></h2></div>
+    <div class="field" style="margin:0"><label id="familyLbl"></label><select id="familySelect"></select></div>
   </div>
   <div class="section">
-   <div class="head"><h2 id="famEventsTitle">Próximos eventos</h2></div>
-   <div id="famHelp" class="note" style="margin-bottom:10px">Todos van por defecto. Si ofreces coche, indica las plazas que realmente quedan libres para otros jugadores.</div>
-   <div id="familyEvents" class="list"></div>
+    <div class="head"><h2 id="famEventsTitle"></h2></div>
+    <div id="famHelp" class="note" style="margin-bottom:10px"></div>
+    <div id="familyEvents" class="list"></div>
   </div>
- </section>
+</section>
 </main>
 
 <div id="backdrop" class="backdrop hidden"></div>
@@ -122,160 +111,302 @@
 
 <script>
 (()=>{
-const K='sora-dual-v2',P='sora-profile',R='sora-role',L='sora-lang';
-let role=localStorage.getItem(R)||'coach',lang=localStorage.getItem(L)||'es',selected=Number(localStorage.getItem(P)||1);
-const T={
-es:{coach:'Entrenador',family:'Familia',players:'Jugadores',events:'Próximos eventos',cars:'Coches disponibles',eventsTitle:'Eventos',add:'+ Partido',form:'Crear partido',help:'Origen fijo: Estaziño, Soraluze. La salida se calcula automáticamente.',date:'Fecha',time:'Hora del partido',place:'Campo / lugar',travel:'Tiempo de viaje (min)',margin:'Margen del entrenador (min)',detail:'Detalle del margen',depart:'SALIDA DESDE ESTAZIÑO',save:'Guardar partido',team:'Gestión del equipo',teamHelp:'Todos participan por defecto. El entrenador puede editar asistencia, coche y plazas libres reales.',myFam:'Mi familia',select:'Selecciona familia',famEvents:'Próximos eventos',famHelp:'Todos van por defecto. Si ofreces coche, indica las plazas que realmente quedan libres para otros jugadores.',training:'Entrenamiento',match:'Partido',yes:'Sí voy',no:'No voy',noCar:'No puedo llevar',out:'Solo ida',back:'Solo vuelta',both:'Ida y vuelta',att:'Participa',natt:'No participa',manage:'Gestionar',edit:'Editar',remove:'Eliminar',trip:'viaje',marg:'margen',departure:'Salida',free:'Plazas libres para jugadores',freeShort:'libres',outLeg:'IDA',backLeg:'VUELTA',covered:'Cubierto',missing:'Faltan',playersWord:'jugadores',seatsWord:'plazas'},
-eu:{coach:'Entrenatzailea',family:'Familia',players:'Jokalariak',events:'Hurrengo ekitaldiak',cars:'Auto erabilgarriak',eventsTitle:'Ekitaldiak',add:'+ Partida',form:'Partida sortu',help:'Jatorri finkoa: Estaziño, Soraluze. Irteera automatikoki kalkulatzen da.',date:'Data',time:'Partidaren ordua',place:'Zelaia / lekua',travel:'Bidaia denbora (min)',margin:'Entrenatzailearen tartea (min)',detail:'Tartearen xehetasuna',depart:'IRTEERA ESTAZIÑOTIK',save:'Gorde partida',team:'Taldearen kudeaketa',teamHelp:'Denek parte hartzen dute lehenespenez. Entrenatzaileak asistentzia, autoa eta plaza libre errealak edita ditzake.',myFam:'Nire familia',select:'Aukeratu familia',famEvents:'Hurrengo ekitaldiak',famHelp:'Denak joango dira lehenespenez. Autoa eskaintzen baduzu, adierazi beste jokalarientzat benetan libre geratzen diren plazak.',training:'Entrenamendua',match:'Partida',yes:'Banoa',no:'Ez noa',noCar:'Ezin dut eraman',out:'Joanekoa',back:'Itzulera',both:'Joan-etorria',att:'Parte hartzen du',natt:'Ez du parte hartzen',manage:'Kudeatu',edit:'Editatu',remove:'Ezabatu',trip:'bidaia',marg:'tartea',departure:'Irteera',free:'Jokalarientzako plaza libreak',freeShort:'libre',outLeg:'JOANEKOA',backLeg:'ITZULERA',covered:'Beteta',missing:'Falta',playersWord:'jokalari',seatsWord:'plaza'}
-};
-const $=s=>document.querySelector(s),tr=k=>T[lang][k],pad=n=>String(n).padStart(2,'0'),key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),ld=(s,t='00:00')=>{let p=s.split('-').map(Number),x=t.split(':').map(Number);return new Date(p[0],p[1]-1,p[2],x[0]||0,x[1]||0)},day=d=>['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'][d.getDay()],depart=(t,trav,marg)=>{let[h,m]=t.split(':').map(Number),n=h*60+m-(+trav||0)-(+marg||0);while(n<0)n+=1440;return pad(Math.floor(n/60)%24)+':'+pad(n%60)};
-let data;try{data=JSON.parse(localStorage.getItem(K))}catch(e){}
-if(!data)data={families:[{id:1,name:'Aimar',seats:5},{id:2,name:'Beñat',seats:7},{id:3,name:'Danel',seats:5},{id:4,name:'Ekain',seats:7},{id:5,name:'Eneko',seats:5},{id:6,name:'Hodei',seats:5},{id:7,name:'Iker',seats:7},{id:8,name:'Jon',seats:5}],matches:[],responses:{}};
+'use strict';
 
-function resp(fid,eid){let k=fid+'|'+eid;if(!data.responses[k])data.responses[k]={going:true,car:'none',free:null,coachExcluded:false};let r=data.responses[k];if(typeof r.free==='undefined')r.free=null;if(typeof r.coachExcluded==='undefined')r.coachExcluded=false;return r}
+const KEY='sora-v9', ROLE='sora-v9-role', LANG='sora-v9-lang', PROFILE='sora-v9-profile';
+let role=localStorage.getItem(ROLE)||'coach';
+let lang=localStorage.getItem(LANG)||'es';
+let selectedFamily=Number(localStorage.getItem(PROFILE)||1);
+
+const T={
+es:{
+ coach:'Entrenador',family:'Familia',players:'Jugadores',events:'Próximos eventos',coveredEvents:'Eventos cubiertos',
+ eventsTitle:'Eventos',addMatch:'+ Partido',createMatch:'Crear partido',editMatch:'Editar partido',
+ formHelp:'Origen fijo: Estaziño, Soraluze. La salida se calcula automáticamente.',
+ date:'Fecha',matchTime:'Hora del partido',place:'Campo / lugar',travel:'Tiempo de viaje (min)',margin:'Margen del entrenador (min)',detail:'Detalle del margen',
+ calledPlayers:'Jugadores convocados',departure:'SALIDA DESDE ESTAZIÑO',saveMatch:'Guardar partido',saveChanges:'Guardar cambios',cancel:'Cancelar',
+ team:'Equipo / familias',teamHelp:'Añade o elimina jugadores y define el tamaño del coche habitual de cada familia.',addPlayer:'+ Jugador',
+ myFamily:'Mi familia',selectFamily:'Selecciona familia',familyEvents:'Próximos eventos',
+ familyHelp:'Todos los jugadores van por defecto a los entrenamientos. En partidos, la convocatoria la define el entrenador.',
+ training:'Entrenamiento',match:'Partido',yes:'Sí voy',no:'No voy',noCar:'No puedo llevar',out:'Solo ida',back:'Solo vuelta',both:'Ida y vuelta',
+ manageTransport:'Gestionar transporte',edit:'Editar',remove:'Eliminar',trip:'viaje',coachMargin:'margen',departShort:'Salida',
+ free:'Plazas libres para otros jugadores',outLeg:'IDA',backLeg:'VUELTA',covered:'Cubierto',withoutSeat:'sin plaza',withSeat:'con plaza',
+ cars:'coches',availableSeats:'plazas disponibles',transport:'TRANSPORTE',transportOk:'Transporte cubierto',transportMissing:'Faltan plazas para el transporte',
+ notCalled:'No convocado',notCalledHelp:'El entrenador no ha convocado a este jugador para este evento.',called:'Convocado',notCalledCoach:'No convocado',
+ playerName:'Nombre del jugador',carSeats:'Plazas del coche',add:'Añadir',deletePlayer:'Eliminar jugador',confirmDelete:'¿Eliminar este jugador del equipo?',
+ noPlayers:'No hay jugadores.',allPlayers:'Todos',matchSaved:'Partido guardado'
+},
+eu:{
+ coach:'Entrenatzailea',family:'Familia',players:'Jokalariak',events:'Hurrengo ekitaldiak',coveredEvents:'Betetako ekitaldiak',
+ eventsTitle:'Ekitaldiak',addMatch:'+ Partida',createMatch:'Partida sortu',editMatch:'Partida editatu',
+ formHelp:'Jatorri finkoa: Estaziño, Soraluze. Irteera automatikoki kalkulatzen da.',
+ date:'Data',matchTime:'Partidaren ordua',place:'Zelaia / lekua',travel:'Bidaia denbora (min)',margin:'Entrenatzailearen tartea (min)',detail:'Tartearen xehetasuna',
+ calledPlayers:'Deitutako jokalariak',departure:'IRTEERA ESTAZIÑOTIK',saveMatch:'Gorde partida',saveChanges:'Gorde aldaketak',cancel:'Utzi',
+ team:'Taldea / familiak',teamHelp:'Gehitu edo ezabatu jokalariak eta zehaztu familia bakoitzaren ohiko autoaren tamaina.',addPlayer:'+ Jokalaria',
+ myFamily:'Nire familia',selectFamily:'Aukeratu familia',familyEvents:'Hurrengo ekitaldiak',
+ familyHelp:'Jokalari guztiak entrenamenduetara joango dira lehenespenez. Partidetan entrenatzaileak zehazten du deialdia.',
+ training:'Entrenamendua',match:'Partida',yes:'Banoa',no:'Ez noa',noCar:'Ezin dut eraman',out:'Joanekoa',back:'Itzulera',both:'Joan-etorria',
+ manageTransport:'Kudeatu garraioa',edit:'Editatu',remove:'Ezabatu',trip:'bidaia',coachMargin:'tartea',departShort:'Irteera',
+ free:'Beste jokalarientzako plaza libreak',outLeg:'JOANEKOA',backLeg:'ITZULERA',covered:'Beteta',withoutSeat:'plazarik gabe',withSeat:'plazarekin',
+ cars:'auto',availableSeats:'plaza erabilgarri',transport:'GARRAIOA',transportOk:'Garraioa beteta',transportMissing:'Garraiorako plazak falta dira',
+ notCalled:'Ez deitua',notCalledHelp:'Entrenatzaileak ez du jokalari hau ekitaldi honetara deitu.',called:'Deitua',notCalledCoach:'Ez deitua',
+ playerName:'Jokalariaren izena',carSeats:'Autoko plazak',add:'Gehitu',deletePlayer:'Ezabatu jokalaria',confirmDelete:'Jokalari hau taldetik ezabatu?',
+ noPlayers:'Ez dago jokalaririk.',allPlayers:'Denak',matchSaved:'Partida gordeta'
+}};
+
+const $=s=>document.querySelector(s);
+const tr=k=>(T[lang]&&T[lang][k])||T.es[k]||k;
+const pad=n=>String(n).padStart(2,'0');
+const dateKey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const localDate=(s,t='00:00')=>{const p=s.split('-').map(Number),x=t.split(':').map(Number);return new Date(p[0],p[1]-1,p[2],x[0]||0,x[1]||0)};
+const dayName=d=>['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'][d.getDay()];
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const departure=(time,travel,margin)=>{
+  const [h,m]=(time||'00:00').split(':').map(Number);
+  let n=h*60+m-(Number(travel)||0)-(Number(margin)||0);
+  while(n<0)n+=1440;
+  return pad(Math.floor(n/60)%24)+':'+pad(n%60);
+};
+
+function defaultData(){
+ return {
+   families:[
+    {id:1,name:'Aimar',seats:5},{id:2,name:'Beñat',seats:7},{id:3,name:'Danel',seats:5},{id:4,name:'Ekain',seats:7},
+    {id:5,name:'Eneko',seats:5},{id:6,name:'Hodei',seats:5},{id:7,name:'Iker',seats:7},{id:8,name:'Jon',seats:5}
+   ],
+   matches:[],
+   responses:{}
+ };
+}
+let data;
+try{data=JSON.parse(localStorage.getItem(KEY))||defaultData()}catch(e){data=defaultData()}
+if(!Array.isArray(data.families))data.families=[];
+if(!Array.isArray(data.matches))data.matches=[];
+if(!data.responses)data.responses={};
+
+function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
+function response(fid,eid){
+ const k=fid+'|'+eid;
+ if(!data.responses[k])data.responses[k]={going:true,car:'none',free:null,coachExcluded:false};
+ const r=data.responses[k];
+ if(typeof r.going!=='boolean')r.going=true;
+ if(typeof r.car!=='string')r.car='none';
+ if(typeof r.free==='undefined')r.free=null;
+ if(typeof r.coachExcluded!=='boolean')r.coachExcluded=false;
+ return r;
+}
 function maxFree(f){return Math.max(0,Number(f.seats)-1)}
-function freeSeats(f,eid){let r=resp(f.id,eid);if(!r.going||r.coachExcluded||r.car==='none')return 0;let n=r.free===null?maxFree(f):Number(r.free);return Math.max(0,Math.min(maxFree(f),Number.isFinite(n)?Math.floor(n):maxFree(f)))}
-function trains(){let now=new Date(),d=new Date(now.getFullYear(),now.getMonth(),now.getDate()),a=[];for(let i=0;i<18&&a.length<6;i++){if([1,3,5].includes(d.getDay())){let end=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12,0);if(end>now)a.push({id:'t-'+key(d),type:'training',date:key(d),day:day(d),num:d.getDate(),time:'10:00',place:'Aretxabaleta'})}d.setDate(d.getDate()+1)}return a}
-function events(){let now=new Date();data.matches=data.matches.filter(m=>{let x=ld(m.date,m.time);x.setHours(x.getHours()+4);return x>now});let a=trains().concat(data.matches.map(m=>{let d=ld(m.date,m.time);return {...m,day:day(d),num:d.getDate(),type:'match'}}));a.sort((a,b)=>ld(a.date,a.time)-ld(b.date,b.time));return a}
-function attending(eid){return data.families.filter(f=>{let r=resp(f.id,eid);return r.going&&!r.coachExcluded})}
-function availableCars(eid){return data.families.filter(f=>resp(f.id,eid).going&&resp(f.id,eid).car!=='none')}
+function offeredFree(f,eid){
+ const r=response(f.id,eid);
+ if(!r.going||r.coachExcluded||r.car==='none')return 0;
+ let n=r.free===null?maxFree(f):Number(r.free);
+ if(!Number.isFinite(n))n=maxFree(f);
+ return Math.max(0,Math.min(maxFree(f),Math.floor(n)));
+}
+
+function trainingEvents(){
+ const now=new Date(), d=new Date(now.getFullYear(),now.getMonth(),now.getDate()), out=[];
+ for(let i=0;i<18&&out.length<6;i++){
+   if([1,3,5].includes(d.getDay())){
+     const end=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12,0);
+     if(end>now)out.push({id:'train-'+dateKey(d),type:'training',date:dateKey(d),day:dayName(d),num:d.getDate(),time:'10:00',place:'Aretxabaleta'});
+   }
+   d.setDate(d.getDate()+1);
+ }
+ return out;
+}
+function allEvents(){
+ const now=new Date();
+ data.matches=data.matches.filter(m=>{const x=localDate(m.date,m.time);x.setHours(x.getHours()+4);return x>now});
+ const ev=trainingEvents().concat(data.matches.map(m=>{
+   const d=localDate(m.date,m.time);
+   return {...m,type:'match',day:dayName(d),num:d.getDate()};
+ }));
+ ev.sort((a,b)=>localDate(a.date,a.time)-localDate(b.date,b.time));
+ return ev;
+}
+function attending(eid){return data.families.filter(f=>{const r=response(f.id,eid);return r.going&&!r.coachExcluded})}
+function drivers(eid,leg){return data.families.filter(f=>{const r=response(f.id,eid);return r.going&&!r.coachExcluded&&(r.car==='both'||r.car===leg)})}
 function coverage(eid,leg){
- let players=attending(eid).length;
- let drivers=data.families.filter(f=>{let r=resp(f.id,eid);return r.going&&!r.coachExcluded&&(r.car==='both'||r.car===leg)});
- let cap=drivers.reduce((s,f)=>s+1+freeSeats(f,eid),0);
- return {players,cap,missing:Math.max(0,players-cap)}
+ const players=attending(eid).length, ds=drivers(eid,leg);
+ const cap=ds.reduce((sum,f)=>sum+1+offeredFree(f,eid),0);
+ return {players,cars:ds.length,cap,seated:Math.min(players,cap),missing:Math.max(0,players-cap)};
 }
-function coverageFor(eid,leg){
- let c=coverage(eid,leg);
- let drivers=data.families.filter(f=>{let r=resp(f.id,eid);return r.going&&!r.coachExcluded&&(r.car==='both'||r.car===leg)});
- return {players:c.players,cap:c.cap,seated:Math.min(c.players,c.cap),cars:drivers.length,missing:c.missing};
-}
-function save(){localStorage.setItem(K,JSON.stringify(data));render()}
+function eventCovered(eid){return coverage(eid,'out').missing===0&&coverage(eid,'back').missing===0}
+
 function coverageCard(c,label){
-  let ok=c.missing===0;
-  let pct=c.players?Math.min(100,Math.round((c.seated/c.players)*100)):100;
-  return '<div class="cov '+(ok?'ok':'bad')+'">'+
-    '<div class="covTop"><small>'+label+'</small><span class="covBadge">'+(ok?'✓ '+tr('covered'):c.missing+' '+tr('withoutSeat'))+'</span></div>'+
-    '<div class="covBig">'+c.missing+' <small>'+tr('withoutSeat')+'</small></div>'+
-    '<div class="covMeta">'+c.seated+'/'+c.players+' '+tr('withSeat')+' · '+c.cars+' '+tr('carsCount')+' · '+c.cap+' '+tr('availableSeats')+'</div>'+
-    '<div class="bar"><span style="width:'+pct+'%"></span></div>'+
-  '</div>';
+ const ok=c.missing===0,pct=c.players?Math.min(100,Math.round(c.seated/c.players*100)):100;
+ return `<div class="cov ${ok?'ok':'bad'}"><div class="covTop"><small>${label}</small><span class="covBadge">${ok?'✓ '+tr('covered'):c.missing+' '+tr('withoutSeat')}</span></div><div class="covBig">${c.missing} <small>${tr('withoutSeat')}</small></div><div class="covMeta">${c.seated}/${c.players} ${tr('withSeat')} · ${c.cars} ${tr('cars')} · ${c.cap} ${tr('availableSeats')}</div><div class="bar"><span style="width:${pct}%"></span></div></div>`;
 }
-function transportSummary(eid){
-  return '<div class="transportTitle">'+tr('transportTitle')+'</div><div class="coverage">'+
-    coverageCard(coverageFor(eid,'out'),tr('outLeg'))+
-    coverageCard(coverageFor(eid,'back'),tr('backLeg'))+
-  '</div>';
-}
+function transportSummary(eid){return `<div class="transportTitle">${tr('transport')}</div><div class="coverage">${coverageCard(coverage(eid,'out'),tr('outLeg'))}${coverageCard(coverage(eid,'back'),tr('backLeg'))}</div>`}
+
 function render(){
  document.documentElement.lang=lang==='eu'?'eu':'es';
- $('#coachView').classList.toggle('hidden',role!=='coach');$('#familyView').classList.toggle('hidden',role!=='family');
- $('#coachTab').classList.toggle('active',role==='coach');$('#familyTab').classList.toggle('active',role==='family');$('#euTab').classList.toggle('active',lang==='eu');$('#esTab').classList.toggle('active',lang==='es');
- $('#coachTab').textContent=tr('coach');$('#familyTab').textContent=tr('family');$('#pLbl').textContent=tr('players');$('#eLbl').textContent=tr('events');$('#cLbl').textContent=tr('cars');$('#eventsTitle').textContent=tr('eventsTitle');$('#addMatch').textContent=tr('add');$('#formTitle').textContent=tr('form');$('#formHelp').textContent=tr('help');$('#dateLbl').textContent=tr('date');$('#timeLbl').textContent=tr('time');$('#placeLbl').textContent=tr('place');$('#travelLbl').textContent=tr('travel');$('#marginLbl').textContent=tr('margin');$('#detailLbl').textContent=tr('detail');$('#departLbl').textContent=tr('depart');$('#saveMatch').textContent=tr('save');$('#teamTitle').textContent=tr('team');$('#teamHelp').textContent=tr('teamHelp');$('#myFamily').textContent=tr('myFam');$('#familyLbl').textContent=tr('select');$('#famEventsTitle').textContent=tr('famEvents');$('#famHelp').textContent=tr('famHelp');
- let ev=events();$('#pNum').textContent=data.families.length;$('#eNum').textContent=ev.length;$('#cNum').textContent=ev[0]?availableCars(ev[0].id).length:0;
- renderCoachEvents(ev);renderPlayers(ev[0]);renderFamilySelect();renderFamilyEvents(ev);calc()
-}
-function covHTML(eid){
- let o=coverage(eid,'out'),b=coverage(eid,'back');
- let one=(c,label)=>`<div class="cov"><small>${label}</small><strong>${c.cap} ${tr('seatsWord')} / ${c.players} ${tr('playersWord')} · ${c.missing?tr('missing')+' '+c.missing:tr('covered')}</strong></div>`;
- return `<div class="coverage">${one(o,tr('outLeg'))}${one(b,tr('backLeg'))}</div>`
-}
-function renderCoachEvents(ev){
- $('#coachEvents').innerHTML=ev.map(e=>{
-  let g=attending(e.id).length,c=availableCars(e.id).length,o=coverage(e.id,'out'),b=coverage(e.id,'back'),covered=!o.missing&&!b.missing;
-  let extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🚗 ${e.travel||0} min</span><span class="pill">🕒 ${tr('departure')} ${e.depart||depart(e.time,e.travel,e.margin)}</span></div>`:'';
-  return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${e.place}</div>${extra}<div class="meta">${g} ${tr('playersWord')} · ${c} 🚗</div>${covHTML(e.id)}<div class="actions"><button class="btn" data-manage="${e.id}">${tr('manage')}</button>${e.type==='match'?`<button class="btn" data-edit="${e.id}">${tr('edit')}</button><button class="btn danger" data-delete="${e.id}">${tr('remove')}</button>`:''}</div></div><span class="status ${covered?'ok':'bad'}">${covered?'✓':'!'}</span></div></article>`
- }).join('')
-}
-function renderPlayers(e){
- let b=$('#coachPlayers');if(!e){b.innerHTML='—';return}
- b.innerHTML=data.families.map(f=>{let r=resp(f.id,e.id),free=freeSeats(f,e.id);return `<div class="row"><div class="grow"><strong>${f.name}</strong><span>${f.seats} ${tr('seatsWord')}</span></div><select data-g="${f.id}"><option value="yes" ${r.going?'selected':''}>${tr('att')}</option><option value="no" ${!r.going?'selected':''}>${tr('natt')}</option></select><select data-c="${f.id}"><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select><div class="freeWrap"><input type="number" min="0" max="${maxFree(f)}" value="${free}" data-free="${f.id}" ${r.car==='none'?'disabled':''}><span>${tr('freeShort')}</span></div></div>`}).join('');
- b.querySelectorAll('[data-g]').forEach(s=>s.onchange=x=>{let r=resp(+x.target.dataset.g,e.id);r.coachExcluded=x.target.value==='no';if(r.coachExcluded){r.going=false;r.car='none';r.free=0}else if(!r.going){r.going=true};save()});
- b.querySelectorAll('[data-c]').forEach(s=>s.onchange=x=>{let fid=+x.target.dataset.c,r=resp(fid,e.id),f=data.families.find(z=>z.id===fid);r.car=x.target.value;if(r.car!=='none'&&r.free===null)r.free=maxFree(f);save()});
- b.querySelectorAll('[data-free]').forEach(i=>i.onchange=x=>{let fid=+x.target.dataset.free,f=data.families.find(z=>z.id===fid),r=resp(fid,e.id);r.free=Math.max(0,Math.min(maxFree(f),+x.target.value||0));save()})
+ $('#coachView').classList.toggle('hidden',role!=='coach');
+ $('#familyView').classList.toggle('hidden',role!=='family');
+ $('#coachTab').classList.toggle('active',role==='coach'); $('#familyTab').classList.toggle('active',role==='family');
+ $('#euTab').classList.toggle('active',lang==='eu'); $('#esTab').classList.toggle('active',lang==='es');
+
+ $('#coachTab').textContent=tr('coach'); $('#familyTab').textContent=tr('family');
+ $('#pLbl').textContent=tr('players'); $('#eLbl').textContent=tr('events'); $('#cLbl').textContent=tr('coveredEvents');
+ $('#eventsTitle').textContent=tr('eventsTitle'); $('#addMatch').textContent=tr('addMatch');
+ $('#dateLbl').textContent=tr('date'); $('#timeLbl').textContent=tr('matchTime'); $('#placeLbl').textContent=tr('place');
+ $('#travelLbl').textContent=tr('travel'); $('#marginLbl').textContent=tr('margin'); $('#detailLbl').textContent=tr('detail'); $('#calledLbl').textContent=tr('calledPlayers');
+ $('#departLbl').textContent=tr('departure'); $('#teamTitle').textContent=tr('team'); $('#teamHelp').textContent=tr('teamHelp'); $('#addPlayerBtn').textContent=tr('addPlayer');
+ $('#myFamily').textContent=tr('myFamily'); $('#familyLbl').textContent=tr('selectFamily'); $('#famEventsTitle').textContent=tr('familyEvents'); $('#famHelp').textContent=tr('familyHelp');
+
+ const ev=allEvents();
+ $('#pNum').textContent=data.families.length; $('#eNum').textContent=ev.length; $('#cNum').textContent=ev.filter(e=>eventCovered(e.id)).length+'/'+ev.length;
+
+ renderCoachEvents(ev);
+ renderMatchRoster();
+ renderTeam();
+ renderFamilySelect();
+ renderFamilyEvents(ev);
+ calcForm();
 }
 
-function eventNameShort(e){
-  return (e.type==='training'?tr('training'):tr('match'))+' · '+e.day+' '+e.num+' · '+e.time;
-}
-function setCalledAll(fid){
-  allEvents().forEach(e=>{
-    let r=response(fid,e.id);
-    r.coachExcluded=false;
-    if(!r.going) r.going=true;
-  });
-  save();
-}
-function excludeFromEvent(fid,eid){
-  let r=response(fid,eid);
-  r.coachExcluded=true;
-  r.going=false;
-  r.car='none';
-  r.freeSeats=0;
-  save();
-}
-function restoreEvent(fid,eid){
-  let r=response(fid,eid);
-  r.coachExcluded=false;
-  r.going=true;
-  save();
-}
-function openExcludePicker(fid){
-  let fam=data.families.find(f=>f.id===fid); if(!fam)return;
-  let evs=allEvents();
-  let html='<button class="closeX" id="closeX">×</button><h3>'+tr('excludeEvent')+' · '+escapeHtml(fam.name)+'</h3><p>'+tr('chooseEvent')+'</p>';
-  evs.forEach(e=>{
-    let r=response(fid,e.id);
-    html+='<div class="familyRow"><div class="profileMain"><strong>'+eventNameShort(e)+'</strong><span>'+escapeHtml(e.place)+'</span></div>'+
-      (r.coachExcluded
-        ? '<button class="smallbtn" data-restore-call="'+e.id+'" data-fid="'+fid+'">'+tr('restoreEvent')+'</button>'
-        : '<button class="smallbtn danger" data-exclude-call="'+e.id+'" data-fid="'+fid+'">'+tr('removeFromEvent')+'</button>')+
-      '</div>';
-  });
-  openSheet(html);
-}
-function renderRoster(evs){
-  let box=$('#rosterList'); if(!box)return;
-  box.innerHTML=data.families.map(f=>{
-    let excluded=evs.filter(e=>response(f.id,e.id).coachExcluded);
-    let chips=excluded.length
-      ? excluded.map(e=>'<span class="eventChip off">'+eventNameShort(e)+'</span>').join('')
-      : '<span class="eventChip">✓ '+tr('allCalled')+'</span>';
-    return '<div class="rosterRow"><div class="rosterTop"><div class="grow"><strong>'+escapeHtml(f.name)+'</strong><span>'+f.seats+' '+(lang==='es'?'plazas':'plaza')+'</span></div></div>'+
-      '<div class="eventChips">'+chips+'</div>'+
-      '<div class="rosterActions"><button class="miniBtn good" data-call-all="'+f.id+'">✓ '+tr('calledAll')+'</button><button class="miniBtn warn" data-open-exclude="'+f.id+'">− '+tr('excludeEvent')+'</button></div></div>';
-  }).join('');
-}
-function renderFamilySelect(){let s=$('#familySelect');s.innerHTML=data.families.map(f=>`<option value="${f.id}" ${f.id===selected?'selected':''}>${f.name}</option>`).join('')}
-function renderFamilyEvents(ev){
- $('#familyEvents').innerHTML=ev.map(e=>{
-  let r=resp(selected,e.id),f=data.families.find(x=>x.id===selected),
-      extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🕒 ${tr('departure')} ${e.depart||depart(e.time,e.travel,e.margin)}</span><span class="pill">⚽ ${e.time}</span></div>`:'',
-      covOut=coverage(e.id,'out'),covBack=coverage(e.id,'back'),
-      transportOk=!covOut.missing&&!covBack.missing;
-  let participationBlock=r.coachExcluded
-    ? `<div class="notCalled"><strong>✕ ${tr('notCalled')}</strong><div style="margin-top:4px">${tr('notCalledHelp')}</div></div>`
-    : `<div class="quick"><button class="btn ${r.going?'yesSel':''}" data-go="yes" data-e="${e.id}">✓ ${tr('yes')}</button><button class="btn ${!r.going?'noSel':''}" data-go="no" data-e="${e.id}">✕ ${tr('no')}</button></div>
-      ${r.going?`<div class="field"><label>${tr('vehicle')}</label><select data-fcar="${e.id}"><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select></div>${r.car!=='none'?`<div class="field"><label>${tr('free')}</label><input type="number" min="0" max="${maxFree(f)}" value="${freeSeats(f,e.id)}" data-fseats="${e.id}"></div>`:''}`:''}`;
-  return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${e.place}</div>${extra}${transportSummary(e.id)}${participationBlock}<div class="transportOverall ${transportOk?'ok':'bad'}"><span>${transportOk?'✓':'!'}</span><span>${transportOk?tr('transportOk'):tr('transportMissing')}</span></div></div></div></article>`
+function renderCoachEvents(ev){
+ $('#coachEvents').innerHTML=ev.map(e=>{
+   const extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🚗 ${e.travel||0} min</span><span class="pill">🕒 ${tr('departShort')} ${e.depart||departure(e.time,e.travel,e.margin)}</span></div>`:'';
+   return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}<div class="actions"><button class="btn primary" data-manage="${e.id}">${tr('manageTransport')}</button>${e.type==='match'?`<button class="btn" data-edit="${e.id}">${tr('edit')}</button><button class="btn danger" data-delete="${e.id}">${tr('remove')}</button>`:''}</div></div></div></article>`;
  }).join('');
- $('#familyEvents').querySelectorAll('[data-go]').forEach(b=>b.onclick=x=>{let r=resp(selected,x.currentTarget.dataset.e);if(r.coachExcluded)return;r.going=x.currentTarget.dataset.go==='yes';if(!r.going)r.car='none';save()});
- $('#familyEvents').querySelectorAll('[data-fcar]').forEach(s=>s.onchange=x=>{let f=data.families.find(z=>z.id===selected),r=resp(selected,x.target.dataset.fcar);if(r.coachExcluded)return;r.car=x.target.value;if(r.car!=='none'&&r.free===null)r.free=maxFree(f);save()});
- $('#familyEvents').querySelectorAll('[data-fseats]').forEach(i=>i.onchange=x=>{let f=data.families.find(z=>z.id===selected),r=resp(selected,x.target.dataset.fseats);if(r.coachExcluded)return;r.free=Math.max(0,Math.min(maxFree(f),+x.target.value||0));save()})
 }
-function calc(){let t=$('#mTime').value||'00:00',tv=Math.max(0,+$('#mTravel').value||0),mg=Math.max(0,+$('#mMargin').value||0);$('#departTime').textContent=depart(t,tv,mg);$('#formula').textContent=`${t} − ${tv} min ${tr('trip')} − ${mg} min ${tr('marg')}`}
-function openManage(id){
- let e=events().find(x=>x.id===id);if(!e)return;
- let h=`<button class="close" id="close">×</button><h3>${tr('manage')} · ${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${e.place}</div>${covHTML(e.id)}`;
- data.families.forEach(f=>{let r=resp(f.id,e.id);h+=`<div class="row"><div class="grow"><strong>${f.name}</strong><span>${f.seats} ${tr('seatsWord')}</span></div><select data-mg="${f.id}"><option value="yes" ${!r.coachExcluded?'selected':''}>${tr('called')}</option><option value="no" ${r.coachExcluded?'selected':''}>${tr('notCalledCoach')}</option></select><select data-mc="${f.id}"><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select><div class="freeWrap"><input type="number" min="0" max="${maxFree(f)}" value="${freeSeats(f,e.id)}" data-mf="${f.id}" ${r.car==='none'?'disabled':''}><span>${tr('freeShort')}</span></div></div>`});
- h+=`<button class="btn primary" id="saveManage">${tr('save')}</button>`;$('#sheetContent').innerHTML=h;$('#sheet').classList.remove('hidden');$('#backdrop').classList.remove('hidden');$('#close').onclick=closeSheet;
- $('#saveManage').onclick=()=>{$('#sheetContent').querySelectorAll('[data-mg]').forEach(s=>{let r=resp(+s.dataset.mg,e.id);r.going=s.value==='yes';if(!r.going)r.car='none'});$('#sheetContent').querySelectorAll('[data-mc]').forEach(s=>{let fid=+s.dataset.mc,r=resp(fid,e.id),f=data.families.find(z=>z.id===fid);if(r.going){r.car=s.value;if(r.car!=='none'&&r.free===null)r.free=maxFree(f)}});$('#sheetContent').querySelectorAll('[data-mf]').forEach(i=>{let fid=+i.dataset.mf,f=data.families.find(z=>z.id===fid),r=resp(fid,e.id);r.free=Math.max(0,Math.min(maxFree(f),+i.value||0))});save();closeSheet()}
+
+function renderMatchRoster(selectedIds){
+ const set=new Set(Array.isArray(selectedIds)?selectedIds.map(Number):data.families.map(f=>f.id));
+ $('#matchRoster').innerHTML=data.families.length?data.families.map(f=>`<label class="checkItem"><input type="checkbox" data-match-player="${f.id}" ${set.has(f.id)?'checked':''}><span>${escapeHtml(f.name)}</span></label>`).join(''):`<div class="meta">${tr('noPlayers')}</div>`;
 }
+
+function renderTeam(){
+ $('#teamList').innerHTML=data.families.length?data.families.map(f=>`<div class="teamRow"><div class="grow"><strong>${escapeHtml(f.name)}</strong><span>${f.seats} ${lang==='es'?'plazas':'plaza'}</span></div><select data-team-seats="${f.id}"><option value="5" ${f.seats===5?'selected':''}>5</option><option value="7" ${f.seats===7?'selected':''}>7</option></select><button class="btn danger" data-remove-player="${f.id}">${tr('remove')}</button></div>`).join(''):`<div class="meta">${tr('noPlayers')}</div>`;
+}
+
+function renderFamilySelect(){
+ const s=$('#familySelect');
+ if(!data.families.length){s.innerHTML='';selectedFamily=0;return}
+ if(!data.families.some(f=>f.id===selectedFamily))selectedFamily=data.families[0].id;
+ s.innerHTML=data.families.map(f=>`<option value="${f.id}" ${f.id===selectedFamily?'selected':''}>${escapeHtml(f.name)}</option>`).join('');
+ localStorage.setItem(PROFILE,String(selectedFamily));
+}
+
+function renderFamilyEvents(ev){
+ if(!selectedFamily){$('#familyEvents').innerHTML=`<div class="card" style="padding:15px">${tr('noPlayers')}</div>`;return}
+ $('#familyEvents').innerHTML=ev.map(e=>{
+   const r=response(selectedFamily,e.id),f=data.families.find(x=>x.id===selectedFamily);
+   const extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🕒 ${tr('departShort')} ${e.depart||departure(e.time,e.travel,e.margin)}</span><span class="pill">⚽ ${e.time}</span></div>`:'';
+   const ok=eventCovered(e.id);
+   const participation=r.coachExcluded
+     ? `<div class="notCalled"><strong>✕ ${tr('notCalled')}</strong><div style="margin-top:4px">${tr('notCalledHelp')}</div></div>`
+     : `<div class="quick"><button class="btn ${r.going?'yesSel':''}" data-go="yes" data-event="${e.id}">✓ ${tr('yes')}</button><button class="btn ${!r.going?'noSel':''}" data-go="no" data-event="${e.id}">✕ ${tr('no')}</button></div>${r.going?`<div class="field"><label>${tr('cars')}</label><select data-family-car="${e.id}"><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select></div>${r.car!=='none'?`<div class="field"><label>${tr('free')}</label><input type="number" min="0" max="${maxFree(f)}" value="${offeredFree(f,e.id)}" data-family-free="${e.id}"></div>`:''}`:''}`;
+   return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}${participation}<div class="transportOverall ${ok?'ok':'bad'}"><span>${ok?'✓':'!'}</span><span>${ok?tr('transportOk'):tr('transportMissing')}</span></div></div></div></article>`;
+ }).join('');
+}
+
+function calcForm(){
+ const t=$('#mTime').value||'00:00',travel=Math.max(0,Number($('#mTravel').value)||0),margin=Math.max(0,Number($('#mMargin').value)||0);
+ $('#departTime').textContent=departure(t,travel,margin);
+ $('#formula').textContent=`${t} − ${travel} min ${tr('trip')} − ${margin} min ${tr('coachMargin')}`;
+}
+
+function openSheet(html){$('#sheetContent').innerHTML=`<button class="close" id="closeSheet">×</button>${html}`;$('#sheet').classList.remove('hidden');$('#backdrop').classList.remove('hidden');$('#closeSheet').onclick=closeSheet}
 function closeSheet(){$('#sheet').classList.add('hidden');$('#backdrop').classList.add('hidden')}
-document.addEventListener('click',e=>{let m=e.target.closest('[data-manage]');if(m){openManage(m.dataset.manage);return}let ed=e.target.closest('[data-edit]');if(ed){let x=data.matches.find(v=>v.id===ed.dataset.edit);if(x){$('#mDate').value=x.date;$('#mTime').value=x.time;$('#mPlace').value=x.place;$('#mTravel').value=x.travel;$('#mMargin').value=x.margin;$('#mDetail').value=x.detail||'';$('#saveMatch').dataset.edit=x.id;calc()}return}let del=e.target.closest('[data-delete]');if(del&&confirm(lang==='es'?'¿Eliminar partido?':'Partida ezabatu?')){data.matches=data.matches.filter(x=>x.id!==del.dataset.delete);save()}});
-$('#coachTab').onclick=()=>{role='coach';localStorage.setItem(R,role);render()};$('#familyTab').onclick=()=>{role='family';localStorage.setItem(R,role);render()};$('#euTab').onclick=()=>{lang='eu';localStorage.setItem(L,lang);render()};$('#esTab').onclick=()=>{lang='es';localStorage.setItem(L,lang);render()};$('#familySelect').onchange=e=>{selected=+e.target.value;localStorage.setItem(P,String(selected));render()};['mTime','mTravel','mMargin'].forEach(id=>$('#'+id).oninput=calc);
-$('#saveMatch').onclick=()=>{let date=$('#mDate').value,time=$('#mTime').value,place=$('#mPlace').value.trim();if(!date||!time||!place){alert(lang==='es'?'Completa fecha, hora y lugar.':'Bete data, ordua eta lekua.');return}let travel=Math.max(0,+$('#mTravel').value||0),margin=Math.max(0,+$('#mMargin').value||0),detail=$('#mDetail').value.trim(),d=depart(time,travel,margin),edit=$('#saveMatch').dataset.edit;if(edit){Object.assign(data.matches.find(x=>x.id===edit),{date,time,place,travel,margin,detail,depart:d});delete $('#saveMatch').dataset.edit}else data.matches.push({id:'m-'+Date.now(),date,time,place,travel,margin,detail,depart:d});save()};
-$('#addMatch').onclick=()=>window.scrollTo({top:$('#formTitle').getBoundingClientRect().top+window.scrollY-20,behavior:'smooth'});$('#backdrop').onclick=closeSheet;$('#mDate').value=key(new Date());render()
+
+function openTransport(eid){
+ const e=allEvents().find(x=>x.id===eid);if(!e)return;
+ let h=`<h3>${tr('manageTransport')} · ${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${transportSummary(e.id)}<div style="margin-top:10px">`;
+ data.families.forEach(f=>{
+   const r=response(f.id,e.id);
+   h+=`<div class="manageRow"><div class="grow"><strong>${escapeHtml(f.name)}</strong><span>${f.seats} ${lang==='es'?'plazas':'plaza'}</span></div><select data-call="${f.id}"><option value="yes" ${!r.coachExcluded?'selected':''}>${tr('called')}</option><option value="no" ${r.coachExcluded?'selected':''}>${tr('notCalledCoach')}</option></select><select data-car="${f.id}" ${r.coachExcluded?'disabled':''}><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select><div class="freeWrap"><input data-free="${f.id}" type="number" min="0" max="${maxFree(f)}" value="${offeredFree(f,e.id)}" ${r.coachExcluded||r.car==='none'?'disabled':''}><span>${tr('free')}</span></div></div>`;
+ });
+ h+=`</div><button class="btn primary" id="saveTransport">${tr('saveChanges')}</button>`;
+ openSheet(h);
+ $('#saveTransport').onclick=()=>{
+   data.families.forEach(f=>{
+     const call=$(`[data-call="${f.id}"]`),car=$(`[data-car="${f.id}"]`),free=$(`[data-free="${f.id}"]`),r=response(f.id,e.id);
+     r.coachExcluded=call.value==='no';
+     if(r.coachExcluded){r.going=false;r.car='none';r.free=0}
+     else{
+       if(!r.going)r.going=true;
+       r.car=car.value;
+       r.free=r.car==='none'?0:Math.max(0,Math.min(maxFree(f),Number(free.value)||0));
+     }
+   });
+   saveData();closeSheet();render();
+ };
+}
+
+function openAddPlayer(){
+ openSheet(`<h3>${tr('addPlayer')}</h3><div class="field"><label>${tr('playerName')}</label><input id="newPlayerName"></div><div class="field"><label>${tr('carSeats')}</label><select id="newPlayerSeats"><option value="5">5</option><option value="7">7</option></select></div><button class="btn primary" id="confirmAddPlayer">${tr('add')}</button>`);
+ $('#confirmAddPlayer').onclick=()=>{
+   const name=$('#newPlayerName').value.trim();if(!name)return;
+   const id=data.families.reduce((m,f)=>Math.max(m,f.id),0)+1;
+   data.families.push({id,name,seats:Number($('#newPlayerSeats').value)});
+   saveData();closeSheet();render();
+ };
+}
+
+function startEditMatch(id){
+ const m=data.matches.find(x=>x.id===id);if(!m)return;
+ $('#formTitle').textContent=tr('editMatch');
+ $('#mDate').value=m.date;$('#mTime').value=m.time;$('#mPlace').value=m.place;$('#mTravel').value=m.travel||0;$('#mMargin').value=m.margin||0;$('#mDetail').value=m.detail||'';
+ $('#saveMatch').dataset.edit=id;$('#saveMatch').textContent=tr('saveChanges');$('#cancelEdit').classList.remove('hidden');$('#cancelEdit').textContent=tr('cancel');
+ const called=data.families.filter(f=>!response(f.id,id).coachExcluded).map(f=>f.id);
+ renderMatchRoster(called);calcForm();
+ window.scrollTo({top:$('#matchFormCard').getBoundingClientRect().top+window.scrollY-15,behavior:'smooth'});
+}
+function resetMatchForm(){
+ delete $('#saveMatch').dataset.edit;$('#formTitle').textContent=tr('createMatch');$('#saveMatch').textContent=tr('saveMatch');$('#cancelEdit').classList.add('hidden');
+ $('#mDate').value=dateKey(new Date());$('#mTime').value='11:30';$('#mPlace').value='';$('#mTravel').value='20';$('#mMargin').value='60';$('#mDetail').value='15 min vestuario + 10 min charla + 35 min calentamiento';
+ renderMatchRoster();calcForm();
+}
+function saveMatch(){
+ const date=$('#mDate').value,time=$('#mTime').value,place=$('#mPlace').value.trim();
+ if(!date||!time||!place){alert(lang==='es'?'Completa fecha, hora y lugar.':'Bete data, ordua eta lekua.');return}
+ const travel=Math.max(0,Number($('#mTravel').value)||0),margin=Math.max(0,Number($('#mMargin').value)||0),detail=$('#mDetail').value.trim(),dep=departure(time,travel,margin);
+ const calledIds=[...document.querySelectorAll('[data-match-player]:checked')].map(x=>Number(x.dataset.matchPlayer));
+ let id=$('#saveMatch').dataset.edit;
+ if(id){
+   const m=data.matches.find(x=>x.id===id);Object.assign(m,{date,time,place,travel,margin,detail,depart:dep});
+ }else{
+   id='match-'+Date.now();data.matches.push({id,date,time,place,travel,margin,detail,depart:dep});
+ }
+ data.families.forEach(f=>{
+   const r=response(f.id,id),called=calledIds.includes(f.id);
+   r.coachExcluded=!called;
+   r.going=called;
+   if(!called){r.car='none';r.free=0}
+ });
+ saveData();resetMatchForm();render();
+}
+
+document.addEventListener('click',e=>{
+ const manage=e.target.closest('[data-manage]');if(manage){openTransport(manage.dataset.manage);return}
+ const edit=e.target.closest('[data-edit]');if(edit){startEditMatch(edit.dataset.edit);return}
+ const del=e.target.closest('[data-delete]');if(del){if(confirm(lang==='es'?'¿Eliminar partido?':'Partida ezabatu?')){data.matches=data.matches.filter(x=>x.id!==del.dataset.delete);saveData();render()}return}
+ const rem=e.target.closest('[data-remove-player]');if(rem){if(confirm(tr('confirmDelete'))){const fid=Number(rem.dataset.removePlayer);data.families=data.families.filter(f=>f.id!==fid);Object.keys(data.responses).forEach(k=>{if(k.startsWith(fid+'|'))delete data.responses[k]});saveData();render()}return}
+ const go=e.target.closest('[data-go]');if(go){const r=response(selectedFamily,go.dataset.event);if(r.coachExcluded)return;r.going=go.dataset.go==='yes';if(!r.going){r.car='none';r.free=0}saveData();render();return}
+});
+document.addEventListener('change',e=>{
+ if(e.target.matches('[data-team-seats]')){const f=data.families.find(x=>x.id===Number(e.target.dataset.teamSeats));if(f){f.seats=Number(e.target.value);saveData();render()}return}
+ if(e.target.matches('[data-family-car]')){const f=data.families.find(x=>x.id===selectedFamily),r=response(selectedFamily,e.target.dataset.familyCar);r.car=e.target.value;if(r.car!=='none'&&r.free===null)r.free=maxFree(f);saveData();render();return}
+ if(e.target.matches('[data-family-free]')){const f=data.families.find(x=>x.id===selectedFamily),r=response(selectedFamily,e.target.dataset.familyFree);r.free=Math.max(0,Math.min(maxFree(f),Number(e.target.value)||0));saveData();render();return}
+});
+
+$('#coachTab').onclick=()=>{role='coach';localStorage.setItem(ROLE,role);render()};
+$('#familyTab').onclick=()=>{role='family';localStorage.setItem(ROLE,role);render()};
+$('#euTab').onclick=()=>{lang='eu';localStorage.setItem(LANG,lang);render()};
+$('#esTab').onclick=()=>{lang='es';localStorage.setItem(LANG,lang);render()};
+$('#familySelect').onchange=e=>{selectedFamily=Number(e.target.value);localStorage.setItem(PROFILE,String(selectedFamily));render()};
+$('#addMatch').onclick=()=>{resetMatchForm();window.scrollTo({top:$('#matchFormCard').getBoundingClientRect().top+window.scrollY-15,behavior:'smooth'})};
+$('#addPlayerBtn').onclick=openAddPlayer;
+$('#saveMatch').onclick=saveMatch;
+$('#cancelEdit').onclick=resetMatchForm;
+['mTime','mTravel','mMargin'].forEach(id=>$('#'+id).oninput=calcForm);
+$('#backdrop').onclick=closeSheet;
+
+resetMatchForm();
+render();
 })();
 </script>
 </body>

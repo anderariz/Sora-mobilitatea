@@ -1,17 +1,19 @@
-SORA COCHES · GITHUB DEMO V8
+SORA COCHES · GITHUB DEMO V9
 
-Convocatorias:
-- Todos los jugadores están convocados por defecto.
-- Nueva sección Entrenador > Convocatorias.
-- Por jugador:
-  * "Convocado a todos" restaura la convocatoria en todos los eventos visibles.
-  * "Quitar de un evento" permite seleccionar un entrenamiento o partido concreto.
-- En la vista Familia, un jugador no convocado aparece como:
-  * No convocado / Ez deitua
-  * sin botones Sí voy / No voy
-  * sin coche
-  * sin plazas libres
-  * fuera del cálculo de transporte.
-- El entrenador puede volver a convocarlo desde la misma sección.
+Cambios:
+- Rehecha la base JavaScript para eliminar los 'undefined'.
+- Añadir/eliminar jugadores desde Entrenador > Equipo / familias.
+- Editar si el coche habitual es de 5 o 7 plazas.
+- Al crear un partido, seleccionar exactamente los jugadores convocados.
+- Al editar un partido, modificar la convocatoria.
+- Un jugador no convocado aparece bloqueado en Familia.
+- Entrenamientos en Aretxabaleta a las 10:00.
+- Cobertura separada IDA / VUELTA.
+- Gestión de coche y plazas libres reales.
+- Selector Entrenador / Familia y EU / ES.
+- Sin sincronización entre móviles todavía.
 
-JavaScript validation: OK
+JavaScript: OK
+
+IMPORTANTE:
+Esta V9 usa una nueva clave de almacenamiento local (sora-v9), para no heredar datos corruptos de las versiones anteriores.
