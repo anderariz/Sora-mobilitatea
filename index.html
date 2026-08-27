@@ -36,7 +36,18 @@
 .transportOverall{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding:10px 12px;border-radius:12px;font-size:12px;font-weight:900}
 .transportOverall.ok{background:#dff2e5;color:#176838}
 .transportOverall.bad{background:#fbe2e2;color:#a83535}
-.quick{display:flex;gap:8px;margin-top:10px}.quick .btn{flex:1}.yesSel{background:#176838!important;color:#fff!important;border-color:#176838!important}.noSel{background:#a83535!important;color:#fff!important;border-color:#a83535!important}.note{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px}.notCalled{background:#f4f5f4;border:1px solid var(--line);color:var(--muted);border-radius:13px;padding:12px;margin-top:11px;font-size:13px;font-weight:850}.notCalled strong{color:var(--bad)}.hidden{display:none!important}
+.quick{display:flex;gap:8px;margin-top:10px}.quick .btn{flex:1}.yesSel{background:#176838!important;color:#fff!important;border-color:#176838!important}.noSel{background:#a83535!important;color:#fff!important;border-color:#a83535!important}.note{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px}.notCalled{background:#f4f5f4;border:1px solid var(--line);color:var(--muted);border-radius:13px;padding:12px;margin-top:11px;font-size:13px;font-weight:850}.notCalled strong{color:var(--bad)}
+.rosterCard{padding:15px}
+.rosterRow{padding:12px 0;border-bottom:1px solid var(--line)}
+.rosterRow:last-child{border-bottom:0}
+.rosterTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rosterActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.miniBtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:850}
+.miniBtn.good{background:#edf8f0;color:#176838;border-color:#cde7d5}
+.miniBtn.warn{background:#fff7df;color:#76530b;border-color:#f1dfaa}
+.eventChips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.eventChip{font-size:11px;padding:5px 8px;border-radius:999px;border:1px solid var(--line);background:#f7f9f7;color:var(--muted)}
+.eventChip.off{background:#fff1f1;color:#a83535;border-color:#efcccc}.hidden{display:none!important}
 .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20}.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:24px 24px 0 0;max-height:90vh;overflow:auto;padding:10px 18px calc(22px + env(safe-area-inset-bottom))}.handle{width:44px;height:5px;border-radius:8px;background:#d6dcd8;margin:0 auto 16px}.close{float:right;border:0;background:#eef2ef;border-radius:999px;width:34px;height:34px;font-weight:900}
 @media(max-width:680px){.summary{grid-template-columns:1fr}.eventTop{grid-template-columns:54px minmax(0,1fr)}.status{grid-column:2}.grid2{grid-template-columns:1fr}.row{grid-template-columns:1fr}.coverage{grid-template-columns:1fr}.switches{max-width:170px}}
 </style>
@@ -44,7 +55,7 @@
 <body>
 <header class="top">
  <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V7 · CONVOCATORIA</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V8 · CONVOCATORIAS</div></div></div>
   <div class="switches">
    <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
    <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -81,6 +92,14 @@
    <div class="card" style="padding:15px">
     <div id="teamHelp" class="meta" style="margin-bottom:8px">Todos participan por defecto. El entrenador puede editar asistencia, coche y plazas libres reales.</div>
     <div id="coachPlayers"></div>
+   </div>
+  </div>
+
+  <div class="section">
+   <div class="head"><h2 id="rosterTitle">Convocatorias</h2></div>
+   <div class="card rosterCard">
+    <div id="rosterHelp" class="meta" style="margin-bottom:8px">Cada jugador está convocado a todo por defecto. Puedes excluirlo de un evento concreto.</div>
+    <div id="rosterList"></div>
    </div>
   </div>
  </section>
@@ -174,6 +193,58 @@ function renderPlayers(e){
  b.querySelectorAll('[data-g]').forEach(s=>s.onchange=x=>{let r=resp(+x.target.dataset.g,e.id);r.coachExcluded=x.target.value==='no';if(r.coachExcluded){r.going=false;r.car='none';r.free=0}else if(!r.going){r.going=true};save()});
  b.querySelectorAll('[data-c]').forEach(s=>s.onchange=x=>{let fid=+x.target.dataset.c,r=resp(fid,e.id),f=data.families.find(z=>z.id===fid);r.car=x.target.value;if(r.car!=='none'&&r.free===null)r.free=maxFree(f);save()});
  b.querySelectorAll('[data-free]').forEach(i=>i.onchange=x=>{let fid=+x.target.dataset.free,f=data.families.find(z=>z.id===fid),r=resp(fid,e.id);r.free=Math.max(0,Math.min(maxFree(f),+x.target.value||0));save()})
+}
+
+function eventNameShort(e){
+  return (e.type==='training'?tr('training'):tr('match'))+' · '+e.day+' '+e.num+' · '+e.time;
+}
+function setCalledAll(fid){
+  allEvents().forEach(e=>{
+    let r=response(fid,e.id);
+    r.coachExcluded=false;
+    if(!r.going) r.going=true;
+  });
+  save();
+}
+function excludeFromEvent(fid,eid){
+  let r=response(fid,eid);
+  r.coachExcluded=true;
+  r.going=false;
+  r.car='none';
+  r.freeSeats=0;
+  save();
+}
+function restoreEvent(fid,eid){
+  let r=response(fid,eid);
+  r.coachExcluded=false;
+  r.going=true;
+  save();
+}
+function openExcludePicker(fid){
+  let fam=data.families.find(f=>f.id===fid); if(!fam)return;
+  let evs=allEvents();
+  let html='<button class="closeX" id="closeX">×</button><h3>'+tr('excludeEvent')+' · '+escapeHtml(fam.name)+'</h3><p>'+tr('chooseEvent')+'</p>';
+  evs.forEach(e=>{
+    let r=response(fid,e.id);
+    html+='<div class="familyRow"><div class="profileMain"><strong>'+eventNameShort(e)+'</strong><span>'+escapeHtml(e.place)+'</span></div>'+
+      (r.coachExcluded
+        ? '<button class="smallbtn" data-restore-call="'+e.id+'" data-fid="'+fid+'">'+tr('restoreEvent')+'</button>'
+        : '<button class="smallbtn danger" data-exclude-call="'+e.id+'" data-fid="'+fid+'">'+tr('removeFromEvent')+'</button>')+
+      '</div>';
+  });
+  openSheet(html);
+}
+function renderRoster(evs){
+  let box=$('#rosterList'); if(!box)return;
+  box.innerHTML=data.families.map(f=>{
+    let excluded=evs.filter(e=>response(f.id,e.id).coachExcluded);
+    let chips=excluded.length
+      ? excluded.map(e=>'<span class="eventChip off">'+eventNameShort(e)+'</span>').join('')
+      : '<span class="eventChip">✓ '+tr('allCalled')+'</span>';
+    return '<div class="rosterRow"><div class="rosterTop"><div class="grow"><strong>'+escapeHtml(f.name)+'</strong><span>'+f.seats+' '+(lang==='es'?'plazas':'plaza')+'</span></div></div>'+
+      '<div class="eventChips">'+chips+'</div>'+
+      '<div class="rosterActions"><button class="miniBtn good" data-call-all="'+f.id+'">✓ '+tr('calledAll')+'</button><button class="miniBtn warn" data-open-exclude="'+f.id+'">− '+tr('excludeEvent')+'</button></div></div>';
+  }).join('');
 }
 function renderFamilySelect(){let s=$('#familySelect');s.innerHTML=data.families.map(f=>`<option value="${f.id}" ${f.id===selected?'selected':''}>${f.name}</option>`).join('')}
 function renderFamilyEvents(ev){
