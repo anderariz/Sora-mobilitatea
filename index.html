@@ -37,7 +37,12 @@ button,input,select{font:inherit} button{cursor:pointer}
 .bar{height:7px;background:#e6ebe7;border-radius:999px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;background:var(--g);border-radius:999px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 11px;font-weight:850;min-height:42px}.btn.primary{background:var(--g);border-color:var(--g);color:#fff}.btn.danger{background:#fff6f6;border-color:#efcccc;color:var(--bad)}
 .field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:6px}.field input,.field select,.row select,.row input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:16px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.calc{background:var(--soft);border:1px solid #d5e9dc;border-radius:14px;padding:13px}.calc strong{display:block;font-size:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.typeSwitch{display:flex;gap:6px;padding:4px;border:1px solid var(--line);border-radius:999px;background:#f7f9f7;max-width:360px}
+.typeSwitch button{flex:1;border:0;background:transparent;border-radius:999px;padding:9px 12px;font-weight:900}
+.typeSwitch button.active{background:var(--g);color:#fff}
+.notCalledEvent{opacity:.72;border-style:dashed!important;background:#fafafa!important}
+.notCalledBanner{display:flex;align-items:center;gap:8px;background:#f3f4f3;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:13px;font-weight:900;color:var(--bad)}.calc{background:var(--soft);border:1px solid #d5e9dc;border-radius:14px;padding:13px}.calc strong{display:block;font-size:24px}
 .quick{display:flex;gap:8px;margin-top:10px}.quick .btn{flex:1}.yesSel{background:#176838!important;color:#fff!important;border-color:#176838!important}.noSel{background:#a83535!important;color:#fff!important;border-color:#a83535!important}
 .transportOverall{display:flex;justify-content:space-between;gap:10px;align-items:center;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;font-weight:900}.transportOverall.ok{background:#dff2e5;color:#176838}.transportOverall.bad{background:#fbe2e2;color:var(--bad)}
 .note{background:#fff7df;border:1px solid #f1dfaa;color:#76530b;border-radius:13px;padding:11px 12px;font-size:13px}
@@ -54,7 +59,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 <body>
 <header class="top">
 <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V9 · EQUIPO + CONVOCATORIAS</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V10 · EVENTOS MANUALES</div></div></div>
   <div class="switches">
     <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
     <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -78,7 +83,8 @@ button,input,select{font:inherit} button{cursor:pointer}
   <div class="section card" style="padding:15px" id="matchFormCard">
     <h2 id="formTitle" style="font-size:19px;margin:0 0 4px"></h2>
     <div id="formHelp" class="meta"></div>
-    <div class="grid2"><div class="field"><label id="dateLbl"></label><input id="mDate" type="date"></div><div class="field"><label id="timeLbl"></label><input id="mTime" type="time" value="11:30"></div></div>
+    <div class="field"><label id="eventTypeLbl"></label><div class="typeSwitch"><button type="button" id="typeTraining" class="active"></button><button type="button" id="typeMatch"></button></div></div>
+    <div class="grid2"><div class="field"><label id="dateLbl"></label><input id="mDate" type="date"></div><div class="field"><label id="timeLbl"></label><input id="mTime" type="time" value="10:00"></div></div>
     <div class="field"><label id="placeLbl"></label><input id="mPlace" placeholder="Ej. Unbe, Eibar"></div>
     <div class="grid2"><div class="field"><label id="travelLbl"></label><input id="mTravel" type="number" min="0" max="240" value="20"></div><div class="field"><label id="marginLbl"></label><input id="mMargin" type="number" min="0" max="240" value="60"></div></div>
     <div class="field"><label id="detailLbl"></label><input id="mDetail" value="15 min vestuario + 10 min charla + 35 min calentamiento"></div>
@@ -117,11 +123,12 @@ const KEY='sora-v9', ROLE='sora-v9-role', LANG='sora-v9-lang', PROFILE='sora-v9-
 let role=localStorage.getItem(ROLE)||'coach';
 let lang=localStorage.getItem(LANG)||'es';
 let selectedFamily=Number(localStorage.getItem(PROFILE)||1);
+let formEventType='training';
 
 const T={
 es:{
  coach:'Entrenador',family:'Familia',players:'Jugadores',events:'Próximos eventos',coveredEvents:'Eventos cubiertos',
- eventsTitle:'Eventos',addMatch:'+ Partido',createMatch:'Crear partido',editMatch:'Editar partido',
+ eventsTitle:'Eventos',addMatch:'+ Evento',createMatch:'Crear partido',editMatch:'Editar partido',
  formHelp:'Origen fijo: Estaziño, Soraluze. La salida se calcula automáticamente.',
  date:'Fecha',matchTime:'Hora del partido',place:'Campo / lugar',travel:'Tiempo de viaje (min)',margin:'Margen del entrenador (min)',detail:'Detalle del margen',
  calledPlayers:'Jugadores convocados',departure:'SALIDA DESDE ESTAZIÑO',saveMatch:'Guardar partido',saveChanges:'Guardar cambios',cancel:'Cancelar',
@@ -134,11 +141,11 @@ es:{
  cars:'coches',availableSeats:'plazas disponibles',transport:'TRANSPORTE',transportOk:'Transporte cubierto',transportMissing:'Faltan plazas para el transporte',
  notCalled:'No convocado',notCalledHelp:'El entrenador no ha convocado a este jugador para este evento.',called:'Convocado',notCalledCoach:'No convocado',
  playerName:'Nombre del jugador',carSeats:'Plazas del coche',add:'Añadir',deletePlayer:'Eliminar jugador',confirmDelete:'¿Eliminar este jugador del equipo?',
- noPlayers:'No hay jugadores.',allPlayers:'Todos',matchSaved:'Partido guardado'
+ noPlayers:'No hay jugadores.',allPlayers:'Todos',matchSaved:'Partido guardado',eventType:'Tipo de evento',trainingType:'Entrenamiento',matchType:'Partido',createEvent:'Crear evento',editEvent:'Editar evento',saveEvent:'Guardar evento',allCalledTraining:'En los entrenamientos está convocada toda la plantilla.',selectCalledMatch:'En los partidos selecciona los jugadores convocados.',notCalledBadge:'NO CONVOCADO'
 },
 eu:{
  coach:'Entrenatzailea',family:'Familia',players:'Jokalariak',events:'Hurrengo ekitaldiak',coveredEvents:'Betetako ekitaldiak',
- eventsTitle:'Ekitaldiak',addMatch:'+ Partida',createMatch:'Partida sortu',editMatch:'Partida editatu',
+ eventsTitle:'Ekitaldiak',addMatch:'+ Ekitaldia',createMatch:'Partida sortu',editMatch:'Partida editatu',
  formHelp:'Jatorri finkoa: Estaziño, Soraluze. Irteera automatikoki kalkulatzen da.',
  date:'Data',matchTime:'Partidaren ordua',place:'Zelaia / lekua',travel:'Bidaia denbora (min)',margin:'Entrenatzailearen tartea (min)',detail:'Tartearen xehetasuna',
  calledPlayers:'Deitutako jokalariak',departure:'IRTEERA ESTAZIÑOTIK',saveMatch:'Gorde partida',saveChanges:'Gorde aldaketak',cancel:'Utzi',
@@ -151,7 +158,7 @@ eu:{
  cars:'auto',availableSeats:'plaza erabilgarri',transport:'GARRAIOA',transportOk:'Garraioa beteta',transportMissing:'Garraiorako plazak falta dira',
  notCalled:'Ez deitua',notCalledHelp:'Entrenatzaileak ez du jokalari hau ekitaldi honetara deitu.',called:'Deitua',notCalledCoach:'Ez deitua',
  playerName:'Jokalariaren izena',carSeats:'Autoko plazak',add:'Gehitu',deletePlayer:'Ezabatu jokalaria',confirmDelete:'Jokalari hau taldetik ezabatu?',
- noPlayers:'Ez dago jokalaririk.',allPlayers:'Denak',matchSaved:'Partida gordeta'
+ noPlayers:'Ez dago jokalaririk.',allPlayers:'Denak',matchSaved:'Partida gordeta',eventType:'Ekitaldi mota',trainingType:'Entrenamendua',matchType:'Partida',createEvent:'Sortu ekitaldia',editEvent:'Editatu ekitaldia',saveEvent:'Gorde ekitaldia',allCalledTraining:'Entrenamenduetan talde osoa dago deituta.',selectCalledMatch:'Partidetan aukeratu deitutako jokalariak.',notCalledBadge:'EZ DEITUA'
 }};
 
 const $=s=>document.querySelector(s);
@@ -204,24 +211,11 @@ function offeredFree(f,eid){
  return Math.max(0,Math.min(maxFree(f),Math.floor(n)));
 }
 
-function trainingEvents(){
- const now=new Date(), d=new Date(now.getFullYear(),now.getMonth(),now.getDate()), out=[];
- for(let i=0;i<18&&out.length<6;i++){
-   if([1,3,5].includes(d.getDay())){
-     const end=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12,0);
-     if(end>now)out.push({id:'train-'+dateKey(d),type:'training',date:dateKey(d),day:dayName(d),num:d.getDate(),time:'10:00',place:'Aretxabaleta'});
-   }
-   d.setDate(d.getDate()+1);
- }
- return out;
-}
+function trainingEvents(){return []}
 function allEvents(){
  const now=new Date();
  data.matches=data.matches.filter(m=>{const x=localDate(m.date,m.time);x.setHours(x.getHours()+4);return x>now});
- const ev=trainingEvents().concat(data.matches.map(m=>{
-   const d=localDate(m.date,m.time);
-   return {...m,type:'match',day:dayName(d),num:d.getDate()};
- }));
+ const ev=data.matches.map(m=>{const d=localDate(m.date,m.time);return {...m,type:m.type||'match',day:dayName(d),num:d.getDate()}});
  ev.sort((a,b)=>localDate(a.date,a.time)-localDate(b.date,b.time));
  return ev;
 }
@@ -244,13 +238,13 @@ function render(){
  document.documentElement.lang=lang==='eu'?'eu':'es';
  $('#coachView').classList.toggle('hidden',role!=='coach');
  $('#familyView').classList.toggle('hidden',role!=='family');
- $('#coachTab').classList.toggle('active',role==='coach'); $('#familyTab').classList.toggle('active',role==='family');
+ $('#coachTab').classList.toggle('active',role==='coach'); $('#familyTab').classList.toggle('active',role==='family'); $('#typeTraining').classList.toggle('active',formEventType==='training'); $('#typeMatch').classList.toggle('active',formEventType==='match');
  $('#euTab').classList.toggle('active',lang==='eu'); $('#esTab').classList.toggle('active',lang==='es');
 
  $('#coachTab').textContent=tr('coach'); $('#familyTab').textContent=tr('family');
  $('#pLbl').textContent=tr('players'); $('#eLbl').textContent=tr('events'); $('#cLbl').textContent=tr('coveredEvents');
  $('#eventsTitle').textContent=tr('eventsTitle'); $('#addMatch').textContent=tr('addMatch');
- $('#dateLbl').textContent=tr('date'); $('#timeLbl').textContent=tr('matchTime'); $('#placeLbl').textContent=tr('place');
+ $('#eventTypeLbl').textContent=tr('eventType');$('#typeTraining').textContent=tr('trainingType');$('#typeMatch').textContent=tr('matchType');$('#dateLbl').textContent=tr('date'); $('#timeLbl').textContent=tr('matchTime'); $('#placeLbl').textContent=tr('place');
  $('#travelLbl').textContent=tr('travel'); $('#marginLbl').textContent=tr('margin'); $('#detailLbl').textContent=tr('detail'); $('#calledLbl').textContent=tr('calledPlayers');
  $('#departLbl').textContent=tr('departure'); $('#teamTitle').textContent=tr('team'); $('#teamHelp').textContent=tr('teamHelp'); $('#addPlayerBtn').textContent=tr('addPlayer');
  $('#myFamily').textContent=tr('myFamily'); $('#familyLbl').textContent=tr('selectFamily'); $('#famEventsTitle').textContent=tr('familyEvents'); $('#famHelp').textContent=tr('familyHelp');
@@ -269,13 +263,20 @@ function render(){
 function renderCoachEvents(ev){
  $('#coachEvents').innerHTML=ev.map(e=>{
    const extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🚗 ${e.travel||0} min</span><span class="pill">🕒 ${tr('departShort')} ${e.depart||departure(e.time,e.travel,e.margin)}</span></div>`:'';
-   return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}<div class="actions"><button class="btn primary" data-manage="${e.id}">${tr('manageTransport')}</button>${e.type==='match'?`<button class="btn" data-edit="${e.id}">${tr('edit')}</button><button class="btn danger" data-delete="${e.id}">${tr('remove')}</button>`:''}</div></div></div></article>`;
+   return `<article class="event card ${r.coachExcluded?'notCalledEvent':''}"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}<div class="actions"><button class="btn primary" data-manage="${e.id}">${tr('manageTransport')}</button><button class="btn" data-edit="${e.id}">${tr('edit')}</button><button class="btn danger" data-delete="${e.id}">${tr('remove')}</button></div></div></div></article>`;
  }).join('');
 }
 
+function updateEventTypeUI(){
+ $('#typeTraining').classList.toggle('active',formEventType==='training');
+ $('#typeMatch').classList.toggle('active',formEventType==='match');
+ $('#calledLbl').textContent=formEventType==='training'?tr('allCalledTraining'):tr('selectCalledMatch');
+ $('#matchRoster').classList.toggle('hidden',formEventType==='training');
+}
 function renderMatchRoster(selectedIds){
  const set=new Set(Array.isArray(selectedIds)?selectedIds.map(Number):data.families.map(f=>f.id));
  $('#matchRoster').innerHTML=data.families.length?data.families.map(f=>`<label class="checkItem"><input type="checkbox" data-match-player="${f.id}" ${set.has(f.id)?'checked':''}><span>${escapeHtml(f.name)}</span></label>`).join(''):`<div class="meta">${tr('noPlayers')}</div>`;
+ updateEventTypeUI();
 }
 
 function renderTeam(){
@@ -297,7 +298,7 @@ function renderFamilyEvents(ev){
    const extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🕒 ${tr('departShort')} ${e.depart||departure(e.time,e.travel,e.margin)}</span><span class="pill">⚽ ${e.time}</span></div>`:'';
    const ok=eventCovered(e.id);
    const participation=r.coachExcluded
-     ? `<div class="notCalled"><strong>✕ ${tr('notCalled')}</strong><div style="margin-top:4px">${tr('notCalledHelp')}</div></div>`
+     ? `<div class="notCalledBanner"><span>✕</span><span>${tr('notCalledBadge')}</span></div><div class="notCalled"><strong>${tr('notCalled')}</strong><div style="margin-top:4px">${tr('notCalledHelp')}</div></div>`
      : `<div class="quick"><button class="btn ${r.going?'yesSel':''}" data-go="yes" data-event="${e.id}">✓ ${tr('yes')}</button><button class="btn ${!r.going?'noSel':''}" data-go="no" data-event="${e.id}">✕ ${tr('no')}</button></div>${r.going?`<div class="field"><label>${tr('cars')}</label><select data-family-car="${e.id}"><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select></div>${r.car!=='none'?`<div class="field"><label>${tr('free')}</label><input type="number" min="0" max="${maxFree(f)}" value="${offeredFree(f,e.id)}" data-family-free="${e.id}"></div>`:''}`:''}`;
    return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}${participation}<div class="transportOverall ${ok?'ok':'bad'}"><span>${ok?'✓':'!'}</span><span>${ok?tr('transportOk'):tr('transportMissing')}</span></div></div></div></article>`;
  }).join('');
@@ -348,33 +349,34 @@ function openAddPlayer(){
 
 function startEditMatch(id){
  const m=data.matches.find(x=>x.id===id);if(!m)return;
- $('#formTitle').textContent=tr('editMatch');
+ formEventType=m.type||'match';$('#formTitle').textContent=tr('editEvent');
  $('#mDate').value=m.date;$('#mTime').value=m.time;$('#mPlace').value=m.place;$('#mTravel').value=m.travel||0;$('#mMargin').value=m.margin||0;$('#mDetail').value=m.detail||'';
  $('#saveMatch').dataset.edit=id;$('#saveMatch').textContent=tr('saveChanges');$('#cancelEdit').classList.remove('hidden');$('#cancelEdit').textContent=tr('cancel');
- const called=data.families.filter(f=>!response(f.id,id).coachExcluded).map(f=>f.id);
+ const called=formEventType==='training'?data.families.map(f=>f.id):data.families.filter(f=>!response(f.id,id).coachExcluded).map(f=>f.id);
  renderMatchRoster(called);calcForm();
  window.scrollTo({top:$('#matchFormCard').getBoundingClientRect().top+window.scrollY-15,behavior:'smooth'});
 }
 function resetMatchForm(){
- delete $('#saveMatch').dataset.edit;$('#formTitle').textContent=tr('createMatch');$('#saveMatch').textContent=tr('saveMatch');$('#cancelEdit').classList.add('hidden');
- $('#mDate').value=dateKey(new Date());$('#mTime').value='11:30';$('#mPlace').value='';$('#mTravel').value='20';$('#mMargin').value='60';$('#mDetail').value='15 min vestuario + 10 min charla + 35 min calentamiento';
+ delete $('#saveMatch').dataset.edit;formEventType='training';$('#formTitle').textContent=tr('createEvent');$('#saveMatch').textContent=tr('saveEvent');$('#cancelEdit').classList.add('hidden');
+ $('#mDate').value=dateKey(new Date());$('#mTime').value='10:00';$('#mPlace').value='';$('#mTravel').value='20';$('#mMargin').value='60';$('#mDetail').value='15 min vestuario + 10 min charla + 35 min calentamiento';
  renderMatchRoster();calcForm();
 }
 function saveMatch(){
  const date=$('#mDate').value,time=$('#mTime').value,place=$('#mPlace').value.trim();
  if(!date||!time||!place){alert(lang==='es'?'Completa fecha, hora y lugar.':'Bete data, ordua eta lekua.');return}
  const travel=Math.max(0,Number($('#mTravel').value)||0),margin=Math.max(0,Number($('#mMargin').value)||0),detail=$('#mDetail').value.trim(),dep=departure(time,travel,margin);
- const calledIds=[...document.querySelectorAll('[data-match-player]:checked')].map(x=>Number(x.dataset.matchPlayer));
+ const calledIds=formEventType==='training'?data.families.map(f=>f.id):[...document.querySelectorAll('[data-match-player]:checked')].map(x=>Number(x.dataset.matchPlayer));
  let id=$('#saveMatch').dataset.edit;
  if(id){
-   const m=data.matches.find(x=>x.id===id);Object.assign(m,{date,time,place,travel,margin,detail,depart:dep});
+   const m=data.matches.find(x=>x.id===id);
+   Object.assign(m,{type:formEventType,date,time,place,travel,margin,detail,depart:dep});
  }else{
-   id='match-'+Date.now();data.matches.push({id,date,time,place,travel,margin,detail,depart:dep});
+   id='event-'+Date.now();
+   data.matches.push({id,type:formEventType,date,time,place,travel,margin,detail,depart:dep});
  }
  data.families.forEach(f=>{
    const r=response(f.id,id),called=calledIds.includes(f.id);
-   r.coachExcluded=!called;
-   r.going=called;
+   r.coachExcluded=!called;r.going=called;
    if(!called){r.car='none';r.free=0}
  });
  saveData();resetMatchForm();render();
@@ -383,7 +385,7 @@ function saveMatch(){
 document.addEventListener('click',e=>{
  const manage=e.target.closest('[data-manage]');if(manage){openTransport(manage.dataset.manage);return}
  const edit=e.target.closest('[data-edit]');if(edit){startEditMatch(edit.dataset.edit);return}
- const del=e.target.closest('[data-delete]');if(del){if(confirm(lang==='es'?'¿Eliminar partido?':'Partida ezabatu?')){data.matches=data.matches.filter(x=>x.id!==del.dataset.delete);saveData();render()}return}
+ const del=e.target.closest('[data-delete]');if(del){if(confirm(lang==='es'?'¿Eliminar evento?':'Ekitaldia ezabatu?')){data.matches=data.matches.filter(x=>x.id!==del.dataset.delete);saveData();render()}return}
  const rem=e.target.closest('[data-remove-player]');if(rem){if(confirm(tr('confirmDelete'))){const fid=Number(rem.dataset.removePlayer);data.families=data.families.filter(f=>f.id!==fid);Object.keys(data.responses).forEach(k=>{if(k.startsWith(fid+'|'))delete data.responses[k]});saveData();render()}return}
  const go=e.target.closest('[data-go]');if(go){const r=response(selectedFamily,go.dataset.event);if(r.coachExcluded)return;r.going=go.dataset.go==='yes';if(!r.going){r.car='none';r.free=0}saveData();render();return}
 });
@@ -393,6 +395,8 @@ document.addEventListener('change',e=>{
  if(e.target.matches('[data-family-free]')){const f=data.families.find(x=>x.id===selectedFamily),r=response(selectedFamily,e.target.dataset.familyFree);r.free=Math.max(0,Math.min(maxFree(f),Number(e.target.value)||0));saveData();render();return}
 });
 
+$('#typeTraining').onclick=()=>{formEventType='training';renderMatchRoster();};
+$('#typeMatch').onclick=()=>{formEventType='match';renderMatchRoster();};
 $('#coachTab').onclick=()=>{role='coach';localStorage.setItem(ROLE,role);render()};
 $('#familyTab').onclick=()=>{role='family';localStorage.setItem(ROLE,role);render()};
 $('#euTab').onclick=()=>{lang='eu';localStorage.setItem(LANG,lang);render()};
