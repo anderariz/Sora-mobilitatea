@@ -59,7 +59,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 <body>
 <header class="top">
 <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V10 · EVENTOS MANUALES</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V11 · GUARDADO CORREGIDO</div></div></div>
   <div class="switches">
     <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
     <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -119,7 +119,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 (()=>{
 'use strict';
 
-const KEY='sora-v9', ROLE='sora-v9-role', LANG='sora-v9-lang', PROFILE='sora-v9-profile';
+const KEY='sora-v11', ROLE='sora-v11-role', LANG='sora-v11-lang', PROFILE='sora-v11-profile';
 let role=localStorage.getItem(ROLE)||'coach';
 let lang=localStorage.getItem(LANG)||'es';
 let selectedFamily=Number(localStorage.getItem(PROFILE)||1);
@@ -191,7 +191,10 @@ if(!Array.isArray(data.families))data.families=[];
 if(!Array.isArray(data.matches))data.matches=[];
 if(!data.responses)data.responses={};
 
-function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
+function saveData(){
+ try{localStorage.setItem(KEY,JSON.stringify(data));return true}
+ catch(err){alert(lang==='es'?'No se han podido guardar los datos en este navegador.':'Ezin izan dira datuak nabigatzailean gorde.');console.error(err);return false}
+}
 function response(fid,eid){
  const k=fid+'|'+eid;
  if(!data.responses[k])data.responses[k]={going:true,car:'none',free:null,coachExcluded:false};
@@ -285,9 +288,11 @@ function renderTeam(){
 
 function renderFamilySelect(){
  const s=$('#familySelect');
- if(!data.families.length){s.innerHTML='';selectedFamily=0;return}
- if(!data.families.some(f=>f.id===selectedFamily))selectedFamily=data.families[0].id;
- s.innerHTML=data.families.map(f=>`<option value="${f.id}" ${f.id===selectedFamily?'selected':''}>${escapeHtml(f.name)}</option>`).join('');
+ if(!data.families.length){s.innerHTML=`<option value="">${tr('noPlayers')}</option>`;s.disabled=true;selectedFamily=0;localStorage.removeItem(PROFILE);return}
+ s.disabled=false;
+ if(!data.families.some(f=>Number(f.id)===Number(selectedFamily)))selectedFamily=Number(data.families[0].id);
+ s.innerHTML=data.families.map(f=>`<option value="${f.id}">${escapeHtml(f.name)}</option>`).join('');
+ s.value=String(selectedFamily);
  localStorage.setItem(PROFILE,String(selectedFamily));
 }
 
@@ -341,9 +346,11 @@ function openAddPlayer(){
  openSheet(`<h3>${tr('addPlayer')}</h3><div class="field"><label>${tr('playerName')}</label><input id="newPlayerName"></div><div class="field"><label>${tr('carSeats')}</label><select id="newPlayerSeats"><option value="5">5</option><option value="7">7</option></select></div><button class="btn primary" id="confirmAddPlayer">${tr('add')}</button>`);
  $('#confirmAddPlayer').onclick=()=>{
    const name=$('#newPlayerName').value.trim();if(!name)return;
-   const id=data.families.reduce((m,f)=>Math.max(m,f.id),0)+1;
-   data.families.push({id,name,seats:Number($('#newPlayerSeats').value)});
-   saveData();closeSheet();render();
+   const id=data.families.reduce((m,f)=>Math.max(m,Number(f.id)||0),0)+1;
+   data.families.push({id:id,name:name,seats:Number($('#newPlayerSeats').value)||5});
+   selectedFamily=id;
+   localStorage.setItem(PROFILE,String(id));
+   if(saveData()){closeSheet();render();}
  };
 }
 
@@ -401,7 +408,7 @@ $('#coachTab').onclick=()=>{role='coach';localStorage.setItem(ROLE,role);render(
 $('#familyTab').onclick=()=>{role='family';localStorage.setItem(ROLE,role);render()};
 $('#euTab').onclick=()=>{lang='eu';localStorage.setItem(LANG,lang);render()};
 $('#esTab').onclick=()=>{lang='es';localStorage.setItem(LANG,lang);render()};
-$('#familySelect').onchange=e=>{selectedFamily=Number(e.target.value);localStorage.setItem(PROFILE,String(selectedFamily));render()};
+$('#familySelect').onchange=e=>{if(!e.target.value)return;selectedFamily=Number(e.target.value);localStorage.setItem(PROFILE,String(selectedFamily));render()};
 $('#addMatch').onclick=()=>{resetMatchForm();window.scrollTo({top:$('#matchFormCard').getBoundingClientRect().top+window.scrollY-15,behavior:'smooth'})};
 $('#addPlayerBtn').onclick=openAddPlayer;
 $('#saveMatch').onclick=saveMatch;
