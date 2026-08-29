@@ -59,7 +59,7 @@ button,input,select{font:inherit} button{cursor:pointer}
 <body>
 <header class="top">
 <div class="toprow">
-  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V11 · GUARDADO CORREGIDO</div></div></div>
+  <div class="brand"><img class="logo" src="apple-touch-icon.png" alt="Sora"><div><div class="eyebrow">S.F.T. · COCHES</div><div class="title">Sora Coches</div><div class="ver">GITHUB DEMO V12 · EVENTOS CORREGIDOS</div></div></div>
   <div class="switches">
     <div class="switch"><button id="coachTab">Entrenador</button><button id="familyTab">Familia</button></div>
     <div class="switch"><button id="euTab">EU</button><button id="esTab">ES</button></div>
@@ -266,7 +266,7 @@ function render(){
 function renderCoachEvents(ev){
  $('#coachEvents').innerHTML=ev.map(e=>{
    const extra=e.type==='match'?`<div class="pills"><span class="pill">📍 Estaziño</span><span class="pill">🚗 ${e.travel||0} min</span><span class="pill">🕒 ${tr('departShort')} ${e.depart||departure(e.time,e.travel,e.margin)}</span></div>`:'';
-   return `<article class="event card ${r.coachExcluded?'notCalledEvent':''}"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}<div class="actions"><button class="btn primary" data-manage="${e.id}">${tr('manageTransport')}</button><button class="btn" data-edit="${e.id}">${tr('edit')}</button><button class="btn danger" data-delete="${e.id}">${tr('remove')}</button></div></div></div></article>`;
+   return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}<div class="actions"><button class="btn primary" data-manage="${e.id}">${tr('manageTransport')}</button><button class="btn" data-edit="${e.id}">${tr('edit')}</button><button class="btn danger" data-delete="${e.id}">${tr('remove')}</button></div></div></div></article>`;
  }).join('');
 }
 
@@ -305,7 +305,7 @@ function renderFamilyEvents(ev){
    const participation=r.coachExcluded
      ? `<div class="notCalledBanner"><span>✕</span><span>${tr('notCalledBadge')}</span></div><div class="notCalled"><strong>${tr('notCalled')}</strong><div style="margin-top:4px">${tr('notCalledHelp')}</div></div>`
      : `<div class="quick"><button class="btn ${r.going?'yesSel':''}" data-go="yes" data-event="${e.id}">✓ ${tr('yes')}</button><button class="btn ${!r.going?'noSel':''}" data-go="no" data-event="${e.id}">✕ ${tr('no')}</button></div>${r.going?`<div class="field"><label>${tr('cars')}</label><select data-family-car="${e.id}"><option value="none" ${r.car==='none'?'selected':''}>${tr('noCar')}</option><option value="out" ${r.car==='out'?'selected':''}>${tr('out')}</option><option value="back" ${r.car==='back'?'selected':''}>${tr('back')}</option><option value="both" ${r.car==='both'?'selected':''}>${tr('both')}</option></select></div>${r.car!=='none'?`<div class="field"><label>${tr('free')}</label><input type="number" min="0" max="${maxFree(f)}" value="${offeredFree(f,e.id)}" data-family-free="${e.id}"></div>`:''}`:''}`;
-   return `<article class="event card"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}${participation}<div class="transportOverall ${ok?'ok':'bad'}"><span>${ok?'✓':'!'}</span><span>${ok?tr('transportOk'):tr('transportMissing')}</span></div></div></div></article>`;
+   return `<article class="event card ${r.coachExcluded?'notCalledEvent':''}"><div class="eventTop"><div class="date"><div><small>${e.day}</small><b>${e.num}</b></div></div><div><h3>${e.type==='training'?tr('training'):tr('match')}</h3><div class="meta">${e.time} · ${escapeHtml(e.place)}</div>${extra}${transportSummary(e.id)}${participation}<div class="transportOverall ${ok?'ok':'bad'}"><span>${ok?'✓':'!'}</span><span>${ok?tr('transportOk'):tr('transportMissing')}</span></div></div></div></article>`;
  }).join('');
 }
 
@@ -348,6 +348,13 @@ function openAddPlayer(){
    const name=$('#newPlayerName').value.trim();if(!name)return;
    const id=data.families.reduce((m,f)=>Math.max(m,Number(f.id)||0),0)+1;
    data.families.push({id:id,name:name,seats:Number($('#newPlayerSeats').value)||5});
+   data.matches.filter(e=>(e.type||'match')==='training').forEach(e=>{
+     const r=response(id,e.id);
+     r.coachExcluded=false;
+     r.going=true;
+     r.car='none';
+     r.free=0;
+   });
    selectedFamily=id;
    localStorage.setItem(PROFILE,String(id));
    if(saveData()){closeSheet();render();}
@@ -382,8 +389,10 @@ function saveMatch(){
    data.matches.push({id,type:formEventType,date,time,place,travel,margin,detail,depart:dep});
  }
  data.families.forEach(f=>{
-   const r=response(f.id,id),called=calledIds.includes(f.id);
-   r.coachExcluded=!called;r.going=called;
+   const r=response(f.id,id);
+   const called=formEventType==='training'?true:calledIds.includes(f.id);
+   r.coachExcluded=!called;
+   r.going=called;
    if(!called){r.car='none';r.free=0}
  });
  saveData();resetMatchForm();render();
